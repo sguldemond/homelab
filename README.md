@@ -8,7 +8,7 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - [Portal](projects/portal/README.md)
     - Simple WebUI with read access to cluster
     - SvelteKit + Kubernetes RBAC
-- Cloudflare Tunnel
+- [Cloudflare Tunnel](projects/cloudflare-tunnel/README.md)
     - Tunnels through to my K3s server
     - Forwards traffic to Service, currently used for the Portal
 - [Observability](projects/observability/README.md)
