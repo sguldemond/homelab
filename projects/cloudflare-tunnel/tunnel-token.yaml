@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+    token: <base64_token>
+kind: Secret
+metadata:
+    name: tunnel-token
+    namespace: cloudflare-tunnel
+type: Opaque
