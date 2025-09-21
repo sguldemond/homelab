@@ -8,6 +8,9 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - [Portal](projects/portal/README.md)
     - Simple WebUI with read access to cluster
     - SvelteKit + Kubernetes RBAC
+- Cloudflare Tunnel
+    - Tunnels through to my K3s server
+    - Forwards traffic to Service, currently used for the Portal
 - [Observability](projects/observability/README.md)
     - Getting insight into pod logs a la Azure Application Insight
     - Fluent Bit + Loki + Grafana
