@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: portal
+  namespace: my-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal
+  template:
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: registry.macmini.home/my-portal:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal-svc
+  namespace: my-portal
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+  selector:
+    app: portal
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portal-ingress
+  namespace: my-portal
+spec:
+  rules:
+    - host: portal.macmini.home
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portal-svc
+                port:
+                  number: 80

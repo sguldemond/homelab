@@ -1,0 +1,10 @@
+services:
+  my-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: registry.macmini.home/my-portal:latest
+    ports:
+      - 3000:4173
+    volumes:
+      - ./my-portal:/app

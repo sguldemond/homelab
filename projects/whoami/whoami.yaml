@@ -12,7 +12,6 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  # ingressClassName: traefik
   rules:
     - host: macmini.home
       http:
