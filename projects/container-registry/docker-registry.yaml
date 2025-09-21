@@ -10,7 +10,6 @@ metadata:
   name: docker-registry-ingress
   namespace: docker-registry
 spec:
-  ingressClassName: traefik
   rules:
   - host: registry.macmini.home
     http:
