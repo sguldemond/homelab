@@ -5,15 +5,21 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 
 ## Projects
 
-- [Container Registry](projects/container-registry/README.md): Self hosted container registry
-- [Observability](projects/observability/README.md): Getting insight into pod logs a la Azure Application Insight
-- [Portal](projects/portal/README.md): Simple WebUI with read access to cluster
+- [Portal](projects/portal/README.md)
+    - Simple WebUI with read access to cluster
+    - SvelteKit + Kubernetes RBAC
+- [Observability](projects/observability/README.md)
+    - Getting insight into pod logs a la Azure Application Insight
+    - Fluent Bit + Loki + Grafana
+- [Container Registry](projects/container-registry/README.md)
+    - Self hosted container registry
+
 
 ## Hardware
 
-### Control Node
-
 [<img src="./images/macminis.jpg" width="400" />](./images/macminis.jpg)
+
+### Control Node
 
 | Component | Specification |
 |-----------|---------------|
