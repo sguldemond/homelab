@@ -5,9 +5,11 @@ export const GET: RequestHandler = async ({ url }) => {
 	const ns = url.searchParams.get('ns') ?? '';
 	const kc = new k8s.KubeConfig();
 
-	// TODO: this try/catch doesn't work
-	// try { kc.loadFromCluster(); } catch { kc.loadFromDefault(); }
-	kc.loadFromDefault();
+	if (process.env.KUBECONFIG) {
+		kc.loadFromDefault();
+	} else {
+		kc.loadFromCluster();
+	}
 
 	const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 	const res = ns
