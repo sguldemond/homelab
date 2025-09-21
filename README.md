@@ -1,4 +1,4 @@
-# 🏠 Homelab
+# 🏠 Homelab: Mac minis + K3s + Debian
 
 A lightweight Kubernetes homelab setup running on 2x repurposed Apple Mac mini hardware.
 This homelab setup provides a cost-effective way to freely explore Kubernetes features.
