@@ -1,0 +1,11 @@
+# /etc/rancher/k3s/registries.yaml
+# Docs: # https://docs.k3s.io/installation/private-registry
+
+mirrors:
+  registry.macmini.home:
+    endpoint:
+      - "http://registry.macmini.home:80"
+configs:
+   registry.macmini.home:
+     tls:
+       insecure_skip_verify: true

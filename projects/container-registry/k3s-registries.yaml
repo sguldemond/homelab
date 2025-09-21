@@ -1,0 +1,7 @@
+# /etc/rancher/k3s/registries.yaml
+# Docs: # https://docs.k3s.io/installation/private-registry
+
+mirrors:
+  registry.macmini.local:
+    endpoint:
+      - "http://registry.macmini.local:80"

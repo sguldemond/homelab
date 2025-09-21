@@ -1,0 +1,6 @@
+# /etc/rancher/k3s/config.yaml
+
+# To save resources
+# disable:
+#   - traefik
+#   - metrics-server
