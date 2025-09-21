@@ -1,8 +1,7 @@
 # 🏠 Homelab
 
 A lightweight Kubernetes homelab setup running on 2x repurposed Apple Mac mini hardware.
-
-This homelab setup provides a cost-effective way to learn Kubernetes and run personal services while maintaining security through Tailscale VPN.
+This homelab setup provides a cost-effective way to freely explore Kubernetes features.
 
 ## Projects
 
@@ -14,6 +13,8 @@ This homelab setup provides a cost-effective way to learn Kubernetes and run per
 ## Hardware
 
 ### Control Node
+
+[<img src="./images/macminis.jpg" width="400" />](./images/macminis.jpg)
 
 | Component | Specification |
 |-----------|---------------|
