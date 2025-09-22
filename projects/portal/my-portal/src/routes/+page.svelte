@@ -12,7 +12,13 @@
 	let { data }: PageProps = $props();
 </script>
 
-<h1 class="text-2xl font-semibold mb-4">Pods</h1>
+<div class="p-8">
+    <h1 class="text-3xl font-bold mb-6">Portal</h1>
+    <p class="text-gray-600 mb-8 max-w-3xl leading-relaxed">
+        Here is a little insight into my <a href="https://github.com/sguldemond/homelab" class="text-primary-600 hover:underline">Homelab K3s cluster</a>. This is a live view of the pods running on there.
+    </p>
+</div>
+
 <Table>
 	<TableHead>
 		<TableHeadCell>Name</TableHeadCell>
