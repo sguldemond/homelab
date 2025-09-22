@@ -1,5 +1,9 @@
 # 🏠 Homelab: Mac minis + K3s + Debian
 
+> Live view of the active pods on my cluster: [homelab.stansyfert.com](https://homelab.stansyfert.com)
+>
+> ⚠️ Might be down or buggy since I'm actively working on it.
+
 A lightweight Kubernetes homelab setup running on 2x repurposed Apple Mac mini hardware.
 This homelab setup provides a cost-effective way to freely explore Kubernetes features.
 
@@ -20,7 +24,7 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 
 ## Hardware
 
-[<img src="./images/macminis.jpg" width="400" />](./images/macminis.jpg)
+[<img src="./images/macminis.jpg" width="400" />]
 
 ### Control Node
 
