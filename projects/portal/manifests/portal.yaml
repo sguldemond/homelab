@@ -5,7 +5,7 @@ metadata:
   name: portal
   namespace: my-portal
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: portal

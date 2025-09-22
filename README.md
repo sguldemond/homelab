@@ -21,10 +21,19 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - [Container Registry](projects/container-registry/README.md)
     - Self hosted container registry
 
+## Next steps
+
+- GitOps with ArgoCD
+    - Deploy to cluster based on Git repository
+- Tailscale VPN
+    - Access cluster from outside for remote development
+- Autoscaling pods based on activity
+    - Demo via interactive UI on My Portal
+- Kafka API implementation with Redpanda
 
 ## Hardware
 
-[<img src="./images/macminis.jpg" width="400" />]
+[<img src="./images/macminis.jpg" width="400" />]()
 
 ### Control Node
 
@@ -50,4 +59,4 @@ Both machines are connected to the same network via Ethernet.
 The router is providing static IP addresses to the machines.
 The router also provides DNS resolution for the machines.
 
-Both machines are reachable via SSH, enabling kubectl access from another machine on the same LAN.
+Both machines are reachable via SSH, enabling `kubectl` access from another machine on the same LAN.
