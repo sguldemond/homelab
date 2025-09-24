@@ -24,7 +24,7 @@
 		<TableHeadCell>Name</TableHeadCell>
 		<TableHeadCell>Namespace</TableHeadCell>
 		<TableHeadCell>Status</TableHeadCell>
-		<TableHeadCell>Restarts</TableHeadCell>
+		<TableHeadCell>Started</TableHeadCell>
 	</TableHead>
 	<TableBody>
 		{#each data.pods as p}
@@ -32,12 +32,7 @@
 				<TableBodyCell>{p.metadata?.name}</TableBodyCell>
 				<TableBodyCell>{p.metadata?.namespace}</TableBodyCell>
 				<TableBodyCell>{p.status?.phase}</TableBodyCell>
-				<TableBodyCell
-					>{(p.status?.containerStatuses ?? []).reduce(
-						(n: number, c: any) => n + (c.restartCount || 0),
-						0
-					)}</TableBodyCell
-				>
+				<TableBodyCell>{p.status?.startTime}</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
