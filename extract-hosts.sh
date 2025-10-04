@@ -23,7 +23,7 @@ extract_hosts() {
 
 # Main function
 main() {
-    echo "# Homelab Ingress hosts - generated on $(date)"    
+    echo "# Update /etc/hosts with the following hosts:"
     # Extract and display hosts
     local hosts
     mapfile -t hosts < <(extract_hosts)
