@@ -17,8 +17,9 @@ services:
   
 steps:
   build-and-push:
-    image: alpine:3.20
-    depends_on: [buildkitd]
+    image: alpine:latest
+    privileged: true
+    # depends_on: [buildkitd]
     when:
       - path: ['projects/portal/Dockerfile', 'projects/portal/my-portal/*']
     commands:
