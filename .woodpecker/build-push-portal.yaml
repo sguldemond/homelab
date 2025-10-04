@@ -10,7 +10,7 @@ variables:
 
 services:
   buildkitd:
-    image: moby/buildkit:${BUILDKIT_VERSION}
+    image: moby/buildkit:v0.25.0
     privileged: true
     commands:
       - buildkitd --addr tcp://0.0.0.0:1234
