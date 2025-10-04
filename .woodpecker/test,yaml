@@ -1,0 +1,5 @@
+steps:
+  test:
+    image: alpine:latest
+    commands:
+        - echo "Hello, World!"
