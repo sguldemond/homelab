@@ -1,0 +1,39 @@
+when:
+  - event: push
+    branch: main
+
+variables:
+  REGISTRY: registry.macmini.home
+  IMAGE_NAME: my-portal
+  INFRA_REPO: https://github.com/sguldemond/homelab.git
+  BUILDKIT_VERSION: v0.25.0
+
+services:
+  buildkitd:
+    image: moby/buildkit:${BUILDKIT_VERSION}
+    privileged: true
+    commands:
+      - buildkitd --addr tcp://0.0.0.0:1234
+  
+steps:
+  build-and-push:
+    image: alpine:3.20
+    depends_on: [buildkitd]
+    when:
+      - path: ['projects/portal/Dockerfile', 'projects/portal/my-portal/*']
+    commands:
+      # Install buildkit ctl
+      - apk add --no-cache ca-certificates curl bash git
+      - wget -qO /tmp/buildkit.tar.gz https://github.com/moby/buildkit/releases/download/${BUILDKIT_VERSION}/buildkit-${BUILDKIT_VERSION}.linux-amd64.tar.gz
+      - tar --strip-components=1 -xvf /tmp/buildkit.tar.gz -C /usr/local/bin bin/buildctl
+      - chmod +x /usr/local/bin/buildctl
+      # Get short SHA of current commit
+      - SHA=$(git rev-parse --short HEAD)
+      - IMAGE=${REGISTRY}/${IMAGE_NAME}
+      # Build and push image
+      - |
+        buildctl --addr tcp://buildkitd:1234 build \
+          --frontend dockerfile.v0 \
+          --local context=projects/portal \
+          --local dockerfile=projects/portal/Dockerfile \
+          --output type=image,name=${IMAGE}:${SHA},push=true
