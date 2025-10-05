@@ -3,6 +3,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY my-portal/package*.json ./
 RUN npm install -g @sveltejs/kit vite
+RUN svelte-kit sync
 RUN npm install
 COPY my-portal/ ./
 RUN npm run build
