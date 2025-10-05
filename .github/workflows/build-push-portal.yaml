@@ -26,33 +26,33 @@ jobs:
       packages: read
 
     steps:
-      - name: checkout portal
+      - name: Checkout portal
         uses: actions/checkout@v4
 
-      - name: set vars
+      - name: Set vars
         id: vars
         run: |
           SHA=$(git rev-parse --short HEAD)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
 
-      - name: log in to docker hub
+      - name: Log in to docker hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: extract docker metadata
+      - name: Extract docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: type=raw,value=${{ steps.vars.outputs.sha }}
 
-      - name: set up buildx
+      - name: Set up buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: build and push
+      - name: Build and push
         id: buildpush
         uses: docker/build-push-action@v6
         with:

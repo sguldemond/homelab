@@ -71,3 +71,28 @@ It could be that its just not working very well...
 ---
 Shifting to GH Actions and publishing my portal image in Docker Hub.
 Widely accepted stack and flow.
+GitHub Actions is getting stuck on building the image:
+```
+ > [build 8/8] RUN npm run build:
+0.142 
+0.142 > my-portal@0.0.1 build
+0.142 > vite build
+0.142 
+0.146 sh: 1: vite: not found
+``` 
+Trying to simulate what the pipeline does:
+```
+docker buildx build -f Dockerfile .
+```
+This works.
+Now running the pipeline using `act`, from repo root:
+```
+act --secret-file act.secrets workflow_dispatch
+```
+Act needs these secrets:
+```
+DOCKERHUB_USERNAME
+DOCKERHUB_TOKEN
+GITHUB_TOKEN
+```
+I can run it using `act`, and get the same error. So no closer to a solution.
