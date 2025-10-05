@@ -3,6 +3,7 @@ Pods fail to start, cannot pull images from docker.io.
 Bitnami has deprecated its Debian based images, and removed the tags.
 Gitea has not updated their Helm chart to reflect this change.
 ---
+Trying Woodpecker.
 Nice command to get values file for a Helm chart, to see options and adjust if needed.
 ```
 helm show values oci://ghcr.io/woodpecker-ci/helm/woodpecker > values.yaml
@@ -69,8 +70,7 @@ Getting stuck on this:
 Eventhough I gave the project all the trusted checks.
 It could be that its just not working very well...
 ---
-Shifting to GH Actions and publishing my portal image in Docker Hub.
-Widely accepted stack and flow.
+Shifting to GH Actions and publishing my portal image in Docker Hub. Widely accepted stack and flow.
 GitHub Actions is getting stuck on building the image:
 ```
  > [build 8/8] RUN npm run build:
@@ -96,3 +96,14 @@ DOCKERHUB_TOKEN
 GITHUB_TOKEN
 ```
 I can run it using `act`, and get the same error. So no closer to a solution.
+Some odd behavior around building the poral on GH Actions.
+For now I added `RUN npm install -g @sveltejs/kit vite` so the Runner can access `svelte-kit` and `vite`.
+New error:
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@tailwindcss/vite' imported from /app/node_modules/.vite-temp/vite.config.ts.timestamp-1759655627539-9542043a22014.mjs
+```
+Maybe since I install `vite` globally I need to install `@tailwindcss/vite` as well globally? Nope..
+Appearantly I had to include dev specifically:
+```
+RUN npm ci --include=dev
+```
