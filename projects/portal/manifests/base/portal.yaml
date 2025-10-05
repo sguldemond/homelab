@@ -17,7 +17,7 @@ spec:
       serviceAccountName: portal-readonly
       containers:
         - name: my-portal
-          image: registry.macmini.home/my-portal:latest
+          image: sguldemond/my-portal:dev
           ports:
             - containerPort: 4173
 ---

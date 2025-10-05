@@ -107,3 +107,10 @@ Appearantly I had to include dev specifically:
 ```
 RUN npm ci --include=dev
 ```
+---
+Continuing the pipeline setup by adding the Kustomize override.
+Testing it locally:
+```
+kustomize edit set image sguldemond/my-portal=sguldemond/my-portal:dev
+kubectl kustomize base
+```

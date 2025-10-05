@@ -16,6 +16,7 @@ on:
 env:
   IMAGE_NAME: sguldemond/my-portal
   INFRA_REPO: sguldemond/homelab
+  KUS_PATH: projects/portal/manifests/base
 
 jobs:
   build-push:
@@ -61,6 +62,22 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
-          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
-          # cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
           outputs: type=image,name=${{ env.IMAGE_NAME }},push=true
+
+      - name: Kustomize Github Action
+        uses: karancode/kustomize-github-action@v1.3.2
+        with:
+          kustomize-version: "5.4.2"
+          kustomize-args: "edit set image ${{ env.IMAGE_NAME }}=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha }}"
+          kustomize-dir: "${{ env.KUS_PATH }}"
+      
+      - name: Commit & push bump
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name  "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
+          git add "${{ env.KUS_PATH }}/kustomization.yaml"
+          git commit -m "portal: bump image to ${{ steps.vars.outputs.sha }}" || echo "No changes to commit"
+          git push origin "${GITHUB_REF_NAME}"
