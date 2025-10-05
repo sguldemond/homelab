@@ -11,13 +11,14 @@ on:
     paths:
       - 'projects/portal/my-portal/**'
       - 'projects/portal/Dockerfile'
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: sguldemond/my-portal
   INFRA_REPO: sguldemond/homelab
 
 jobs:
-  build:
+  build-push:
     runs-on: ubuntu-latest
 
     permissions:
