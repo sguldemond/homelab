@@ -114,3 +114,5 @@ Testing it locally:
 kustomize edit set image sguldemond/my-portal=sguldemond/my-portal:dev
 kubectl kustomize base
 ```
+Settings "Actions permissions" in my repo, with "Workflow permissions" to "Read and write permissions",
+to allow pipeline to commit to the repo, and update image tag.
