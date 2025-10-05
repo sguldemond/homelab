@@ -116,3 +116,14 @@ kubectl kustomize base
 ```
 Settings "Actions permissions" in my repo, with "Workflow permissions" to "Read and write permissions",
 to allow pipeline to commit to the repo, and update image tag.
+Had to set for it to work:
+```
+    permissions:
+      contents: write
+```
+---
+Installing ArgoCD:
+```
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
