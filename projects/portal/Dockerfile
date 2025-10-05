@@ -1,11 +1,10 @@
 FROM node:22 AS build
 ENV NODE_ENV=production 
 WORKDIR /app
-COPY my-portal/package*.json ./
-RUN npm install -g @sveltejs/kit vite
-RUN svelte-kit sync
-RUN npm install
+# COPY my-portal/package*.json ./
 COPY my-portal/ ./
+# RUN npm install -g @sveltejs/kit vite
+RUN npm install
 RUN npm run build
 
 FROM node:22-alpine AS runner
