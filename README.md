@@ -32,6 +32,18 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
     - Demo via interactive UI on My Portal
 - Kafka API implementation with Redpanda
 
+## Experiments
+
+- [Woodpecker](projects/woodpecker/README.md)
+    - Alternative to GitHub Actions
+    - Can run on my cluster
+    - Has some issues with privileged mode permissions
+- Gitea
+    - [About Gitea](https://gitea.io/)
+    - Source code management
+    - Has pipeline support using `act`
+    - The Helm chart were not up to date, as it still uses Bitnami's Debian based images
+
 ## Hardware
 
 [<img src="./images/macminis.jpg" width="400" />]()
