@@ -1,8 +1,12 @@
+# Journey
+
 Added the Gitea Helm chart to the cluster.
 Pods fail to start, cannot pull images from docker.io.
 Bitnami has deprecated its Debian based images, and removed the tags.
 Gitea has not updated their Helm chart to reflect this change.
+
 ---
+
 Trying Woodpecker.
 Nice command to get values file for a Helm chart, to see options and adjust if needed.
 ```
@@ -38,7 +42,9 @@ cannot register sguldemond. registration closed
 ```
 Had to set WOODPECKER_OPEN to True. And remember to re-set the client token.
 Now I can login and add my homelab repo.
+
 ---
+
 Created a pipeline, got some errors in Woodpecker.
 Couldn't easily run linter on the pipeline, so have to push fixes untill it works.
 Seems like I cannot run images in privilged mode untill the project is set as trusted.
@@ -69,7 +75,9 @@ Getting stuck on this:
 ```
 Eventhough I gave the project all the trusted checks.
 It could be that its just not working very well...
+
 ---
+
 Shifting to GH Actions and publishing my portal image in Docker Hub. Widely accepted stack and flow.
 GitHub Actions is getting stuck on building the image:
 ```
@@ -107,7 +115,9 @@ Appearantly I had to include dev specifically:
 ```
 RUN npm ci --include=dev
 ```
+
 ---
+
 Continuing the pipeline setup by adding the Kustomize override.
 Testing it locally:
 ```
@@ -121,9 +131,29 @@ Had to set for it to work:
     permissions:
       contents: write
 ```
+
 ---
+
 Installing ArgoCD:
 ```
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+ArgoCD is working!
+Just not sure how ArgoCD knows about Kustomize.
+The Deployment image is not updated, only the kustomazation.yaml is.
+And the correct image is deployed. Want to know how this works.
+
+Docs about Kustomize (https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/):
+> If the kustomization.yaml file exists at the location pointed to by repoURL and path, Argo CD will render the manifests using Kustomize.
+
+---
+
+Setting up Ingress to reach ArgoCD from domain name:
+https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#traefik-v30
+
+Have to set argocd-server as `--insecure`.
+
+---
+
+Also want to export Application definition to my repo.
