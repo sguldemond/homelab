@@ -12,6 +12,9 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - [Portal](projects/portal/README.md)
     - Simple WebUI with read access to cluster
     - SvelteKit + Kubernetes RBAC
+- [GitOps CI/CD](projects/gitops/README.md)
+    - Deploy to projects based on Git repository
+    - ArgoCD, GitHub Actions, Kustomize, Docker Hub
 - [Cloudflare Tunnel](projects/cloudflare-tunnel/README.md)
     - Tunnels through to my K3s server
     - Forwards traffic to Service, currently used for the Portal
@@ -23,8 +26,6 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 
 ## Next steps
 
-- GitOps with ArgoCD
-    - Deploy to cluster based on Git repository
 - Tailscale VPN
     - Access cluster from outside for remote development
 - Autoscaling pods based on activity
