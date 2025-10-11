@@ -28,9 +28,16 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 
 - Tailscale VPN
     - Access cluster from outside for remote development
+- MetalLB
+    - Replace the built-in ServiceLB of K3s
+    - Closer to a production setup
 - Autoscaling pods based on activity
     - Demo via interactive UI on My Portal
 - Kafka API implementation with Redpanda
+- Proxmox VE
+    - More nodes for the cluster
+    - Setup networking for nodes
+    - Setup failover for nodes
 
 ## Experiments
 

@@ -4,3 +4,7 @@
 # disable:
 #   - traefik
 #   - metrics-server
+
+tls-san:
+  - 192.168.1.100
+  - 100.66.64.12
