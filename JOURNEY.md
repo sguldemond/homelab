@@ -157,3 +157,72 @@ Have to set argocd-server as `--insecure`.
 ---
 
 Also want to export Application definition to my repo.
+Done, see `projects/gitops/argocd-portal-app.yaml`.
+
+---
+
+I setup Tailscale VPN, and got access to the cluster from outside.
+I updated the `k3s-config.yaml` to include the Tailscale IP addresses:
+```
+tls-san:
+  - 192.168.1.100
+  - 100.66.64.12
+```
+And updated the `ingress.yaml` to include the Tailscale IP addresses:
+```
+Would be nice to setup deployment via Ansible, but not a priority.
+Requires maintaince of the playbook, not yet needed at this stage.
+
+---
+
+Starting with implementation of MetalLB.
+MetalLB requires a Network Add-on, researching options.
+K3s comes with Flannel as default, but I might have disabled it, not sure.
+
+Interesting setup now where I have a network interface from Tailscale, `tailscale0`.
+But my setup will requirest IPs from the router at home.
+
+Disabling ServiceLB on k3s. It says to disable on all nodes,
+but when adding:
+```
+disable:
+  - servicelb
+```
+To the worker-node (macmini1) and running k3s-agent service restart it won't restart.
+
+Starting of with Layer 2 mode which used the ARP protocol.
+One node gets a IP address, and broadcasts its IP address to the network.
+
+Installing MetalLB:
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+```
+
+After setting ip `IPAddressPool` and `L2Advertisement` my load balancers immediately got a new IP address from the range.
+
+---
+
+Side quest, installing Tailscale Kubernetes operator to expose some services to VPN with MagicDNS domain names.
+```
+helm upgrade \
+  --install \
+  tailscale-operator \
+  tailscale/tailscale-operator \
+  --namespace=tailscale \
+  --create-namespace \
+  --set-string oauth.clientId="<OAauth client ID>" \
+  --set-string oauth.clientSecret="<OAuth client secret>" \
+  --wait
+```
+
+Want to expose ArgoCD over Tailscale via Ingress to give it a MagicDNS domain name and TLS.
+
+Had to configure some stuff in Tailscale Web UI:
+- Create tags: `k8s-operator` and `k8s`
+- Create OAuth client to add to the operator with correct scopes: `auth_keys`, `devices:core`
+- Enable HTTPS
+
+Then I created a Ingress which assigns a domain name automatically, see `Address` of the Ingress.
+
+---
+

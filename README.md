@@ -23,21 +23,27 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
     - Fluent Bit + Loki + Grafana
 - [Container Registry](projects/container-registry/README.md)
     - Self hosted container registry
+- Tailscale VPN
+    - Basic VPN for remote `kubectl` access to cluster
+    - Tailscale Kubernetes Operator for exposing services (e.g. ArgoCD) MagicDNS domain names
+
 
 ## Next steps
 
-- Tailscale VPN
-    - Access cluster from outside for remote development
 - MetalLB
     - Replace the built-in ServiceLB of K3s
     - Closer to a production setup
+    - Start of with Layer 2 mode
+    - Move on to BGP mode after (requires extra node and router setup)
 - Autoscaling pods based on activity
     - Demo via interactive UI on My Portal
 - Kafka API implementation with Redpanda
 - Proxmox VE
     - More nodes for the cluster
+    - Virtual router with BGP support
     - Setup networking for nodes
     - Setup failover for nodes
+
 
 ## Experiments
 
