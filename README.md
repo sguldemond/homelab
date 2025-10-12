@@ -26,6 +26,11 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - Tailscale VPN
     - Basic VPN for remote `kubectl` access to cluster
     - [Exposing Argo CD with MagicDNS domain name](projects/gitops/argocd/tailscale-ingress.yaml)
+- [Proxmox VE](projects/proxmox/README.md)
+    - More nodes for the cluster
+    - Virtual router with BGP support
+    - Setup networking for nodes
+    - Setup failover for nodes
 
 
 ## Next steps
@@ -38,11 +43,6 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 - Autoscaling pods based on activity
     - Demo via interactive UI on My Portal
 - Kafka API implementation with Redpanda
-- Proxmox VE
-    - More nodes for the cluster
-    - Virtual router with BGP support
-    - Setup networking for nodes
-    - Setup failover for nodes
 
 
 ## Experiments
