@@ -23,9 +23,9 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
     - Fluent Bit + Loki + Grafana
 - [Container Registry](projects/container-registry/README.md)
     - Self hosted container registry
-- Tailscale VPN
+- [Tailscale VPN](projects/tailscale/README.md)
     - Basic VPN for remote `kubectl` access to cluster
-    - [Exposing Argo CD with MagicDNS domain name](projects/gitops/argocd/tailscale-ingress.yaml)
+    - Exposing Argo CD with MagicDNS domain name
 - [Proxmox VE](projects/proxmox/README.md)
     - More nodes for the cluster
     - Virtual router with BGP support

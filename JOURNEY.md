@@ -241,3 +241,12 @@ The bridge will provide the an IP address for the machines.
 USE_TAILNET=true ansible-playbook -K -i inventory.ini playbooks/configure-bridge.yaml
 ```
 For now Ansible cannot find the vars/interfaces.j2 file.
+Moving it to the playbooks folder.
+
+Everything works as expected, the bridge is setup and the machines are connected to it. I can ping both machines from the other.
+
+---
+
+Persisted the Tailscale install to a HelmChart manifest.
+Finding out how I can see the logs I get from Helm usually.
+A pod was created and completed, in this case `helm-install-tailscale-operator-mhwzn`, which has the logs.
