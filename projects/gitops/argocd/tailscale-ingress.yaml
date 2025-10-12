@@ -4,12 +4,12 @@ metadata:
   name: tailscale-ingress
   namespace: argocd
 spec:
+  ingressClassName: tailscale
   defaultBackend:
     service:
       name: argocd-server
       port:
         name: https
-  ingressClassName: tailscale
   tls:
     - hosts:
         - argocd

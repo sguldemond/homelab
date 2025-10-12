@@ -18,7 +18,7 @@ helm install woodpecker \
   oci://ghcr.io/woodpecker-ci/helm/woodpecker \
   -f values.yaml
 ```
----
+
 Woodpecker requires a forge to be setup, getting an error from the server pod:
 ```
 can't setup globals: could not setup service manager: forge not configured
