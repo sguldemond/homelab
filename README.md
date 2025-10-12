@@ -25,7 +25,7 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
     - Self hosted container registry
 - Tailscale VPN
     - Basic VPN for remote `kubectl` access to cluster
-    - Tailscale Kubernetes Operator for exposing services (e.g. ArgoCD) MagicDNS domain names
+    - [Exposing Argo CD with MagicDNS domain name](projects/gitops/argocd/tailscale-ingress.yaml)
 
 
 ## Next steps
