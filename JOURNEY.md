@@ -226,3 +226,18 @@ Then I created a Ingress which assigns a domain name automatically, see `Address
 
 ---
 
+Starting slow with setting up a Ansible playbook to configure a bridge between the two machines.
+I have a simple setup where I can png both machines via Ansible:
+```
+USE_TAILNET=true ansible -K -i inventory.ini all -m ping
+```
+
+I'm not at home so I have to be careful with changing the networking settings.
+I want to setup a bridge and connect both machines to it.
+The current IP on the NIC will be disabled and the NIC will be attached to the bridge.
+The bridge will provide the an IP address for the machines.
+
+```
+USE_TAILNET=true ansible-playbook -K -i inventory.ini playbooks/configure-bridge.yaml
+```
+For now Ansible cannot find the vars/interfaces.j2 file.

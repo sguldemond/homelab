@@ -1,0 +1,16 @@
+auto lo
+iface lo inet loopback
+
+# Physical NIC as manual; the bridge will carry the IP
+auto {{ uplink_iface }}
+iface {{ uplink_iface }} inet manual
+
+# Main bridge
+auto br0
+iface br0 inet static
+    address {{ local_ip }}/24
+    gateway 192.168.1.1
+    bridge-ports {{ uplink_iface }}
+    bridge-stp off
+    bridge-fd 0
+    dns-nameservers 1.1.1.1 8.8.8.8
