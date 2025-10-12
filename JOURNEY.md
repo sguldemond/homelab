@@ -250,3 +250,12 @@ Everything works as expected, the bridge is setup and the machines are connected
 Persisted the Tailscale install to a HelmChart manifest.
 Finding out how I can see the logs I get from Helm usually.
 A pod was created and completed, in this case `helm-install-tailscale-operator-mhwzn`, which has the logs.
+
+---
+
+Installing Jenkins via Terraform.
+Created a new provider for Kubernetes and Helm.
+Running `terraform init` and `terraform apply`.
+Jenkins is running, but the Tailscale domain is not working yet.
+Maybe something to do with the port.
+Should add an Ingress instead, I like that approach, because it shows the URL in from kubectl/k9s.
