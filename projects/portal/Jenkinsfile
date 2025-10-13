@@ -1,0 +1,149 @@
+pipeline {
+  agent any
+  options { 
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+  
+  environment {
+    IMAGE_NAME = "sguldemond/my-portal"
+    INFRA_REPO = "sguldemond/homelab"
+    KUS_PATH = "projects/portal/manifests/base"
+    DOCKER_BUILDKIT = "1"
+  }
+  
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+        script {
+          env.GIT_SHA = sh(
+            script: 'git rev-parse --short HEAD',
+            returnStdout: true
+          ).trim()
+          env.IMAGE_TAG = env.GIT_SHA
+          env.FULL_IMAGE_NAME = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+        }
+      }
+    }
+
+    stage('Docker Login') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+          sh 'echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin'
+        }
+      }
+    }
+
+    stage('Set up Docker Buildx') {
+      steps {
+        sh '''
+          docker buildx create --name multiarch --driver docker-container --use || true
+          docker buildx inspect --bootstrap
+        '''
+      }
+    }
+
+    stage('Build and Push Image') {
+      steps {
+        sh '''
+          set -euo pipefail
+          
+          # Build and push with buildx for amd64 only and caching
+          docker buildx build \
+            --platform linux/amd64 \
+            --tag ${FULL_IMAGE_NAME} \
+            --tag ${IMAGE_NAME}:latest \
+            --cache-from type=registry,ref=${IMAGE_NAME}:cache \
+            --cache-to type=registry,ref=${IMAGE_NAME}:cache,mode=max \
+            --provenance=false \
+            --push \
+            .
+        '''
+      }
+    }
+
+    stage('Install Kustomize') {
+      steps {
+        sh '''
+          # Install kustomize if not already available
+          if ! command -v kustomize &> /dev/null; then
+            curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+            sudo mv kustomize /usr/local/bin/
+          fi
+        '''
+      }
+    }
+
+    stage('Patch Kustomization') {
+      steps {
+        sh '''
+          set -euo pipefail
+          cd ${KUS_PATH}
+          
+          # Update the image tag in kustomization.yaml
+          kustomize edit set image "${IMAGE_NAME}=${FULL_IMAGE_NAME}"
+          
+          # Verify the change
+          echo "Updated kustomization.yaml:"
+          cat kustomization.yaml
+        '''
+      }
+    }
+
+    stage('Commit and Push Changes') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+          sh '''
+            set -euo pipefail
+            
+            # Configure git
+            git config user.name "jenkins-ci"
+            git config user.email "jenkins-ci@users.noreply.github.com"
+            
+            # Add the modified kustomization.yaml
+            git add ${KUS_PATH}/kustomization.yaml
+            
+            # Commit the changes
+            if git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "portal: bump image to ${GIT_SHA}"
+              git push https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${INFRA_REPO}.git HEAD:${GIT_BRANCH#origin/}
+            fi
+          '''
+        }
+      }
+    }
+  }
+  
+  post {
+    always {
+      sh '''
+        # Clean up buildx builder
+        docker buildx rm multiarch || true
+        
+        # Logout from Docker Hub
+        docker logout || true
+      '''
+    }
+    
+    success {
+      echo "✅ Pipeline completed successfully!"
+      echo "Image pushed: ${FULL_IMAGE_NAME}"
+      echo "Kustomization updated with SHA: ${GIT_SHA}"
+    }
+    
+    failure {
+      echo "❌ Pipeline failed!"
+      sh '''
+        # Clean up any partial builds
+        docker buildx rm multiarch || true
+        docker logout || true
+      '''
+    }
+    
+    cleanup {
+      cleanWs()
+    }
+  }
+}

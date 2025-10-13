@@ -202,6 +202,30 @@ After setting ip `IPAddressPool` and `L2Advertisement` my load balancers immedia
 
 ---
 
+Bridging vs. Routing vs. NAT
+
+| Mode | Layer | What it does | Typical use |
+|------|-------|--------------|-------------|
+| Bridge | 2 (Ethernet) | Forwards frames between interfaces | VMs in same LAN |
+| Router | 3 (IP) | Moves packets between networks/subnets | Connecting LANs |
+| NAT | 3+4 | Rewrites IPs to share one address | Internet access sharing |
+
+Subnet mask
+
+The subnet mask tells the system which portion of the IP address refers to the network and which portion refers to the host.
+
+/24 → 24 bits of the address (out of 32) are for the network
+
+The remaining 8 bits are for hosts
+
+| CIDR | Mask | Network Range | Host Range | # Hosts |
+|------|-------|--------------|-------------| ------- |
+| /24 | 255.255.255.0 | 192.168.1.0 | 192.168.1.1–192.168.1.254 | 254 |
+| /25 | 255.255.255.128 | 192.168.1.0 | 192.168.1.1–192.168.1.126 | 126 |
+| /16 | 255.255.0.0 | 192.168.0.0 | 192.168.0.1–192.168.255.254 | 65,534 |
+
+---
+
 Side quest, installing Tailscale Kubernetes operator to expose some services to VPN with MagicDNS domain names.
 ```
 helm upgrade \
@@ -259,3 +283,7 @@ Running `terraform init` and `terraform apply`.
 Jenkins is running, but the Tailscale domain is not working yet.
 Maybe something to do with the port.
 Should add an Ingress instead, I like that approach, because it shows the URL in from kubectl/k9s.
+
+---
+
+Getting Jenkins pipeline working, starting of with manually adding it via the Web UI.

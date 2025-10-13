@@ -73,7 +73,7 @@ jobs:
           sudo mv kustomize /usr/local/bin/
           cd "${{ env.KUS_PATH }}"
           kustomize edit set image "${{ env.IMAGE_NAME }}=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha }}"
-          
+
       - name: Commit & push bump
         run: |
           git config user.name  "ci-bot"
