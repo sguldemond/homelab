@@ -62,8 +62,8 @@ spec:
             steps {
                 container('docker') {
                     checkout scm
-                    sh 'git config --global --add safe.directory /home/jenkins/agent/'
                     script {
+                        sh 'git config --global --add safe.directory /home/jenkins/agent/'
                         env.GIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     }
                     println "GIT_SHA: ${env.GIT_SHA}"
