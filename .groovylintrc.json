@@ -1,0 +1,17 @@
+{
+    "extends": "recommended",
+    "rules": {
+        "DuplicateStringLiteral": {
+            "enabled": false
+        },
+        "LineLength": {
+            "enabled": false
+        },
+        "NestedBlockDepth": {
+            "enabled": false
+        },
+        "VariableTypeRequired": {
+            "enabled": false
+        }
+    }
+}

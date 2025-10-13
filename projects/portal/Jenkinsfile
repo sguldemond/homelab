@@ -3,38 +3,46 @@ pipeline {
         kubernetes {
             defaultContainer 'docker'
             yaml """
-    apiVersion: v1
-    kind: Pod
-    metadata:
-    labels:
-        jenkins/buildx: "true"
-    spec:
-    serviceAccountName: jenkins         # must match RoleBinding above
-    containers:
-    - name: docker
-        image: docker:27-cli
-        command: ['sh','-lc','sleep 9999999']
-        env:
-        - name: DOCKER_BUILDKIT
-            value: "1"
-        - name: DOCKER_CONFIG
-            value: /home/jenkins/.docker
-        volumeMounts:
-        - name: docker-config
-            mountPath: /home/jenkins/.docker
-        - name: sa-token
-            mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-            readOnly: true
-    volumes:
-        - name: docker-config
-        emptyDir: {}
-        - name: sa-token
-        projected:
-            sources:
-            - serviceAccountToken:
-                path: token
-                expirationSeconds: 3600
-    """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins/agent: docker-dind
+spec:
+  serviceAccountName: jenkins
+  containers:
+  - name: docker
+    image: docker:27-cli
+    command: ['sh','-lc','sleep 9999999']
+    env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+      - name: DOCKER_BUILDKIT
+        value: "1"
+    volumeMounts:
+      - name: docker-graph
+        mountPath: /var/lib/docker
+      - name: docker-config
+        mountPath: /home/jenkins/.docker
+  - name: dind
+    image: docker:27-dind
+    securityContext:
+      privileged: true
+    env:
+      - name: DOCKER_TLS_CERTDIR
+        value: ""
+    args:
+      - --host=tcp://0.0.0.0:2375
+      - --storage-driver=overlay2
+    volumeMounts:
+      - name: docker-graph
+        mountPath: /var/lib/docker
+  volumes:
+    - name: docker-graph
+      emptyDir: {}
+    - name: docker-config
+      emptyDir: {}
+"""
         }
     }
 
@@ -43,9 +51,9 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'sguldemond/my-portal'
-        INFRA_REPO = 'sguldemond/homelab'
-        KUS_PATH   = 'projects/portal/manifests/base'
+        IMAGE_NAME   = 'sguldemond/my-portal'
+        INFRA_REPO   = 'sguldemond/homelab'
+        KUS_PATH     = 'projects/portal/manifests/base'
         DOCKER_BUILDKIT = '1'
     }
 
@@ -53,167 +61,70 @@ pipeline {
         stage('Checkout') {
             steps {
                 container('docker') {
-                    // use explicit git to work for non-multibranch jobs
-                    git branch: 'main',
-                    url: 'https://github.com/sguldemond/homelab.git',
-                    credentialsId: 'github-token',
+                    checkout scm
                     script {
-                        env.GIT_SHA   = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                        env.IMAGE_TAG = env.GIT_SHA
-                        env.FULL_IMAGE_NAME = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+                        environment {
+                            GIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                        }
                     }
                 }
             }
         }
 
-        stage('Prepare kubeconfig + tools') {
+        stage('Build & Push (docker-workflow)') {
             steps {
                 container('docker') {
-                    sh '''
-            set -euo pipefail
-            apk add --no-cache ca-certificates curl bash git jq
-
-            # Compose a minimal kubeconfig pointing at in-cluster API
-            KCFG="$HOME/.kube/config"
-            mkdir -p "$(dirname "$KCFG")"
-            API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
-            TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-            CA="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-            NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)"
-
-            cat > "$KCFG" <<EOF
-apiVersion: v1
-kind: Config
-clusters:
-- cluster:
-    certificate-authority: ${CA}
-    server: ${API}
-  name: in-cluster
-contexts:
-- context:
-    cluster: in-cluster
-    namespace: ${NAMESPACE}
-    user: jenkins
-  name: in-cluster
-current-context: in-cluster
-users:
-- name: jenkins
-  user:
-    token: ${TOKEN}
-EOF
-            chmod 600 "$KCFG"
-            export KUBECONFIG="$KCFG"
-
-            # Verify buildx presence
-            docker buildx version
-          '''
-                }
-            }
-        }
-
-        stage('Create/Use Buildx (Kubernetes driver)') {
-            steps {
-                container('docker') {
-                    sh '''
-            set -euo pipefail
-            export KUBECONFIG="$HOME/.kube/config"
-            # Create (idempotent) a builder backed by Kubernetes
-            docker buildx create \
-              --driver kubernetes \
-              --name k8s-builder \
-              --use \
-              --driver-opt namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace),replicas=1 || true
-
-            docker buildx inspect --bootstrap
-          '''
-                }
-            }
-        }
-
-        stage('Registry Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DU', passwordVariable: 'DP')]) {
-                    container('docker') {
-                        sh '''
-              mkdir -p /home/jenkins/.docker
-              AUTH=$(printf '%s:%s' "$DU" "$DP" | base64 -w0 || base64)
-              cat > /home/jenkins/.docker/config.json <<EOF
-              { "auths": { "https://index.docker.io/v1/": { "auth": "$AUTH" } } }
-              EOF
-            '''
+                    script {
+                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-token') {
+                            def img = docker.build("${IMAGE_NAME}:${GIT_SHA}")
+                            img.push()
+                            img.push('latest')
+                        }
                     }
                 }
             }
         }
 
-        stage('Build & Push (Buildx + BuildKit)') {
+        stage('Install kustomize & patch image') {
             steps {
                 container('docker') {
-                    sh '''
-            set -euo pipefail
-            export KUBECONFIG="$HOME/.kube/config"
-
-            # build & push (amd64) with cache
-            docker buildx build \
-              --platform linux/amd64 \
-              --tag ${FULL_IMAGE_NAME} \
-              --tag ${IMAGE_NAME}:latest \
-              --cache-from type=registry,ref=${IMAGE_NAME}:cache \
-              --cache-to   type=registry,ref=${IMAGE_NAME}:cache,mode=max \
-              --provenance=false \
-              --push \
-              .
-          '''
+                    sh """
+                    set -euo pipefail
+                    curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+                    sudo mv kustomize /usr/local/bin/
+                    cd "${KUS_PATH}"
+                    kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${GIT_SHA}"
+                    """
                 }
             }
         }
 
-        stage('Install kustomize + patch image') {
-            steps {
-                container('docker') {
-                    sh '''
-            set -e
-            # install kustomize & yq (static)
-            KVER=$(curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest | jq -r '.tag_name' | sed 's/kustomize\\///')
-            curl -sL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KVER}/kustomize_${KVER}_linux_amd64.tar.gz" | tar -xz
-            mv kustomize /usr/local/bin/ && chmod +x /usr/local/bin/kustomize
-            curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
-            chmod +x /usr/local/bin/yq
-
-            cd ${KUS_PATH}
-            kustomize edit set image "${IMAGE_NAME}=${FULL_IMAGE_NAME}"
-            echo "Updated kustomization.yaml:"
-            cat kustomization.yaml
-          '''
-                }
-            }
-        }
-
-        stage('Commit & Push infra change') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
-                    container('docker') {
-                        sh '''
-              set -e
-              git config user.name "jenkins-ci"
-              git config user.email "jenkins-ci@users.noreply.github.com"
-              git add ${KUS_PATH}/kustomization.yaml || true
-              if git diff --staged --quiet; then
-                echo "No changes to commit"
-              else
-                git commit -m "portal: bump image to ${GIT_SHA}"
-                git push https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${INFRA_REPO}.git HEAD:${GIT_BRANCH#origin/}
-              fi
-            '''
-                    }
-                }
-            }
-        }
+        // stage('Commit & Push infra change') {
+        //     steps {
+        //         container('docker') {
+        //             withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'sguldemond', passwordVariable: 'GITHUB_TOKEN')]) {
+        //                 sh """
+        //                 set -e
+        //                 git config user.name "jenkins-ci"
+        //                 git config user.email "jenkins-ci@users.noreply.github.com"
+        //                 git add ${KUS_PATH}/kustomization.yaml || true
+        //                 if git diff --staged --quiet; then
+        //                     echo "No changes to commit"
+        //                 else
+        //                     git commit -m "portal: bump image to ${GIT_SHA}"
+        //                     # If this is not a multibranch job, push to main explicitly:
+        //                     git push https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${INFRA_REPO}.git HEAD:main
+        //                 fi
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     post {
         success {
-            echo "✅ BuildKit(buildx+kubernetes) pipeline OK: ${FULL_IMAGE_NAME}"
+            echo "✅ docker-workflow (DinD) build OK: ${IMAGE_NAME}:${GIT_SHA}"
         }
         failure {
             echo '❌ Pipeline failed'

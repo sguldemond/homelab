@@ -288,3 +288,5 @@ Should add an Ingress instead, I like that approach, because it shows the URL in
 
 Getting Jenkins pipeline working, starting of with manually adding it via the Web UI.
 Setting up a way to build and push Docker container from the pipeline.
+Trying out docker-workflow plugin: https://docs.cloudbees.com/docs/cloudbees-ci/latest/pipelines/docker-workflow
+Have to add credentials to pipeline, but admin has no rights.
