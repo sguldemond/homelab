@@ -4,6 +4,7 @@ controller:
     - workflow-aggregator:608.v67378e9d3db_1
     - git:5.8.0
     - configuration-as-code:1998.v3e50e6e9d9d3
+    - ws-cleanup:0.49
 
   serviceType: ClusterIP
   serviceAnnotations:

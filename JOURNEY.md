@@ -287,3 +287,4 @@ Should add an Ingress instead, I like that approach, because it shows the URL in
 ---
 
 Getting Jenkins pipeline working, starting of with manually adding it via the Web UI.
+Setting up a way to build and push Docker container from the pipeline.
