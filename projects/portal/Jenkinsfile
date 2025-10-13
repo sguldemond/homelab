@@ -63,11 +63,9 @@ spec:
                 container('docker') {
                     checkout scm
                     script {
-                        environment {
-                            GIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                        }
+                        env.GIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     }
-                    println "GIT_SHA: ${GIT_SHA}"
+                    println "GIT_SHA: ${env.GIT_SHA}"
                 }
             }
         }
