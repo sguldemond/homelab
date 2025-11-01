@@ -40,6 +40,8 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
     - Closer to a production setup
     - Start of with Layer 2 mode
     - Move on to BGP mode after (requires extra node and router setup)
+- Elastic Stack
+    - Export Fluentbit data to Elasticsearch + Kibana
 - Autoscaling pods based on activity
     - Demo via interactive UI on My Portal
 - Kafka API implementation with Redpanda
