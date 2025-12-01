@@ -290,3 +290,55 @@ Getting Jenkins pipeline working, starting of with manually adding it via the We
 Setting up a way to build and push Docker container from the pipeline.
 Trying out docker-workflow plugin: https://docs.cloudbees.com/docs/cloudbees-ci/latest/pipelines/docker-workflow
 Have to add credentials to pipeline, but admin has no rights.
+
+---
+
+Pausing in Jenkins setup, adding my MacBook Pro to the cluster.
+The plan is to setup a Proxmox cluster on all machines, which will provide me with a Hypervisor layer.
+From there I can setup VMs that will run Kubernetes nodes and a virtual router for MetalLB BGP mode.
+
+Not touching the Mac minis for now, first getting the MacBook setup.
+I want to learn more about cloud-init, so I'll be using that in combination with Ubuntu Server, since it supports cloud-init better than Debian I've read.
+
+With cloud-init I'll be setting up a virtual bridge as well, which I'll connect met NIC to.
+The MacBook doesn't have built-in etherner, but I have a official Thunderbolt to ethernet adapter.
+- Mac: ac:87:a3:13:08:10 (Ethernet adapter)
+- Mac: 60:f8:1d:b1:a0:74 (WiFi)
+
+Documentation on using the autoinstall feature via cloud-init:
+- https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall
+- https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
+
+I removed the networking part, since it was throwing an error on install on de MBP.
+The user password I created using `openssl passwd`.
+
+The default network behavior let's the ethernet NIC retrieve an IP address over DHCP dynamically.
+That is enough for now, I will setup the virtual bridge using Ansible later.
+With the cloud-init+autoinstall I can SSH into the machine directly. I just need to check the IP address on the machine (or the router using the MAC address).
+This makes the cloud-init YAML also more generic, since I don't have to know the MAC address of the NIC or have to set a static IP.
+
+I have to disable the lid close behavior, on the MBP. I should intergrate this into the cloud-init setup.
+Edited: `/etc/systemd/logind.conf`
+```
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+```
+```
+systemctl restart systemd-logind
+```
+Seems to work fine.
+
+Change brightness:
+```
+sudo tee /sys/class/backlight/acpi_video0/brightness <<< 50
+```
+
+---
+
+Installing Tailscale on the MBP so I can setup the bridge and still connect to it.
+
+Added static IP for the MPB on the router (MAC address based).
+Renewed DHCP lease:
+```
+sudo systemctl restart systemd-networkd
+```

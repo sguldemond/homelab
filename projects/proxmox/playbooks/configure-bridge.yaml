@@ -1,19 +1,12 @@
-- name: Configure L2 bridge on Debian 13
-  hosts: homelab-machines
+- name: Configure L2 bridge
+  hosts: homelab-new
   become: true
   vars:
-    interfaces_path: /etc/network/interfaces
-  pre_tasks:
-    - name: Ensure ifupdown2 is present (better for bridges on Debian 13)
-      ansible.builtin.apt:
-        name: ifupdown2
-        state: present
-        update_cache: true
-
+    interfaces_path: /etc/netplan/01-br0.yaml
   tasks:
-    - name: Template /etc/network/interfaces
+    - name: Template netplan YAML 
       ansible.builtin.template:
-        src: vars/interfaces.j2
+        src: vars/netplan-bridge.yaml.j2
         dest: "{{ interfaces_path }}"
         mode: "0644"
       notify: Apply networking
@@ -21,6 +14,5 @@
   handlers:
     - name: Apply networking
       ansible.builtin.shell: |
-        ifdown br0 || true
-        ifup br0
+        netplan apply
       listen: Apply networking
