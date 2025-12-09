@@ -342,3 +342,279 @@ Renewed DHCP lease:
 ```
 sudo systemctl restart systemd-networkd
 ```
+
+---
+
+Switching gears. Installing Proxmox on top of Ubuntu is not recommended at all.
+Installing Proxmox VE OS from USB on the MacBook now.
+
+Also planning to get Kubernetes running via Talos Linux instead of K3s, which will hopefully help me with my CKA certification.
+I will start with a single controle plane node VM with kube-vip to provide access to the API. Together with one worker node VM that will be a minimal cluster. When the Mac minis are Proxmox'd I will add a controle plane node VM per machine to run a HA k8s cluster, including some worker nodes.
+
+Getting Proxmox OS running is really easy, it serves a web GUI which you can control the node.
+Added my pub key manually, would be nice to do some auto install:
+https://pve.proxmox.com/wiki/Automated_Installation
+
+Downloading Talos ISO from: https://factory.talos.dev/
+- Add `siderolabs/qemu-guest-agent` as instructed!
+
+And following instructions for Proxmox: https://docs.siderolabs.com/talos/v1.11/platform-specific-installations/virtualized-platforms/proxmox
+
+I need to add a EFI Disk of 4MB, figuring out how to create one in Proxmox.
+
+---
+
+macmini0 started spinning up it's fans every 30 seconds or so, I see CPU spike as well.
+Looks like Loki is using the most CPU in those times, restarted a statefulset but still happening.
+kubesystem coredns also spiking
+
+Removed all Loki and Fluentbit stuff, still spiking, am I getting that much traffic? Cloudflare is not really showing crazy traffic.
+
+At the end of the day turned off both Mac minis. This morning on startup no more fan spikes.
+I do see more traffic then usual on Cloudflare, perhaps bots visiting the URL.
+
+---
+
+I can't get the Talos to boot properly.
+I think it has not yet to do with Talos but with booting the ISO in Proxmox correctly.
+
+The Talos docs on Proxmox says to use "ovmf" BIOS, this did not work for me.
+I selected SeaBIOS (default) which did work.
+
+Following the rest of the instructions got me to init a control plane node and kubectl to it!
+Success!
+
+---
+
+I need a single IP when you have a HA control plane cluster.
+I thought of using kube-vip, but Talos has its own solution.
+Setting up a Virtual IP for the CP node for when I have multiple CP nodes:
+https://docs.siderolabs.com/talos/v1.9/networking/vip
+
+I added this to the `controlplane.yaml`:
+```
+machine:
+  network:
+    interfaces:
+      - interface: eth0
+        dhcp: true
+        vip:
+          ip: 192.168.1.70
+```
+This seems to be working.
+
+---
+
+Time to get something running, lets start with `whoami`.
+For this I need Traefic.
+I'm installing the Helm chart using Terraform so I have everything documented.
+
+The LoadBalancer service is not getting a external-ip yet, so that is pending, which made Terraform wait.
+
+Added MetalLB as well via Terraform, giving the Traefic LoadBalancer a IP from my routers DHCP service.
+
+Applied the whoami manifests, almost there, got errors on the traefic pods:
+```
+│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z INF Updated ingress status ingress=whoami-ingress namespace=whoami                                                                            │
+│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error="service not found" ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
+│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error="service not found" ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
+```
+
+Changing to a IngressRoute instead of Ingress gives me these errors:
+```
+│ 2025-12-04T20:21:14Z ERR error="kubernetes service not found: default/whoami-svc" ingress=whoami namespace=default providerName=kubernetescrd                                              │
+│ 2025-12-04T20:21:37Z ERR error="kubernetes service not found: default/whoami-svc" ingress=whoami namespace=default providerName=kubernetescrd                                              │
+```
+
+Seems like a namespace issue, where Traefik is looking in default.
+
+In order to re-apply Traefik via Terraform I had to run:
+```
+terraform import helm_release.traefik traefik/traefik
+terraform import helm_release.metallb metallb/metallb
+terraform plan
+```
+
+Issue around re-applying MetalLB now, interesting resource to check in k8s:
+```
+kubectl -n metallb get events --sort-by=.metadata.creationTimestamp | tail -n 30
+```
+Or just check k9s ==> `:events`
+
+This issue on GitHub helped me fix deploying MetalLB: https://github.com/siderolabs/talos/issues/10291
+I had to add some labels to the namespace:
+```
+pod-security.kubernetes.io/audit: privileged
+pod-security.kubernetes.io/enforce: privileged
+pod-security.kubernetes.io/enforce-version: latest
+pod-security.kubernetes.io/warn: privileged
+```
+It seemed like initially installing MetalLB went okay, but I might be wrong here.
+
+Continueing with getting Traefik working.
+Installing via Terraform keeps it in `pending-install` state.
+Doing it directly using helm command works:
+```
+helm upgrade --install traefik oci://ghcr.io/traefik/helm/traefik -f values/traefik.yaml -n traefik --create-namespace --debug
+```
+But! The External-IP keep state `<pending>`. Which is odd, since it did get it the first time I tried it.
+What changes is that I now am using a Virtual IP for Talos, this might influence stuff.
+I have to still apply the MetalLB manifests! This immediatly gives the Traefik LoadBalancer a external-ip.
+
+Apperantly the Service had to be defined before the Ingress(Route) for it to work.
+Although I had this working on k3s (I thought...).
+
+---
+
+Installing OPNSense on Proxmox.
+I added to network interfaces to the VM.
+- vmbr0: default bridge by Proxmox, connected to the physical NIC of the machine (MacBook)
+- vmbr1: newly created bridge without any NIC or IP (yet)
+
+From OPNSense console I had to configure both interfaces.
+The vmbr0 would be the WAN (Wide Area Network) side, connected to my router ISP.
+vmbr1 would be the LAN side, which gets its own subnet (192.168.2.1/24 in this case).
+The Talos VMs will connect then connect to vmbr1 instead of vmbr0 and get their IP from OPNSense DHCP.
+
+Haven't been able to connect to the Web GUI yet. The WAN IP was not responsing, and the LAN ip is not accessible from my machine.
+
+Also Traefik has stopped working again...
+
+I can access the web GUI via the WAN IP when I disable the firewall in the shell (`pfctl -d`, to re-enable: `pfctl -e`).
+There should be a way to setup access via WAN securily via the web interface, haven't found that yet.
+
+Trying the steps described here: https://forum.opnsense.org/index.php?topic=36950.0
+```
+1. Go to Interfaces > [WAN] deselect "Block private networks"
+2. Go to Firewall > Rules > WAN and create a new rule using below parameter save then apply.
+
+  Action : Pass
+  Interface : WAN
+  Direction : In
+  TCP/IP Version: IPv4
+  Protocol: any
+  Source: WAN net
+  Destination: any
+  Destination port range: any
+  Gateway: default
+  repeate this for IPv6
+
+3. Go to Firewall > Settings > Advanced and tick "Disable reply-to (Disable reply-to on WAN rules)"
+4. Reboot (Very Important)
+```
+This worked! I can now access the web GUI from the WAN IP.
+
+Ofcourse now I'm in for some fun.
+I have switched the network interface of the two Talos VMs to vmbr1, which first of all makes it not directly accessible from my machine.
+I can do some port forwarding in OPNSense in order to forward traffic from the WAN IP with k8s API port (6443) to the new internal LAN IP of the control plane node. But that doesn't just work, like I expected.
+I can either completely re-install Talos on both VMs starting of with the now internal LAN IP, or try to figure out what I can do to get it working without... Reinstall takes a while, figuring out how to fix it as well.
+
+---
+
+Setting up a Ubuntu Server VM in order to access everything inside the OPNSense LAN, like Talos (talosctl, kubectl).
+Using Cloud-Init feature, needed to download a cloud image of Ubuntu from https://cloud-images.ubuntu.com/noble/current/.
+The .img is not like a .iso, you cannot boot from it by attaching it to a CDROM drive.
+I changed the size of the img, following https://github.com/UntouchedWagons/Ubuntu-CloudInit-Docs:
+```
+qemu-img resize noble-server-cloudimg-amd64.img 16G
+```
+And now going to mount that as the main drive.
+```
+qm importdisk 104 noble-server-cloudimg-amd64.img local-lvm
+```
+This is working. Using a cloud-image is different from using a ISO install in that the img is already pre-configured for usage within a cloud setting. No installer is needed, the cloud-init vars are used to create a user, add SSH key etc and you can start using the VM, pretty cool.
+
+---
+
+I have successfully updated the IP and VIP related to the control plane node.
+I changed the references to both in the `controlplane.yaml`, transferred this file to my Ubuntu VM and applied the changes there.
+On my machine:
+```
+scp controlplane.yaml proxmox-ubuntu:/home/stan/talos-cluster
+```
+On the Ubuntu VM:
+```
+talosctl apply-config --nodes 192.168.2.59 --file talos-cluster/controlplane.yaml
+```
+Talos seems quite reactive to these kind of changes, unlike k3s.
+
+---
+
+Want to port forward the calls to the WAN IP on 6443 to the Talos VIP so I don't need the Ubuntu VM.
+It is not working as expected, trying setting up WireGuard instead.
+
+I have WireGuard working with OPNSense and Ubuntu.
+This guide has most information: https://docs.opnsense.org/manual/how-tos/wireguard-client.html
+
+I'm using this config on Ubuntu:
+```
+[Interface]
+PrivateKey = < private key from client! >
+Address = 10.0.0.2/32
+DNS = 192.168.2.1
+
+[Peer]
+PublicKey = < public key of wireguard instance in opnsense! >
+Endpoint = 192.168.1.51:51820
+AllowedIPs = 192.168.2.0/24, 10.0.0.0/24
+PersistentKeepalive = 25
+```
+
+Firewall → Rules → WireGuard
+
+Add rule:
+- Interface: WireGuard
+- Source: 10.0.0.0/24
+- Destination: LAN net
+- Description: Allow WG clients to LAN
+
+Also add:
+- Interface: WireGuard
+- Source: 10.0.0.0/24
+- Destination: This firewall
+- Description: Allow WG to reach OPNSense itself
+
+Without this rule you cannot reach 192.168.2.1.
+
+---
+
+I'm going to clean up my repo so I can commit my changes.
+Need to encrypt some secrets, trying SOPS in combination with age.
+
+Created age key:
+```
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt
+```
+
+Added .sops.yaml in repo main:
+```
+keys:
+  - &me age13hp3zvzjr8pvctd99lwhy6wunmcjgkfgjp58amcsykzql400jp3sr5cyht
+
+creation_rules:
+  - path_regex: projects/proxmox/talos/.*\.ya?ml$
+    key_groups:
+      - age:
+          - *me
+```
+
+Encrypted my YAML files:
+```
+sops -e -i controlplane.yaml
+sops -e -i worker.yaml
+sops -e -i talosconfig.yaml
+```
+
+In order to use the encrypted file I have two options:
+```
+sops -d talos/controlplane.yaml | talosctl apply-config \
+  --nodes 192.168.2.59 \
+  --file /dev/stdin
+```
+```
+sops -d talos/controlplane.yaml > cp.dec.yaml
+talosctl apply-config --nodes 192.168.2.59 --file cp.dec.yaml
+rm cp.dec.yaml
+```
+

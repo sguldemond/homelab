@@ -5,5 +5,5 @@ Based on the excellent documentation by Cloudflare: [Cloudflare Tunnel for Kuber
 
 Redirects directly to a Service within my cluster:
 
-[<img src="../../images/cloudflare-tunnel-route.png" width="400" />]()
+[<img src="../../docs/images/cloudflare-tunnel-route.png" width="400" />]()
 

@@ -61,7 +61,7 @@ This homelab setup provides a cost-effective way to freely explore Kubernetes fe
 
 ## Hardware
 
-[<img src="./images/macminis.jpg" width="400" />]()
+[<img src="./docs/images/macminis.jpg" width="400" />]()
 
 ### Control Node
 
