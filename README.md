@@ -62,6 +62,8 @@ This setup enforces:
 
 Networking is intentionally **explicit and predictable** — no hidden defaults or UI magic.
 
+[<img src="./docs/images/lab-lab-network.png" width="600" />]()
+
 ---
 
 ### Secure Access

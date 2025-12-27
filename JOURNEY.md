@@ -860,4 +860,11 @@ I've setup a DHCP server, serving IPs on the 192.168.2.0/24 subnet (https://docs
 
 I would want to access my MacBook now, which is only connected to Lab LAB, but it might be stuck with a old DHCP lease of the old OPNSense setup.
 Could check up in 12-24h to see of the lease expired and VyOS has served it a new IP now, would be cool.
+```
+show dhcp server leases
+```
 
+Btw, I have a backup of the VyOS config using:
+```
+scp vyos:/config/config.boot /my/path/config.boot
+```
