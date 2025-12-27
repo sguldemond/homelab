@@ -169,7 +169,7 @@ tls-san:
   - 100.66.64.12
 ```
 And updated the `ingress.yaml` to include the Tailscale IP addresses:
-```
+
 Would be nice to setup deployment via Ansible, but not a priority.
 Requires maintaince of the playbook, not yet needed at this stage.
 
@@ -617,4 +617,247 @@ sops -d talos/controlplane.yaml > cp.dec.yaml
 talosctl apply-config --nodes 192.168.2.59 --file cp.dec.yaml
 rm cp.dec.yaml
 ```
+
+---
+
+I can connect via Tailscale as well using the `os-tailscale` plugin.
+This requires me to update OPNSense though:
+```
+***GOT REQUEST TO INSTALL***
+Currently running OPNsense 25.7 (amd64) at Tue Dec  9 20:27:27 UTC 2025
+Installation out of date. The update to opnsense-25.7.9 is required.
+***DONE***
+```
+
+---
+
+I have my Thunderbolt-Ethernet cable and I setup my new hardware arrangement.
+Now going to install OPNSense directly on the 2014 Mac mini, which now has two NICs.
+
+I dd'd the ISO onto my USB, but it's not showing up in the post-Alt screen on the Mac mini (yet).
+```
+sudo dd if=/home/stan/Downloads/OPNsense-25.7-dvd-amd64.iso of=/dev/sdb bs=4M status=progress oflag=sync
+```
+
+ Downloading the "vga" version which is a `.img` file as instructed in the docs (https://docs.opnsense.org/manual/install.html#installation-media).
+ ```
+ sudo dd if=/home/stan/Downloads/OPNsense-25.7-vga-amd64.img of=/dev/sdb bs=16k status=progress oflag=sync
+ ```
+
+ I can already check the MAC addresses of the two NIC on the current Debian install.
+ - enp3s0f0: 0c:4d:e9:c6:85:30, should become WAN
+ - ens9 (enp9s0): 0c:4d:e9:d1:54:11, should become LAN
+
+ I need to give the WAN side a static IP on my ISP router.
+
+OPNSense it setup and working on the Mac mini, there is an option for auto config, would be good to document the settings.
+Here a quick overview:
+- Set WAN and LAN to correct NICs
+- WAN gets static IP from ISP router (192.168.1.100)
+- LAN sets static IP: 192.168.2.1/24
+- Enable DHCP on LAN with range .10 > .100
+
+---
+
+I added the `os-tailscale` community plugin to OPNSense, can't find proper documentation on its use.
+Had to restart OPN to see the options. Options are available via VPN > Tailscale.
+Under Settings you need to enable Tailscale first, then under Status you can get the auth link.
+I enable Accept Subnet Router, with an Advertised Route of 192.168.2.0/24 (LAN).
+In the Tailscale dashboard under `opnsense` I still needed to confirm that this subroute is legit.
+
+To setup Firewall rules I need to first assign the Tailscale interface `tailscale0` to OPNSense via Interfaces > Assignment.
+Under the OPNSense shell (FreeBSD) using `ifconfig -a` you can see the interfaces as well.
+Also don't forget after creation to Enable the interface, now I can set Firewall rules to allow access to LAN net via Tailscale.
+
+Firewall → Rules → Tailscale
+
+```
+Action: Pass
+Interface: Tailscale
+Source: Tailscale net
+Destination: LAN net
+Description: Allow Tailscale access to Lab LAN
+```
+
+```
+Action: Pass
+Interface: Tailscale
+Source: Tailscale net
+Destination: This Firewall
+Description: Allow Tailscale access to OPNsense
+```
+
+Finally on my laptop I have to run the following command:
+```
+sudo tailscale set --accept-routes
+```
+As explained here: https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices
+
+Also usefull to disable key expiry of the opnsense machine in Tailscale dashboard via "Machine settings".
+
+I might have to run this everytime I start Tailscale on my machine:
+```
+sudo tailscale up --accept-routes
+```
+
+But it works, I can ping the LAN address of OPNSense Mac mini.
+
+---
+
+Reattaching the MacBook to the new Lab LAN.
+Edited `/etc/network/interfaces` and ran `ifreload -a`, but got a error that no IP was found for vmbr0.
+After reboot it worked again.
+
+---
+
+Haven't worked on my lab for a few days, can't reach the OPNSense router via the LAN IP.
+Expected to be able to via Tailscale, `ip route show` is not showing the Lab LAN subnet:
+```
+-> % ip route show
+default via 192.168.1.1 dev wlp61s0 proto dhcp src 192.168.1.179 metric 600 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.18.0.0/16 dev br-9fee8da751a1 proto kernel scope link src 172.f18.0.1 linkdown 
+172.19.0.0/16 dev br-f24dc19acc19 proto kernel scope link src 172.19.0.1 linkdown 
+172.20.0.0/16 dev br-0b98cec484ef proto kernel scope link src 172.20.0.1 
+172.21.0.0/16 dev br-444ba1ec82d0 proto kernel scope link src 172.21.0.1 linkdown 
+172.22.0.0/16 dev br-bbad8fd4fad4 proto kernel scope link src 172.22.0.1 linkdown 
+192.168.1.0/24 dev wlp61s0 proto kernel scope link src 192.168.1.179 metric 600 
+```
+
+Not getting an IP after physically connecting to the Lab LAN using Ethernet on my laptop either.
+Seems like the router is not responding, Home LAN IP is not responding to ping either.
+Attached monitor and keyboard to router. When I disable the firewall I can ping it.
+It can ping the ISP router as well, and get into the web GUI via the WAN IP, using http://<wan-ip>.
+
+I see that the LAN interface has the device `bge1`, but it says "missing". Also I don't see it using `ifconfig -a`.
+The switch light is green though, so I don't think the Thunderbolt adapter is dead.
+Not ideal, but rebooting system, see if it shows up again. I see it in the startup logs already present.
+It's back after the reboot, could be that OPNSense/FreeBSD disconnected the NIC and didn't reconnect.
+
+---
+
+I want to know how Tailscale routes the requests to the Lab LAN via the Tailscale interface to to router.
+It is not showing up in my `ip route show` results.
+
+It is showing when checking all tables, not just `main` (default):
+```
+-> % ip route show table all | grep tailscale -n
+1:100.83.153.29 dev tailscale0 table 52 
+2:100.83.234.73 dev tailscale0 table 52 
+3:100.93.235.14 dev tailscale0 table 52 
+4:100.100.100.100 dev tailscale0 table 52 
+5:100.111.248.12 dev tailscale0 table 52 
+6:100.111.255.7 dev tailscale0 table 52 
+7:192.168.2.0/24 dev tailscale0 table 52 
+```
+
+Usefull:
+```-> % ip route get 192.168.2.1                   
+192.168.2.1 dev tailscale0 table 52 src 100.109.194.44 uid 1000 
+    cache 
+```
+Also involves `ip rule` setting "Policy decision" which I don't fully understand yet.
+
+---
+
+The MBP with Proxmox is connected to the router and the Talos VMs have their new IPs.
+The traefik service still has a 192.168.1.xxx IP, which needs to be updated.
+
+---
+
+Thunderbolt Ethernet on Mac mini with OPNSense (FreeBSD) failed again.
+I now have the logs:
+```
+bge1: firmware handshake timed out, found 0xffffffff
+brgphy1: detached
+miibus1: detached
+bge1: detached
+pci9: detached
+pcib9: detached
+pci8: detached
+pcib8: detached
+pci7: detached
+```
+
+"This is a hard device failure from the OS point of view."
+FreeBSD forum responses on the "bge" driver doesn't look hopefull.
+
+---
+
+Moving to VyOS, a Linux kernel based router, all CLI based.
+Or not, no GUI, just CLI, seems cool, but after install I got no screen.
+
+Let's play it "safe" and install Proxmox on the Mac mini and get OPNSense on there.
+Have that setup, in order to install Tailscale on the Proxmox OS I had to disable Enterprise repo's in the settings.
+
+Also I have to do some cert stuff: https://tailscale.com/kb/1133/proxmox#enable-https-access-to-the-proxmox-web-ui
+Adding the certs enables SSL over the Tailscale URL of the Mac mini: https://macmini.tail9271d2.ts.net:8006/
+
+Curious if I can just add the subnet to Tailscale settings in OPN and will be able to reach the MBP again.
+
+---
+
+Playing around with VyOS on Proxmox now. Installed it.
+Setup for WAN IP:
+```
+configure
+set interfaces ethernet eth0 description 'WAN'
+set interfaces ethernet eth0 address dhcp
+commit
+ip a
+save
+```
+
+---
+
+Setting up a Ubuntu Server VM as exit node via Tailscale.
+This way I can flow traffic via The Netherlands while I'm in Poland.
+
+Pasting in a Proxmox VM seems a common issue.
+
+Adding a serial port via Hardware and running this in the VM:
+```
+sudo systemctl enable serial-getty@ttyS0.service
+```
+works, then I can get a shell via the Proxmox OS:
+```
+qm terminal <VMID>
+```
+Now I can install Tailscale on the VM and SSH to it from my machine.
+After install I ran:
+```
+sudo tailscale up --advertise-exit-node
+```
+In Tailscale I have to allow the machine to be an exit node.
+Also I have to enable IP forwarding on the VM as explained here: https://tailscale.com/kb/1019/subnets?tab=linux#enable-ip-forwarding
+```
+echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
+```
+
+---
+
+Installed Tailscale on VyOS using by downloading the binary files and supporting systemd files from: https://pkgs.tailscale.com/stable/#static
+- curl'd the tgz & unpacked it
+- moved the files inside to the right place, based on how it is on my laptop
+
+Adding my SSH public key uses this command (https://docs.vyos.io/en/latest/configuration/service/ssh.html):
+```
+generate public-key-command user vyos path id_rsa_t480s.pub
+```
+
+I can now access VyOS using my SSH key, so I disabled password auth:
+```
+set service ssh disable-password-authentication
+```
+
+I've setup a DHCP server, serving IPs on the 192.168.2.0/24 subnet (https://docs.vyos.io/en/latest/configuration/service/dhcp-server.html).
+- Set subnet id: 1
+- Set start and stop range: *.10 --> *.100
+- DNS (name-server): 192.168.2.1
+- Default route: 192.168.2.1
+
+I would want to access my MacBook now, which is only connected to Lab LAB, but it might be stuck with a old DHCP lease of the old OPNSense setup.
+Could check up in 12-24h to see of the lease expired and VyOS has served it a new IP now, would be cool.
 
