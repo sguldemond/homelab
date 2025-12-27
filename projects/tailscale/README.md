@@ -10,4 +10,4 @@ With their Kubernetes Uperator I expose services to my other devices connected t
 
 For example the Argo CD server via an [Ingress resource](../../projects/gitops/argocd/tailscale-ingress.yaml).
 
-[<img src="../../images/tailscale-dns-argo-cd.png" width="600" />]()
+[<img src="../../docs/images/tailscale-dns-argo-cd.png" width="600" />]()

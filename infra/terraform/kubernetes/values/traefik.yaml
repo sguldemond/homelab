@@ -1,0 +1,17 @@
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`dashboard.talos.home`)
+    entryPoints:
+      - web
+providers:
+  kubernetesGateway:
+    enabled: true
+  # kubernetesIngress:
+  #   publishedService:
+  #     enabled: true
+gateway:
+  listeners:
+    web:
+      namespacePolicy:
+        from: All

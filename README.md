@@ -1,90 +1,132 @@
-# 🏠 Homelab: Mac minis + K3s + Debian
+# 🏠 Homelab — Proxmox · Talos Linux · Kubernetes · VyOS
 
-> Live view of the active pods on my cluster: [homelab.stansyfert.com](https://homelab.stansyfert.com)
+> **Live cluster view:** [https://homelab.stansyfert.com](https://homelab.stansyfert.com)
 >
-> ⚠️ Might be down or buggy since I'm actively working on it.
+> *(may be unstable — this lab is under active development.)*
 
-A lightweight Kubernetes homelab setup running on 2x repurposed Apple Mac mini hardware.
-This homelab setup provides a cost-effective way to freely explore Kubernetes features.
+This repository documents my **production-inspired Kubernetes homelab**, built to explore **platform engineering, networking, GitOps, and cluster operations** in a realistic environment.
 
-## Projects
-
-- [Portal](projects/portal/README.md)
-    - Simple WebUI with read access to cluster
-    - SvelteKit + Kubernetes RBAC
-- [GitOps CI/CD](projects/gitops/README.md)
-    - Deploy to projects based on Git repository
-    - ArgoCD, GitHub Actions, Kustomize, Docker Hub
-- [Cloudflare Tunnel](projects/cloudflare-tunnel/README.md)
-    - Tunnels through to my K3s server
-    - Forwards traffic to Service, currently used for the Portal
-- [Observability](projects/observability/README.md)
-    - Getting insight into pod logs a la Azure Application Insight
-    - Fluent Bit + Loki + Grafana
-- [Container Registry](projects/container-registry/README.md)
-    - Self hosted container registry
-- [Tailscale VPN](projects/tailscale/README.md)
-    - Basic VPN for remote `kubectl` access to cluster
-    - Exposing Argo CD with MagicDNS domain name
-- [Proxmox VE](projects/proxmox/README.md)
-    - More nodes for the cluster
-    - Virtual router with BGP support
-    - Setup networking for nodes
-    - Setup failover for nodes
+The goal is not experimentation for its own sake, but **operating Kubernetes the way it's run in real systems**: explicit infrastructure, minimal OSes, declarative configuration, and recoverable failure modes.
 
 
-## Next steps
+## 🧱 Infrastructure (Core Focus)
 
-- MetalLB
-    - Replace the built-in ServiceLB of K3s
-    - Closer to a production setup
-    - Start of with Layer 2 mode
-    - Move on to BGP mode after (requires extra node and router setup)
-- Elastic Stack
-    - Export Fluentbit data to Elasticsearch + Kibana
-- Autoscaling pods based on activity
-    - Demo via interactive UI on My Portal
-- Kafka API implementation with Redpanda
+### Hypervisor
+
+**Proxmox VE**
+
+* Primary hypervisor for the lab
+* Hosts all infrastructure VMs:
+
+  * Talos Linux (Kubernetes control plane & workers)
+  * VyOS (router / firewall)
+  * Ubuntu Server (management & Tailscale exit node)
+
+---
+
+### Kubernetes Platform
+
+**Talos Linux on Proxmox**
+
+* Kubernetes cluster running on **immutable, API-driven Linux**
+* No SSH or shell access by default
+* Control plane and worker nodes as VMs
+* Configuration managed entirely via Talos machine configs
+* **MetalLB** (Layer 2 mode) and **Traefik** manually installed via Helm/Terraform
+
+This setup enforces:
+
+* Declarative thinking
+* Strong separation between OS, platform, and workloads
+* Safe rebuilds and reproducible nodes
+
+---
+
+### Networking & Edge
+
+**VyOS (Proxmox VM)**
+
+* Edge router and firewall for the lab
+* NAT (masquerade) for outbound traffic
+* DHCP (Kea) for the Lab LAN
+* Stateful firewall rules
+* DNS forwarding
+
+**Lab LAN**
+
+* Seperated from my "Home LAN" network
+* Subnet: **192.168.2.0/24**
+* Gateway: **192.168.2.1**
+* All VMs obtain addresses via DHCP
+* Talos nodes rely on stable network identity for cluster bootstrapping
+
+Networking is intentionally **explicit and predictable** — no hidden defaults or UI magic.
+
+---
+
+### Secure Access
+
+**Tailscale**
+
+* Ubuntu Server VM acts as:
+  * Management node
+  * Tailscale exit node
+* Enables:
+  * Secure remote `kubectl` access
+  * MagicDNS access to internal services (e.g. Argo CD)
+  * Safe connectivity during firewall or routing changes (no lockouts)
 
 
-## Experiments
+## ⚙️ Platform Capabilities
 
-- [Woodpecker](projects/woodpecker/README.md)
-    - Alternative to GitHub Actions
-    - Can run on my cluster
-    - Has some issues with privileged mode permissions
-- Gitea
-    - [About Gitea](https://gitea.io/)
-    - Source code management
-    - Has pipeline support using `act`
-    - The Helm chart were not up to date, as it still uses Bitnami's Debian based images
+Rather than isolated "projects", the cluster is operated as a **cohesive platform**:
 
-## Hardware
+* **GitOps CI/CD**
 
-[<img src="./images/macminis.jpg" width="400" />]()
+  * Argo CD, GitHub Actions, Kustomize
+* **Ingress & Load Balancing**
 
-### Control Node
+  * Traefik
+  * MetalLB (Layer 2, migrating toward BGP)
+* **Observability**
 
-| Component | Specification |
-|-----------|---------------|
-| **Machine** | Apple Mac mini Mid 2014 (Model A1347) |
-| **RAM** | 4 GB |
-| **Storage** | Internal 500GB HDD |
+  * Fluent Bit, Loki, Grafana
+* **Registry**
 
-### Worker Node
+  * Self-hosted container registry
+* **Secure Exposure**
 
-| Component | Specification |
-|-----------|---------------|
-| **Machine** | Apple Mac mini Late 2012 (Model A1347) |
-| **RAM** | 2 GB + 4 GB |
-| **Storage** | Internal 500GB HDD |
+  * Cloudflare Tunnel
+* **Cluster UI**
 
-Both machines run K3s on headless Debian 13.
+  * Custom read-only portal (SvelteKit + RBAC)
 
-## Networking
+Each component is installed and maintained manually or declaratively — no "click-ops".
 
-Both machines are connected to the same network via Ethernet.
-The router is providing static IP addresses to the machines.
-The router also provides DNS resolution for the machines.
 
-Both machines are reachable via SSH, enabling `kubectl` access from another machine on the same LAN.
+## 🔬 Ongoing Work & Next Steps
+
+* MetalLB **BGP mode** for higher availability
+* Autoscaling workloads driven by real usage
+* Kafka-compatible messaging with **Redpanda**
+* Extended observability (Elastic stack)
+
+These changes are evaluated for **operability**, not just feature coverage.
+
+
+## 🧪 Experiments (Secondary)
+
+* Woodpecker CI (self-hosted pipelines)
+* Gitea (SCM + pipelines)
+
+Used selectively to compare trade-offs against managed tooling.
+
+
+## 🎯 What this lab demonstrates
+
+* End-to-end Kubernetes platform ownership
+* Networking beyond "Kubernetes-only" abstractions
+* Immutable infrastructure patterns
+* GitOps and declarative operations
+* Failure-aware design and recovery paths
+* Comfort operating without safety nets (SSH, UI firewalls, etc.)

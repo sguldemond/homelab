@@ -1,0 +1,9 @@
+keys:
+  - &me age13hp3zvzjr8pvctd99lwhy6wunmcjgkfgjp58amcsykzql400jp3sr5cyht
+
+creation_rules:
+  # Talos machine configs
+  - path_regex: infra/talos/.*\.ya?ml$
+    key_groups:
+      - age:
+          - *me

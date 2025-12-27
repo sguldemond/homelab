@@ -1,0 +1,9 @@
+# Toggle source (env or -e use_tailnet=true). Env wins if set.
+use_tailnet_env: "{{ lookup('env', 'USE_TAILNET') | default('') | lower }}"
+
+ansible_host: >-
+  {{ tailnet_ip if use_tailnet_env in ['1', 'true', 'yes'] else local_ip }}
+
+ansible_user: "stan"
+ansible_become: true
+

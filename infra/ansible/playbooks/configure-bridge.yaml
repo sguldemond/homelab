@@ -1,0 +1,18 @@
+- name: Configure L2 bridge
+  hosts: homelab-new
+  become: true
+  vars:
+    interfaces_path: /etc/netplan/01-br0.yaml
+  tasks:
+    - name: Template netplan YAML 
+      ansible.builtin.template:
+        src: vars/netplan-bridge.yaml.j2
+        dest: "{{ interfaces_path }}"
+        mode: "0644"
+      notify: Apply networking
+
+  handlers:
+    - name: Apply networking
+      ansible.builtin.shell: |
+        netplan apply
+      listen: Apply networking
