@@ -1,7 +1,8 @@
 # 🏠 Homelab — Proxmox · Talos Linux · Kubernetes · VyOS
 
 > **Live cluster view:** [https://homelab.stansyfert.com](https://homelab.stansyfert.com)
-> *(May be unstable — this lab is under active development.)*
+>
+> *(may be unstable — this lab is under active development.)*
 
 This repository documents my **production-inspired Kubernetes homelab**, built to explore **platform engineering, networking, GitOps, and cluster operations** in a realistic environment.
 
