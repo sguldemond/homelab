@@ -22,9 +22,12 @@ if [ -L "$OUTPUT_FILE" ]; then
     rm "$OUTPUT_FILE"
 fi
 
-# Copy README.md to docs/index.md and update the title
+# Copy README.md to docs/index.md and update the title and image paths
 # Replace the first H1 heading with a cleaner title
-sed "1s/^#.*/$NEW_TITLE/" "$INPUT_FILE" > "$OUTPUT_FILE"
+# Fix image paths: ./docs/images/ -> ./images/ (since we're now in docs/)
+sed -e "1s/^#.*/$NEW_TITLE/" \
+    -e 's|\./docs/images/|./images/|g' \
+    "$INPUT_FILE" > "$OUTPUT_FILE"
 
-echo "Copied $INPUT_FILE to $OUTPUT_FILE for mkdocs (title updated to: $NEW_TITLE)"
+echo "Copied $INPUT_FILE to $OUTPUT_FILE for mkdocs (title and image paths updated)"
 
