@@ -1,4 +1,6 @@
-# Journey
+# Journal
+
+---
 
 Added the Gitea Helm chart to the cluster.
 Pods fail to start, cannot pull images from docker.io.
@@ -752,7 +754,8 @@ It is showing when checking all tables, not just `main` (default):
 ```
 
 Usefull:
-```-> % ip route get 192.168.2.1                   
+```
+-> % ip route get 192.168.2.1                   
 192.168.2.1 dev tailscale0 table 52 src 100.109.194.44 uid 1000 
     cache 
 ```
@@ -868,3 +871,6 @@ Btw, I have a backup of the VyOS config using:
 ```
 scp vyos:/config/config.boot /my/path/config.boot
 ```
+
+---
+

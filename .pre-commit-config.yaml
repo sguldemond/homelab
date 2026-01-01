@@ -1,0 +1,19 @@
+repos:
+  - repo: local
+    hooks:
+      - id: revert-journal
+        name: Revert JOURNAL.md to docs/journal.md
+        entry: bash -c 'cd "$(git rev-parse --show-toplevel)" && scripts/revert-journal.sh && git add docs/journal.md 2>/dev/null || true'
+        language: system
+        files: ^JOURNAL\.md$
+        pass_filenames: false
+        always_run: false
+        stages: [pre-commit]
+      - id: prepare-readme-for-mkdocs
+        name: Copy README.md to docs/index.md for mkdocs
+        entry: bash -c 'cd "$(git rev-parse --show-toplevel)" && scripts/prepare-readme-for-mkdocs.sh && git add docs/index.md 2>/dev/null || true'
+        language: system
+        files: ^README\.md$
+        pass_filenames: false
+        always_run: false
+        stages: [pre-commit]
