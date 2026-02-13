@@ -874,3 +874,332 @@ scp vyos:/config/config.boot /my/path/config.boot
 
 ---
 
+The DHCP refresh didn't take place, so I don't have access to my MacBook Pro connected to only Lab LAN.
+
+So I'm doing a little side project where I expose this file via a simple MkDocs setup.
+Hosting it using GitHub Pages, setting up a redirect of homelab.stansyfert.com to the GH Pages of the Homelab repo.
+
+This file will be reverted and the README will be slighly adjusted to render nicely.
+Cursor created some scripts for this which worked and I haven't really looked at, let's see how long those hold up.
+
+For the domain to GH Pages redirect I'm following: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+
+They recommend to add my domain to my GH account, did that, so waiting for DNS records to update:
+https://github.com/settings/pages_verified_domains/stansyfert.com
+
+When that is setup I should follow this: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain
+
+---
+
+Back at it (02-02-2026).
+Want to get an IP on the MBP from the DHCP server running on VyOS VM on the Mac mini.
+After system reboot and `ifreload -a` no luck.
+Would VyOS be handing out IPs correctly?
+
+Connecting my laptop to the LAB switch is also not giving me an IP on the 192.168.2.1/32 subnet.
+so seems like VyOS indeed.
+
+---
+
+I didn't change VyOS (I think).
+On the Ubuntu VM (same machine, but also get both NICs),
+I added a netplan config:
+```
+$ sudo vim /etc/netplan/60-cloud-init.yaml
+network:
+  version: 2
+  ethernets:
+    enp6s19:
+      match:
+        macaddress: "bc:24:11:f9:b9:dc"
+      dhcp4: true
+      set-name: "enp6s19"
+```
+
+Applying it: `sudo netplan apply`,
+gives me a IP address now and I can reach the VyOS and vice versa!
+So DHCP is working on VyOS! Small win there, got me into understanding netplan a bit again.
+
+Looks like the Thunderbolt NIC is not being loaded on the Proxmox OS on Ubuntu,
+so my Ubuntu VM is getting an IP since VyOS is making it available on vmbr1,
+but nic1 is connecting to vmbr1, which I though it was.
+Is this again the badly supported Thunderbolt Ethernet NIC chasing me...?
+
+Success! Got an IP on my laptop, doesn't bode well for my Thunderbolt Ethernet though...
+When it happens again, should look into the logs.
+
+```
+vyos@vyos:~$ show dhcp server leases
+IP Address    MAC address        State    Lease start                Lease expiration           Remaining    Pool    Hostname       Origin
+------------  -----------------  -------  -------------------------  -------------------------  -----------  ------  -------------  --------
+192.168.2.10  bc:24:11:f9:b9:dc  active   2026-02-03 10:38:51+00:00  2026-02-04 10:38:51+00:00  23:41:08     LAB     ubuntu-server  local
+192.168.2.11  bc:24:11:af:6d:02  active   2026-02-03 10:56:00+00:00  2026-02-04 10:56:00+00:00  23:58:17     LAB     talos-v1v-p8m  local
+192.168.2.12  bc:24:11:7c:fb:b6  active   2026-02-03 10:56:19+00:00  2026-02-04 10:56:19+00:00  23:58:36     LAB     talos-j2r-sow  local
+192.168.2.13  00:e0:4c:4d:22:a0  active   2026-02-03 10:56:25+00:00  2026-02-04 10:56:25+00:00  23:58:42     LAB     tp1-ubuntu     local
+```
+
+Looks like the MBP VMs are getting an IP now from VyOS,
+now need to get into the Proxmox UI of the MBP.
+This works, need to install Tailscale on this Proxmox instance as well.
+
+---
+
+Need to setup VyOS so LAB devices can reach the internet.
+I think I need to setup (S)NAT as well as DNS.
+- https://docs.vyos.io/en/latest/quick-start.html#nat
+- https://docs.vyos.io/en/latest/quick-start.html#dhcp-dns-quick-start
+
+I think I've setup NAT correctly, the MBP can reach the internet now:
+```
+set nat source rule 100 outbound-interface name 'eth0'
+set nat source rule 100 source address '192.168.2.0/24'
+set nat source rule 100 translation address masquerade
+```
+Some docs: https://docs.vyos.io/en/latest/configuration/nat/nat44.html#source-nat
+
+Now need to setup DNS!  
+```
+set service dns forwarding cache-size '0'
+set service dns forwarding listen-address '192.168.2.1'
+set service dns forwarding allow-from '192.168.2.0/24'
+```
+This worked as well, domain names now resolve to IPs on the MBP.
+
+---
+
+Decided to already step away from Talos, although cool,
+now want to try RKE2, alternative to K3s.
+
+Talos is working on my MBP, so I'll leave that for now.
+I can use the other Mac mini to try out RKE2.
+
+Just quickly set stuff up:
+- Gave MBP a static IP: 192.168.2.2
+- Advertising 192.168.2.0/24 subnet via VyOS using tailscale (`tailscale set --advertise-routes=192.168.2.0/24`)
+- Accepted routes on Thinkpad (`tailscale set --accept-routes`), no need for physical connection to Lab LAN, should be able to access everything remotely
+- Tested if I can reach my whomai service on Talos, no problems, needed to update the MetalLB routes matching the Lab LAN network
+- Installing Proxmox OS on macmini1, with static IP: 192.168.2.3
+- Mount USB and copy ssh pub key to Proxmox:
+  - mkdir /mnt/usb
+  - mount /dev/sdb5 /mnt/usb
+  - cat /mnt/usb/key.txt >> ~/.ssh/authorized_keys
+- Setup Proxmox cluster on MBP: `pvecm add lab`
+- Added macmnini1 to cluster: `pvecm add 192.168.2.2 --use_ssh 1`
+
+Cluster setup failed, I broke both Proxmox machines, ChatGPT helped me recover them!
+Not trying that again...
+
+---
+
+Setup the second Mac mini with Proxmox running a Ubuntu Cloud image VM with RKE2 installed,
+followed the docs here: https://docs.rke2.io/install/quickstart
+Docs are simple and clear, added the .../bin to PATH, copied the kubeconfig.
+Little confusion when `systemctl start rke2-server` got stuck, printing issues with connection to 127.0.0.1:2379 (etcd),
+but cancelling the operation and starting it again it worked immediatly, maybe some race condition.
+
+Right of the bet, memory usage of the RKE2 master node is quite significant!
+Close to 4GB all together with the node OS (Ubuntu).
+
+Accessing the cluster from my machine it possible using the LAB IP, via the subnet forwarding on VyOS VM.
+Want to install and try out OpenBao, but not gonna bother with Terraform and stuff, just imperativaly.
+
+```
+helm install openbao openbao/openbao -n openbao --create-namespace
+```
+
+OpenBao needs PersistentVolume or default storage class to start a pod:
+```
+  Normal  FailedBinding  11s (x8 over 107s)  persistentvolume-controller  no persistent volumes available for this claim and no storage class is set
+```
+
+Installed: https://github.com/rancher/local-path-provisioner
+Pod is not running.
+
+```
+k exec -it -n openbao openbao-0 -- sh
+$ bao secrets enable kv
+Success! Enabled the kv secrets engine at: kv/
+```
+Docs: https://openbao.org/docs/commands/secrets/enable/
+
+```
+/ $ bao kv put secret/my-first-secret name=stansyfert
+======= Secret Path =======
+secret/data/my-first-secret
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2026-02-06T13:20:07.449345348Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+```
+
+Want to load scecret into pod using CSI driver: https://openbao.org/docs/platform/k8s/csi/examples/
+
+Installed CSI Secret Store Driver: https://secrets-store-csi-driver.sigs.k8s.io/getting-started/installation,
+and created SecretProviderClass pointing to my-first-secret.
+
+Had to enable the Openbao CSI provider in Helm install:
+```
+...
+csi:
+  enabled: true
+```
+upgrade release:
+```
+helm upgrade openbao openbao/openbao -n openbao -f ~/Development/DevOps/homelab/projects/openbao/values.yaml
+```
+
+Now getting:
+```
+  Warning  FailedMount  3s (x5 over 11s)  kubelet            MountVolume.SetUp failed for volume "openbao-first-secret" : rpc error: code = Unknown desc = failed to mount secrets store objects for pod openbao/demo-app-5574d78dc4-rhw9v, err: rpc error: code = Unknown desc = error making mount request: couldn't read secret "my-first-secret": failed to login: Error making API request.
+```
+
+I think secret path should be: `secretPath: "secret/my-first-secret"`,
+based on this:
+```
+/ $ bao kv get secret/data/my-first-secret
+No value found at secret/data/data/my-first-secret
+/ $ bao kv get secret/my-first-secret
+======= Secret Path =======
+secret/data/my-first-secret
+...
+```
+
+Still not working after recreating the SecretProviderClass,
+maybe it has to do with the "failed to login" part.
+
+creates SA:
+```
+k create sa -n openbao demo-app
+```
+
+```
+bao auth enable kubernetes
+bao write auth/kubernetes/role/demo-app \
+    bound_service_account_names=demo-app \
+    bound_service_account_namespaces=openbao \
+    policies=default \
+    ttl=1h
+```
+
+New error:
+```
+│   Warning  FailedMount  26s   kubelet            MountVolume.SetUp failed for volume "openbao-first-secret" : rpc error: code = DeadlineExceeded desc = failed to mount secrets store obje │
+│ cts for pod openbao/demo-app-6f8bf7fb98-245b5, err: rpc error: code = DeadlineExceeded desc = error making mount request: couldn't read secret "my-first-secret": failed to login: context │
+│  deadline exceeded
+```
+
+Seeing this in the openbao-0 logs, might be related:
+```
+
+WARNING! dev mode is enabled! In this mode, OpenBao runs entirely in-memory
+and starts unsealed with a single unseal key. The root token is already
+authenticated to the CLI, so you can immediately begin using OpenBao.
+
+You may need to set the following environment variables:
+
+    $ export BAO_ADDR='http://[::]:8200'
+
+The unseal key and root token are displayed below in case you want to
+seal/unseal the Vault or re-authenticate.
+
+Unseal Key: ma7kWLthWXy/4XOCCJcLHo4GTtFDnp2t8jn9L+E9jvQ=
+Root Token: root
+
+Development mode should NOT be used in production installations!
+```
+
+---
+
+Been talking with ChatGPT for a while!
+Result is that I want to install Fedora CoreOS on macmini1,
+with k3s (probably).
+Also instead of a static IP VyOS should make a DHCP reservation for the macmini1 mac address:
+```
+vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 mac '0c:4d:e9:9a:70:aa'
+vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 ip '192.168.2.20'
+vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 description 'macmini1-coreos'
+```
+
+For CoreOS I'm using the Ignition feature to bootstrap the server,
+this JSON file can be generated from a Butane YAML file,,
+docs: https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/
+
+Call this in the same directory as the Butane file:
+```
+alias butane='podman run --rm --interactive         \
+              --security-opt label=disable          \
+              --volume "${PWD}:/pwd" --workdir /pwd \
+              quay.io/coreos/butane:release'
+butane --pretty --strict macmini1-butane.yaml > macmini1.ign
+```
+
+Installing CoreOS on Mac mini,
+had to unset some LVM stuff (not sure what, LLM told me what to do),
+after /dev/sda3 was being busy.
+
+after I ran:
+```
+sudo widefs -a /dev/sda
+```
+because on this forum someone needed to do that:
+https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7
+
+Install worked, but my user had no password,
+so reinstalling.
+This time serving the Ignition file (macmini1.ign) from my laptop:
+```
+butane --pretty --strict macmini1-butane.yaml > macmini1.ign
+python3 -m http.server 8080
+```
+
+From the coreos installer:
+```
+sudo coreos-installer install /dev/sda --insecure-ignition --ignition-url http://192.168.1.179:8080/macmini1.ign
+```
+This way I don't have to add the .ign file to the USB again,
+which I did the first time, I mounted the seperate USB partition locally:
+```
+sudo mkdir -p /mnt/usb
+sudo mount /dev/sda3 /mnt/usb
+```
+
+So far no issues with installing CoreOS on the Mac mini 2012,
+seems to run fine, which is exciting,
+this type of bootstrap booting and serving the config over HTTP,
+was what I was trying way back in the beginning of my Homelab journey with Ubuntu,
+that didn't work so smoothly, or at all really,
+I learned a bit about CloudInit and cloud images though, still usefull.
+
+Re-leasing the IP on VyOS is still a bit of a puzzle.
+This did work:
+```
+vyos@vyos:~$ clear dhcp-server lease 192.168.2.24
+Lease "192.168.2.24" has been cleared
+```
+Mac mini still has this IP though.
+
+The static IP I chose, was already taken by other machine.
+Changed it to: 191.168.2.60,
+removed the lease on VyOS,
+reconnected the eth device on CoreOS:
+```
+sudo nmcli device disconnect enp1s0f0 && sudo nmcli device connect enp1s0f0
+```
+
+---
+
+Installing k3s on CoreOS Mac mini now...
+with no issues at all,
+can access the k3s node from my laptop, also added some extra tls-san:
+```
+tls-san:
+  - "macmini1"
+  - "macmini1.tail9271d2.ts.net"
+  - "100.69.168.103"
+  - "192.168.2.60"
+```

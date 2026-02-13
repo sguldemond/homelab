@@ -1,3 +1,5 @@
 site_name: Homelab - Stan Syfert
 theme:
   name: terminal
+nav:
+  - Home: index.md

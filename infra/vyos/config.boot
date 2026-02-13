@@ -24,10 +24,26 @@ interfaces {
     loopback lo {
     }
 }
+nat {
+    source {
+        rule 100 {
+            outbound-interface {
+                name "eth0"
+            }
+            source {
+                address "192.168.2.0/24"
+            }
+            translation {
+                address "masquerade"
+            }
+        }
+    }
+}
 service {
     dhcp-server {
         shared-network-name LAB {
             subnet 192.168.2.0/24 {
+                lease "86400"
                 option {
                     default-router "192.168.2.1"
                     name-server "192.168.2.1"
@@ -36,8 +52,20 @@ service {
                     start "192.168.2.10"
                     stop "192.168.2.100"
                 }
+                static-mapping macmini1 {
+                    description "macmini1-coreos"
+                    ip-address "192.168.2.60"
+                    mac "0c:4d:e9:9a:70:aa"
+                }
                 subnet-id "1"
             }
+        }
+    }
+    dns {
+        forwarding {
+            allow-from "192.168.2.0/24"
+            cache-size "0"
+            listen-address "192.168.2.1"
         }
     }
     ntp {

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: openbao
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: demo-app
+    spec:
+      serviceAccountName: demo-app
+      containers:
+        - name: app
+          image: nginx:latest
+          volumeMounts:
+            - name: 'openbao-first-secret'
+              mountPath: '/mnt/secrets-store'
+              readOnly: true
+      volumes:
+        - name: openbao-first-secret
+          csi:
+            driver: 'secrets-store.csi.k8s.io'
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: 'openbao-first-secret'

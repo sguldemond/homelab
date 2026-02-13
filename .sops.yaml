@@ -7,3 +7,8 @@ creation_rules:
     key_groups:
       - age:
           - *me
+  # CoreOS machine configs
+  - path_regex: projects/coreos/.*\.(ya?ml|json|ign)$
+    key_groups:
+      - age:
+          - *me

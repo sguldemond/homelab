@@ -1,0 +1,5 @@
+tls-san:
+  - "macmini1"
+  - "macmini1.tail9271d2.ts.net"
+  - "100.69.168.103"
+  - "192.168.2.60"
