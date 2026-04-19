@@ -1203,3 +1203,14 @@ tls-san:
   - "100.69.168.103"
   - "192.168.2.60"
 ```
+
+---
+
+Want to install CoreOS on the MBP as well, to setup two node cluster with k3s.
+The motivation is to experiment with the combo of MetalLB and OVN-kubernetes.
+I want to recreate the egress bug that occurs when combining these.
+A OVN EgressService might be the anwer.
+Also I want to experiment with tracing packets and analyzing topology of OVN/OVS.
+Tools I want to use: nc (netcat), tcpdump, ovs-<>cli, ovn-<>cli.
+
+Extending this repo, e.g. SOPS settings, SSH keys, to also develop on my Devoteam laptop.
