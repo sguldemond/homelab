@@ -109,6 +109,10 @@ system {
         }
         user stan {
             authentication {
+                public-keys devo-hp-fedora {
+                    key "AAAAC3NzaC1lZDI1NTE5AAAAIOD37/sEc6hPrsZw7xgVKN+Ln9Ug6jpP8UKkNsqhBdOr"
+                    type "ssh-ed25519"
+                }
                 public-keys stan@tp1-ubuntu {
                     key "AAAAB3NzaC1yc2EAAAADAQABAAABgQDPKFMbjStE5sjG2Q5z3ovmbB3hTj85E4FtIC46T8NSHWDqCbMEpdN4AP2UZEjdf8tBS+LH5EGeQEQD1DTGScPodOloeU9/2OHHrjD066qIjYGa/2AWwdbnOSNxGY0sOFW//RojO8DeoK4fhWHunTbgxbzpuqFegmttyRrIkiaTQilBuIPM0Z52Dh9o1aLDnXBBScoz/txvVspNSqTgXWELO5TM3guHWaQhtHt5nEMksd0wmbtXmDu3aBXOQoQv2t1s3JIzyDk1wPLEfeiwXRM92yXv/pyV8Ww3UhdvDFol9MO00FDRQzaC6iKUQmIB2WhccSb/OgrCiG0gLnCrKGoAnDzpalTy1Ytq5zH+wVl+kfCSqTnId+9fXly5wK5LTw39P/T8VqbbQqi3s489Evh+wUOuy07NziF5fSwHzHYOP0Kz0bcKNoPb+SKIyC55HKOfsLR98JLdvEghYcDgntkQOAfTf3eYGzu2dUR3cw5JByD8lAtUZL5rJ0H+r1WEvJU="
                     type "ssh-rsa"
