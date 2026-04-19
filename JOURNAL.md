@@ -1144,7 +1144,7 @@ after /dev/sda3 was being busy.
 
 after I ran:
 ```
-sudo widefs -a /dev/sda
+sudo wipefs -a /dev/sda
 ```
 because on this forum someone needed to do that:
 https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7
@@ -1214,3 +1214,64 @@ Also I want to experiment with tracing packets and analyzing topology of OVN/OVS
 Tools I want to use: nc (netcat), tcpdump, ovs-<>cli, ovn-<>cli.
 
 Extending this repo, e.g. SOPS settings, SSH keys, to also develop on my Devoteam laptop.
+Hello world, from the Devoteam laptop (devo-hp-fedora).
+Got my age file on here, so can decrypt my sops encrypted files with that!
+Added sops bin here: `~/.local/bin`.
+
+Copied macmini1 butane file, eventhough is 99% the same, only hostname is different...
+```
+sops -d macmini1-butane.yaml > ../mbp/mbp-butane.yaml
+```
+
+Running Butane on Atomic Fedora
+```
+alias butane='podman --remote run --rm --interactive         \
+              --security-opt label=disable          \
+              --volume "${PWD}:/pwd" --workdir /pwd \
+              quay.io/coreos/butane:release'
+butane --pretty --strict mbp-butane.yaml > mbp.ign
+```
+
+Serving mbp.ign butane on network, added MBP to Home LAN network for now:
+```
+python3 -m http.server
+```
+
+Has to to run `sudo wipefs -af /dev/sda` after error, simulair to mm1 install.
+Importantly had to reboot after, then install worked.
+Also important to not serve the encrypted ignition file!
+
+Installed CoreOS on MBP, now need to SSH into it, first get its IP.
+Then init tailscale, should be already installed.
+After first boot, CoreOS auto reboots with Tailscale added to rpm-ostree!
+```
+sudo systemctl enable --now tailscaled
+sudo tailscale up
+```
+Disabled expiration key in Tailscale UI.
+
+Need to disable sleep on lid close and such still!
+Need to edit `/usr/lib/systemd/logind.conf`, and set ignore on HandleLidSwitch settings,
+but can't edit that in Atomic CoreOS.
+
+Added file:
+```
+sudo vi /etc/systemd/logind.conf.d/lid.conf
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+```
+Restart and check config:
+```
+sudo systemctl restart systemd-logind
+systemd-analyze cat-config systemd/logind.conf
+```
+I added this to the Butane file, but untested!
+
+MBP is up with CoreOS and Lid fix,
+I can access k3s cluster on macmini1.
+
+Need to setup k3s in mm1 without flannel and prepare for OVN-kubernetes,
+then add mbp to the cluster,
+then add MetalLB.
