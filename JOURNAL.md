@@ -1275,3 +1275,18 @@ I can access k3s cluster on macmini1.
 Need to setup k3s in mm1 without flannel and prepare for OVN-kubernetes,
 then add mbp to the cluster,
 then add MetalLB.
+
+---
+
+Deployed OVN using Helm, Pods are not starting!
+
+One ovnkube-node pod is requesting more access:
+```
+│ ovnkube-controller E0419 14:57:15.198150   21349 reflector.go:204] "Failed to watch" err="failed to list *v1.Pod: pods is forbidden: User \"system:serviceaccount:ovn-kubernetes:ovnkube-node\" cannot list resource \"pods\" in API gro │
+```
+
+Running helm install from ovn-kubernetes repo:
+```
+cd /home/stan/Documents/ovn-kubernetes/helm/ovn-kubernetes
+helm upgrade --install ovn-kubernetes . -f ~/Documents/Homelab/homelab/projects/ovn-kubernetes/values.yaml
+```
