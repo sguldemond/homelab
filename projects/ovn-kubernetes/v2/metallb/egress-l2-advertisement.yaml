@@ -6,8 +6,8 @@ metadata:
 spec:
   ipAddressPools:
     - egress-pool
-  # OVN-kubernetes automatically labels the selected node with this key.
-  # MetalLB uses it to know which node should announce the egress IP.
-  nodeSelectors:
-    - matchLabels:
-        egress-service.k8s.ovn.org/default-go-echo-service: ""
+  # Pin to OVN bridge interfaces so ARP goes out on the physical network.
+  # externalTrafficPolicy: Local on services handles node selection automatically.
+  interfaces:
+    - brenp1s0f0
+    - brens9

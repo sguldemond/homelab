@@ -9,7 +9,7 @@ metadata:
     app: tcp-echo
     system: example
 spec:
-  externalTrafficPolicy: Local # redundent, but works
+  externalTrafficPolicy: Local
   selector:
     app: tcp-echo
   ports:

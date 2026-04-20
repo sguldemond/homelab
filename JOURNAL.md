@@ -1466,3 +1466,20 @@ Claude created v3, but issues BGP setup...
 Restarting VyOS BGP setup without ip-range, but hard coded neighbours (nodes).
 Neighbours setup, Netcat works!
 
+I want to learn to trace the packet getting stuck in v1.
+I just got a speed course on how to trace packets.
+
+Start a tcpdump on vyos:
+```
+stan@vyos:~$ tcpdump -i eth1 -n host 192.168.2.120
+```
+
+Add a debug container to Kong Pod:
+```
+kubectl debug -it -n default tcp-echo-deployment-6d977d7788-qzt5j --image=nicolaka/netshoot
+```
+Send a TCP packet using netcat from the Kong pod:
+```
+$ nc 192.168.1.108 2701
+```
+
