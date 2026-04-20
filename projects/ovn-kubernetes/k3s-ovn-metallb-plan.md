@@ -89,7 +89,7 @@ sudo cat /var/lib/rancher/k3s/server/node-token
 ```bash
 curl -sfL https://get.k3s.io | \
   K3S_URL=https://192.168.2.60:6443 \
-  K3S_TOKEN=<token-from-mm1> \
+  K3S_TOKEN=$NODE_TOKEN \
   sh -
 ```
 

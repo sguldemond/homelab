@@ -1306,3 +1306,134 @@ sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
 
 I have no DNS resolution on the macmini1...
 DNS works after reboot, but then stops working...
+
+---
+
+Looks like OVS is interfering with the machine DNS settings, interesting!
+
+OVN in shared gateway mode has token over my default eth NIC and bridged it:
+- original: enp1s0f0
+- bridge: brenp1s0f0
+
+Fix is to setup a global DNS on the machine via systemd-resolve:
+```
+sudo mkdir -p /etc/systemd/resolved.conf.d/
+sudo vi /etc/systemd/resolved.conf.d/global-dns.conf
+[Resolve]
+DNS=192.168.2.1
+FallbackDNS=1.1.1.1
+sudo systemctl restart systemd-resolved
+```
+
+DNS works now!
+Creating toolbox on macmini CoreOS to install ovs cli tools,
+not working getting stuck somewhere...
+
+Also disabling NetworkManager from managing the original NIC (enp1s0f0),
+since both it and the bridge (brenp1s0f0) has the same Lab LAN IP assigned,
+they were fighting over it.
+
+Going to add the MBP as node!
+Forgot to connect the MBP to Lab LAN, was still on Home LAN, rebooting.
+Probably need to do some k3s config to fix the IP of the node settings.
+Being naief, just re-applied the k3s install script...
+
+k3s-agent service:
+```
+Apr 20 08:37:05 mbp k3s[1258]: time="2026-04-20T08:37:05Z" level=error msg="Failed to validate connection to cluster at https://192.168.2.60:6443: token CA hash does not match the Cluster CA certificate hash: cfa9469b9905033c4c83bf18552d02ea64e699161e60ca4a09000f039275590b != eaf527c32542105452c6abf0c917a028813d6ee5b3ddc46d1c1b9ec776d19a9a"
+```
+
+Used the node-token of my fedora laptop, not the macmini...
+Having all Fedora based systems, same k3s, same username, easy to confuse.
+
+Node added and Ready!
+Want to make control-plane node not UnSchedulable and add make the second node a proper worker node.
+```
+kubectl taint nodes macmini1 node-role.kubernetes.io/control-plane:NoSchedule
+kubectl label node mbp node-role.kubernetes.io/worker=worker
+```
+
+Same issue with CNI binaries on mbp!
+```
+sudo mkdir -p /opt/cni/bin
+sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
+```
+And after this the DNS issue pops up!
+Redoing the systemd-resolve > global-dns > restart, added it to Butane of mbp as well.
+
+mm1 node got pod subnet: 10.42.55.0/24
+mbp node got pod subnet: 10.42.0.0/24
+
+The values.yaml annotation for OVN `podNetwork: 10.42.0.0/16/24`,
+means that each node will get its own 16-base subnet: 10.42.x.x,
+per node all addresses within that are then 24-base: 10.42.<node-range>.x
+
+Moving Kong Deployment and Service from DaedalusPlatform/k3s_collection here,
+to first test access without MetalLB.
+Starting with the kong/go-echo deployment, with a Port Forward (via k9s) to test TCP and UDP using netcat:
+```
+nc localhost 2701
+nc -u localhost 2701
+```
+TCP response looks good, no response UDP, since port-forward does not support UDP.
+Exposing deployment manually:
+```
+kubectl expose deployment tcp-echo-deployment --type=NodePort --port=2701 --protocol=UDP --name=go-echo-udp
+kubectl get svc go-echo-udp
+echo "hello" | nc -u 192.168.2.60 <nodeport>
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+In namespace default.
+With IP address 10.42.0.6.
+Service account default.
+hello
+```
+Need to send data over UDP first!
+
+Installing MetalLB:
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
+```
+
+Added IPPool and L2 advertisment, created kong-echo-service,
+which gets IP from MetalLB: 192.168.2.111.
+Now trying netcat again:
+```
+nc 192.168.2.111 2701
+echo "hello" | nc -u 192.168.2.111 2701
+```
+
+Cannot reach 192.168.2.111 from my machine, lets check VyOS,
+also not, so IP is assigned my MetalLB, but not properly advertised to router/DHCP?
+
+MetalLB speaker sending ARP over wrong interface, default NIC instead of the bridge?
+Added bridge interfaces to L2 advertisment definition, so ARP will be sent over bridges.
+
+Something is happening, redirecting, but ping (ICMP) not working, since not exposed by service:
+```
+stan@vyos:~$ ping 192.168.2.111
+PING 192.168.2.111 (192.168.2.111) 56(84) bytes of data.
+From 192.168.2.11: icmp_seq=2 Redirect Host(New nexthop: 192.168.2.111)
+```
+traceroute:
+```
+stan@vyos:~$ traceroute 192.168.2.111
+traceroute to 192.168.2.111 (192.168.2.111), 30 hops max, 60 byte packets
+ 1  192.168.2.11 (192.168.2.11)  2.822 ms  2.705 ms  2.675 ms
+ 2  192.168.2.11 (192.168.2.11)  3057.553 ms !H  3057.578 ms !H  3057.547 ms !H
+```
+Second hop meaning, host unreachable,
+we've seemed to have reach the bug, UDP is working!
+```
+⬢ [stan@toolbx ovn-kubernetes]$ echo "hello" | nc -u 192.168.2.111 2701
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+In namespace default.
+With IP address 10.42.0.6.
+Service account default.
+hello
+```
+
+
+
+

@@ -1,0 +1,14 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: homelab-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - homelab-pool
+  # OVN-kubernetes bridges the physical NIC into an OVS bridge per node.
+  # MetalLB must send ARP on the bridge (not the physical NIC) to reach the LAN.
+  # mm1: brenp1s0f0, mbp: brens9
+  interfaces:
+    - brenp1s0f0
+    - brens9

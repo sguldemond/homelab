@@ -27,6 +27,10 @@ storage:
           mode: ENC[AES256_GCM,data:N8rA,iv:H2K+SGsAGLmf5OPZ0OdMHTNRJmt8YWTjxQwNMKNwEYo=,tag:B5MkWXMrml6Kpxb0Helo5A==,type:int]
           contents:
             inline: ENC[AES256_GCM,data:+jl4m0bMqX3s7Z2MD04woJzBAH7jFyBeWKfgQxINBgFwoKi4U0/IMwmJyda/KhMYUC4zWQc+FXreJn3Om/wir5gXmMizbsH7UZ8DPuHPrAk+tbzQ/odPBCQTiO9FW4HA,iv:oHw7iAzvSWSpqCziAjQGOjWW8Mfzbqzg2rIpF14+owY=,tag:3myDjS7Bz2ZoVO7FRV3EjA==,type:str]
+        - path: ENC[AES256_GCM,data:2fAwOFDMcUG6OvjNeuYkSIIyOXvql1+/lP3CE9nGiDPdPtCW7iS1k/raDPQ=,iv:H9Sxi5lmUovTgr9PPk//pecsGjQRHVmBsM1UPq8rIu4=,tag:T8QGH3wufJNo4nfzvxzsNQ==,type:str]
+          mode: ENC[AES256_GCM,data:N8rA,iv:H2K+SGsAGLmf5OPZ0OdMHTNRJmt8YWTjxQwNMKNwEYo=,tag:B5MkWXMrml6Kpxb0Helo5A==,type:int]
+          contents:
+            inline: ENC[AES256_GCM,data:+FxDJO+lnBqXAbMHhDC8hhAFRPgSu1r0zZ+YQtXhd3usD8flIEH6nIAtnLHdPQ==,iv:i4rhI9ERIPHTe7OPW6s6EAklOFOl17fwjsubZZE2A9E=,tag:VaqYte+8vogF01AzYIjUcg==,type:str]
 systemd:
     units:
         - name: ENC[AES256_GCM,data:d63R+J39axnzCbCZ+G45VdFfd1U=,iv:ESrr9N8nZcoJ50bhWWOFG0LadK0jFjkobN6NqqxxL+U=,tag:YJgMPVt/1OYeF8QHIsobMw==,type:str]
@@ -47,7 +51,7 @@ sops:
             UE14K3JRaXoyeSswdUxYS3Jyd0VlaUkKhkNZFbX2m0I/vDidOrlViYNl83D/yjk+
             6iXC1+S9W8XpFqlrIVjc+p73b0w6pd0HwBRS8ft6fijMPqE01MYscg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-04-19T13:44:27Z"
-    mac: ENC[AES256_GCM,data:tEujX0GRXvO8wc3sgFyF6vF/OtsbTKTHPcxuXQ9zV074IkJqH88qQgCRyy9yL+UGkuKQoGSm9rBAUu0oX6QZc5Ah7LSnMNVBYbNg5ucNrP0Sso1dRg8lO3GqLNKakRyPxuBDJjz6Z2dzPk2ySizkq7C4hjzZlAGEXL5Or1DlHqs=,iv:sshR6kwo06jcYGjZTTRJP5cq1nZn/tYOwNeY3zdJF40=,tag:UG+lGJ1Qixrj06/c0lL4UQ==,type:str]
+    lastmodified: "2026-04-20T08:56:56Z"
+    mac: ENC[AES256_GCM,data:NgUlg5jXOzRcn8tQHfSr18wXqNoTEsBmS1CRUUK8EZMad4O0lOtRywzltliS5kHHqeGmNHlk+0AJuqHOrrHAQQBa3eQx+KUCDh6T5ncPTrwMM4eyFQmFIeK4pRo2DkIGYvMNSb36UndVSl1ZvqlBdTsR0RSDyI5M2hoIO9BH8rI=,iv:RkfcHp38Y7AlTKwhD3KDLpa+Un3mDFXtKdSqWgtSANM=,tag:x38fUQWA9HjLDmz/h0k51A==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.12.2
