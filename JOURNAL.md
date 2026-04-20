@@ -1290,3 +1290,19 @@ Running helm install from ovn-kubernetes repo:
 cd /home/stan/Documents/ovn-kubernetes/helm/ovn-kubernetes
 helm upgrade --install ovn-kubernetes . -f ~/Documents/Homelab/homelab/projects/ovn-kubernetes/values.yaml
 ```
+
+Test pod was not being created, error on events:
+```
+Warning  FailedCreatePodSandBox  6s    kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "8781ec838472431a04d303c02131ff01f5e27506367dd5 │
+│ 3b3aee4e6b1452e1f7": plugin type="loopback" failed (add): failed to find plugin "loopback" in path [/opt/cni/bin]
+```
+
+k3s manages cni binaries, but with Flannel disabled, these binaries are not present,
+quick fix:
+```
+sudo mkdir -p /opt/cni/bin
+sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
+```
+
+I have no DNS resolution on the macmini1...
+DNS works after reboot, but then stops working...
