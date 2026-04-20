@@ -39,6 +39,34 @@ nat {
         }
     }
 }
+protocols {
+    bgp {
+        neighbor 192.168.2.11 {
+            address-family {
+                ipv4-unicast {
+                }
+            }
+            description "mbp"
+            remote-as "64512"
+        }
+        neighbor 192.168.2.60 {
+            address-family {
+                ipv4-unicast {
+                }
+            }
+            description "mm1"
+            remote-as "64512"
+        }
+        peer-group k8s-nodes {
+            address-family {
+                ipv4-unicast {
+                }
+            }
+            remote-as "64512"
+        }
+        system-as "64513"
+    }
+}
 service {
     dhcp-server {
         shared-network-name LAB {

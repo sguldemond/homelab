@@ -1458,6 +1458,11 @@ So a LB Service on worker1 with Deployment on worker1 will expose an IP from the
 Claude did not add `externalTrafficPolicy: Local` to the v2 service,
 since setup defacto implements this behavior.
 I want to set it to see what happens anyway.
-Manuallu changes it via k9s, still works!
+Manually changes it via k9s, still works!
 
+Creating v3 where we use BGP mode, lets keep going!
+Claude created v3, but issues BGP setup...
+
+Restarting VyOS BGP setup without ip-range, but hard coded neighbours (nodes).
+Neighbours setup, Netcat works!
 

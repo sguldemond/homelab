@@ -1,0 +1,7 @@
+apiVersion: k8s.ovn.org/v1
+kind: EgressService
+metadata:
+  name: go-echo-service  # must match the Service name
+  namespace: default
+spec:
+  sourceIPBy: LoadBalancerIP

@@ -1,0 +1,11 @@
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-adv
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - bgp-pool
+  # No nodeSelector needed — BGP speakers only advertise routes for IPs
+  # assigned to their node, so routing is handled naturally without
+  # the per-service label coupling required in L2 mode.
