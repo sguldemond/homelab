@@ -8,6 +8,7 @@ metadata:
     system: example
 spec:
   externalTrafficPolicy: Local
+  # externalTrafficPolicy: Cluster
   selector:
     app: tcp-echo
   ports:

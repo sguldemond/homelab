@@ -1,0 +1,13 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: egress-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - egress-pool
+  # OVN-kubernetes automatically labels the selected node with this key.
+  # MetalLB uses it to know which node should announce the egress IP.
+  nodeSelectors:
+    - matchLabels:
+        egress-service.k8s.ovn.org/default-go-echo-service: ""

@@ -1434,6 +1434,30 @@ Service account default.
 hello
 ```
 
+Yeah, setting `externalTrafficPolicy: Cluster` on kong-echo-service works:
+```
+⬢ [stan@toolbx ovn-kubernetes]$ nc 192.168.2.111 2701
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+```
 
+Moved the "bugged" setup to v1 dir,
+starting EgressService fix in v2 dir.
+
+Claude Code filled the v2 dir with new setup,
+where MetalLB + OVN + Kong Service + EgressService are all in relationship.
+It works! But it is now tightly coupled.
+
+The question is why `externalTrafficPolicy: Local` was placed on the Service?
+Is there a specific reason why ingress and egress has to be from the same node?
+If not a wider L2Advertisement can be implemented,
+where egress might be from a different node then the ingress.
+Otherwise BGP can be implemented, where the speaker on the node only advertises routes it owns.
+So a LB Service on worker1 with Deployment on worker1 will expose an IP from there, promising ingress and egress from that node.
+
+Claude did not add `externalTrafficPolicy: Local` to the v2 service,
+since setup defacto implements this behavior.
+I want to set it to see what happens anyway.
+Manuallu changes it via k9s, still works!
 
 
