@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,10 +16,21 @@ spec:
   ports:
     - name: tcp
       protocol: TCP
-      port: 2701
-      targetPort: 2701
+      port: 1025
+      targetPort: 1025
     - name: udp
       protocol: UDP
-      port: 2701
-      targetPort: 2701
+      port: 1025
+      targetPort: 1025
   type: LoadBalancer
+---
+apiVersion: k8s.ovn.org/v1
+kind: EgressService
+metadata:
+  name: go-echo-service  # must match the Service name
+  namespace: default
+spec:
+  sourceIPBy: LoadBalancerIP
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/worker: worker

@@ -25,9 +25,9 @@ spec:
         imagePullPolicy: Always
         env:
         - name: TCP_PORT
-          value: '2701'
+          value: '1025'
         - name: UDP_PORT
-          value: '2701'
+          value: '1025'
         - name: NODE_NAME
           valueFrom:
             fieldRef:
@@ -50,7 +50,7 @@ spec:
               fieldPath: spec.serviceAccountName
         ports:
         - name: tcp-echo-port
-          containerPort: 2701
+          containerPort: 1025
         - name: udp-echo-port
           protocol: UDP
-          containerPort: 2701
+          containerPort: 1025

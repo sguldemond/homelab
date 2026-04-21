@@ -1,0 +1,91 @@
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: vyos-router
+  namespace: metallb-system
+spec:
+  myASN: 64512
+  peerASN: 64513
+  peerAddress: 192.168.2.1
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: bgp-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.2.130-192.168.2.140
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-adv
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - bgp-pool
+  # No nodeSelector needed — BGP speakers only advertise routes for IPs
+  # assigned to their node, so routing is handled naturally without
+  # the per-service label coupling required in L2 mode.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socat-echo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socat-echo
+  template:
+    metadata:
+      labels:
+        app: socat-echo
+    spec:
+      containers:
+        - name: tcp-echo
+          image: alpine/socat
+          args: ["TCP4-LISTEN:8000,fork,reuseaddr", "PIPE"]
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+        # - name: udp-echo
+        #   image: alpine/socat
+        #   args: ["UDP4-LISTEN:8000,fork,reuseaddr", "PIPE"]
+        #   ports:
+        #     - containerPort: 8000
+        #       protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socat-echo-service
+  namespace: default
+  annotations:
+    metallb.universe.tf/address-pool: bgp-pool
+spec:
+  externalTrafficPolicy: Local
+  selector:
+    app: socat-echo
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+    - name: udp
+      protocol: UDP
+      port: 8000
+      targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: k8s.ovn.org/v1
+kind: EgressService
+metadata:
+  name: socat-echo-service  # must match the Service name
+  namespace: default
+spec:
+  sourceIPBy: LoadBalancerIP

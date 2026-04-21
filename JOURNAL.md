@@ -1483,3 +1483,21 @@ Send a TCP packet using netcat from the Kong pod:
 $ nc 192.168.1.108 2701
 ```
 
+---
+
+Mac mini lost connection in the morning.
+
+alpine/socat deployment, lb service and egressservice running:
+```
+⬢ [stan@toolbx stan]$ nc -zv 192.168.2.120 2701
+Connection to 192.168.2.120 2701 port [tcp/sms-rcinfo] succeeded!
+⬢ [stan@toolbx stan]$ echo "hello" | nc -uzv 192.168.2.120 2701
+Connection to 192.168.2.120 2701 port [udp/sms-rcinfo] succeeded!
+```
+
+After changing TCP port to 1025 and UDP to 1026,
+TCP stopped working.
+Reverting back to both ports set to 2701, TCP stopped working, UDP still works.
+OVN caching some routes???
+
+TCP and UDP have to be exposed 

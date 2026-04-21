@@ -1,0 +1,32 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: bgp-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.2.130-192.168.2.140
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: vyos-router
+  namespace: metallb-system
+spec:
+  myASN: 64512
+  peerASN: 64513
+  peerAddress: 192.168.2.1
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-adv
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - bgp-pool
+  # No nodeSelector needed — BGP speakers only advertise routes for IPs
+  # assigned to their node, so routing is handled naturally without
+  # the per-service label coupling required in L2 mode.

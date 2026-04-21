@@ -1,3 +1,13 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: homelab-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.2.110-192.168.2.200
+---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
@@ -12,3 +22,4 @@ spec:
   interfaces:
     - brenp1s0f0
     - brens9
+---
