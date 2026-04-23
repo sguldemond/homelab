@@ -1500,4 +1500,17 @@ TCP stopped working.
 Reverting back to both ports set to 2701, TCP stopped working, UDP still works.
 OVN caching some routes???
 
-TCP and UDP have to be exposed 
+TCP and UDP have to be exposed...
+
+---
+
+Lost connection to Homelab, Mac mini and MBP keep disconneting after some time.
+Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
+DHCP-lease is expiring on the NIC interface,
+OVN took over the NIC with its bridge, inherits its IP for a while,
+but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
+so therefor drops it. NIC interface looses IP, OVN bridge gets internal IP assigned, 169.254.0.2.
+
+Solution would be to set status IP, either on the bridge,
+or perhaps to assign static IP from VyOS to the bridge MAC.
+

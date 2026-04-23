@@ -25,7 +25,8 @@ skipCallToK8s: false
 global:
   extGatewayNetworkInterface: ""
   encapPort: 6081
-  gatewayMode: shared
+  # Originally `shared` mode, this was breaking the Egress flow!
+  gatewayMode: local
   gatewayOpts: ""
   unprivilegedMode: false
   v4JoinSubnet: "100.64.0.0/16"
