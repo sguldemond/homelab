@@ -1514,3 +1514,4 @@ so therefor drops it. NIC interface looses IP, OVN bridge gets internal IP assig
 Solution would be to set status IP, either on the bridge,
 or perhaps to assign static IP from VyOS to the bridge MAC.
 
+Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
