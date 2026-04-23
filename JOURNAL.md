@@ -1515,3 +1515,14 @@ Solution would be to set status IP, either on the bridge,
 or perhaps to assign static IP from VyOS to the bridge MAC.
 
 Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
+Added static IPs to Butane files as well, but for now did:
+```
+sudo nmcli con modify "Wired connection 1" ipv4.method manual ipv4.addresses 192.168.2.60/24 ipv4.gateway 192.168.2.1 ipv4.dns 192.168.2.1
+```
+
+Rebooting the node sets all the NIC and its OVN bridge up more stable it seems.
+Only the bridge has the static IP, although on startup it is first the NIC, then OVN takes over.
+Interestingly if you restart NetworkManager via systemctl, the NIC interface gets backs its IP,
+I think this won't be a problem, since there is no lease issue anymore.
+Its just NetworkManager and OVN fighting a bit over managing the interfaces.
+
