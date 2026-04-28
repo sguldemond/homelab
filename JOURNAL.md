@@ -29,7 +29,7 @@ Setting up GitHub via OAuth client app.
 Added these env vars:
 ```
 WOODPECKER_GITHUB: "true"
-WOODPECKER_GITHUB_CLIENT: Ov23lifIEwbb8eRsQl4Y
+WOODPECKER_GITHUB_CLIENT: <github-oauth-client-id>
 WOODPECKER_GITHUB_SECRET: xxx (in BitWarden)
 ```
 Update Woodpecker via Helm:
@@ -38,7 +38,7 @@ helm upgrade --install woodpecker oci://ghcr.io/woodpecker-ci/helm/woodpecker -f
 ```
 By default there is no Ingress, so I'll add my own.
 Ingress works, navigating to URL shows Woodpecker UI.
-Login with github.com failes with error on server pod:
+Login with github.com fails with error on server pod:
 ```
 cannot register sguldemond. registration closed
 ```
@@ -48,8 +48,8 @@ Now I can login and add my homelab repo.
 ---
 
 Created a pipeline, got some errors in Woodpecker.
-Couldn't easily run linter on the pipeline, so have to push fixes untill it works.
-Seems like I cannot run images in privilged mode untill the project is set as trusted.
+Couldn't easily run linter on the pipeline, so have to push fixes until it works.
+Seems like I cannot run images in privileged mode until the project is set as trusted.
 ```
 Insufficient trust level to use privileged mode
 ```
@@ -75,8 +75,8 @@ Getting stuck on this:
    ❌ services.buildkitd	Insufficient trust level to use `privileged` mode
 6:22PM FTL error running cli error="config has errors"
 ```
-Eventhough I gave the project all the trusted checks.
-It could be that its just not working very well...
+Even though I gave the project all the trusted checks.
+It could be that it's just not working very well...
 
 ---
 
@@ -106,14 +106,14 @@ DOCKERHUB_TOKEN
 GITHUB_TOKEN
 ```
 I can run it using `act`, and get the same error. So no closer to a solution.
-Some odd behavior around building the poral on GH Actions.
+Some odd behavior around building the portal on GH Actions.
 For now I added `RUN npm install -g @sveltejs/kit vite` so the Runner can access `svelte-kit` and `vite`.
 New error:
 ```
 Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@tailwindcss/vite' imported from /app/node_modules/.vite-temp/vite.config.ts.timestamp-1759655627539-9542043a22014.mjs
 ```
 Maybe since I install `vite` globally I need to install `@tailwindcss/vite` as well globally? Nope..
-Appearantly I had to include dev specifically:
+Apparently I had to include dev specifically:
 ```
 RUN npm ci --include=dev
 ```
@@ -143,7 +143,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ```
 ArgoCD is working!
 Just not sure how ArgoCD knows about Kustomize.
-The Deployment image is not updated, only the kustomazation.yaml is.
+The Deployment image is not updated, only the kustomization.yaml is.
 And the correct image is deployed. Want to know how this works.
 
 Docs about Kustomize (https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/):
@@ -173,7 +173,7 @@ tls-san:
 And updated the `ingress.yaml` to include the Tailscale IP addresses:
 
 Would be nice to setup deployment via Ansible, but not a priority.
-Requires maintaince of the playbook, not yet needed at this stage.
+Requires maintenance of the playbook, not yet needed at this stage.
 
 ---
 
@@ -182,7 +182,7 @@ MetalLB requires a Network Add-on, researching options.
 K3s comes with Flannel as default, but I might have disabled it, not sure.
 
 Interesting setup now where I have a network interface from Tailscale, `tailscale0`.
-But my setup will requirest IPs from the router at home.
+But my setup will require IPs from the router at home.
 
 Disabling ServiceLB on k3s. It says to disable on all nodes,
 but when adding:
@@ -303,7 +303,7 @@ Not touching the Mac minis for now, first getting the MacBook setup.
 I want to learn more about cloud-init, so I'll be using that in combination with Ubuntu Server, since it supports cloud-init better than Debian I've read.
 
 With cloud-init I'll be setting up a virtual bridge as well, which I'll connect met NIC to.
-The MacBook doesn't have built-in etherner, but I have a official Thunderbolt to ethernet adapter.
+The MacBook doesn't have built-in ethernet, but I have an official Thunderbolt to ethernet adapter.
 - Mac: ac:87:a3:13:08:10 (Ethernet adapter)
 - Mac: 60:f8:1d:b1:a0:74 (WiFi)
 
@@ -319,7 +319,7 @@ That is enough for now, I will setup the virtual bridge using Ansible later.
 With the cloud-init+autoinstall I can SSH into the machine directly. I just need to check the IP address on the machine (or the router using the MAC address).
 This makes the cloud-init YAML also more generic, since I don't have to know the MAC address of the NIC or have to set a static IP.
 
-I have to disable the lid close behavior, on the MBP. I should intergrate this into the cloud-init setup.
+I have to disable the lid close behavior, on the MBP. I should integrate this into the cloud-init setup.
 Edited: `/etc/systemd/logind.conf`
 ```
 HandleLidSwitch=ignore
@@ -351,7 +351,7 @@ Switching gears. Installing Proxmox on top of Ubuntu is not recommended at all.
 Installing Proxmox VE OS from USB on the MacBook now.
 
 Also planning to get Kubernetes running via Talos Linux instead of K3s, which will hopefully help me with my CKA certification.
-I will start with a single controle plane node VM with kube-vip to provide access to the API. Together with one worker node VM that will be a minimal cluster. When the Mac minis are Proxmox'd I will add a controle plane node VM per machine to run a HA k8s cluster, including some worker nodes.
+I will start with a single control plane node VM with kube-vip to provide access to the API. Together with one worker node VM that will be a minimal cluster. When the Mac minis are Proxmox'd I will add a control plane node VM per machine to run a HA k8s cluster, including some worker nodes.
 
 Getting Proxmox OS running is really easy, it serves a web GUI which you can control the node.
 Added my pub key manually, would be nice to do some auto install:
@@ -453,7 +453,7 @@ pod-security.kubernetes.io/warn: privileged
 ```
 It seemed like initially installing MetalLB went okay, but I might be wrong here.
 
-Continueing with getting Traefik working.
+Continuing with getting Traefik working.
 Installing via Terraform keeps it in `pending-install` state.
 Doing it directly using helm command works:
 ```
@@ -461,9 +461,9 @@ helm upgrade --install traefik oci://ghcr.io/traefik/helm/traefik -f values/trae
 ```
 But! The External-IP keep state `<pending>`. Which is odd, since it did get it the first time I tried it.
 What changes is that I now am using a Virtual IP for Talos, this might influence stuff.
-I have to still apply the MetalLB manifests! This immediatly gives the Traefik LoadBalancer a external-ip.
+I have to still apply the MetalLB manifests! This immediately gives the Traefik LoadBalancer an external-ip.
 
-Apperantly the Service had to be defined before the Ingress(Route) for it to work.
+Apparently the Service had to be defined before the Ingress(Route) for it to work.
 Although I had this working on k3s (I thought...).
 
 ---
@@ -506,7 +506,7 @@ Trying the steps described here: https://forum.opnsense.org/index.php?topic=3695
 ```
 This worked! I can now access the web GUI from the WAN IP.
 
-Ofcourse now I'm in for some fun.
+Of course now I'm in for some fun.
 I have switched the network interface of the two Talos VMs to vmbr1, which first of all makes it not directly accessible from my machine.
 I can do some port forwarding in OPNSense in order to forward traffic from the WAN IP with k8s API port (6443) to the new internal LAN IP of the control plane node. But that doesn't just work, like I expected.
 I can either completely re-install Talos on both VMs starting of with the now internal LAN IP, or try to figure out what I can do to get it working without... Reinstall takes a while, figuring out how to fix it as well.
@@ -592,7 +592,7 @@ age-keygen -o ~/.config/sops/age/keys.txt
 Added .sops.yaml in repo main:
 ```
 keys:
-  - &me age13hp3zvzjr8pvctd99lwhy6wunmcjgkfgjp58amcsykzql400jp3sr5cyht
+  - &me <age-public-key>
 
 creation_rules:
   - path_regex: projects/proxmox/talos/.*\.ya?ml$
@@ -695,7 +695,7 @@ sudo tailscale set --accept-routes
 ```
 As explained here: https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices
 
-Also usefull to disable key expiry of the opnsense machine in Tailscale dashboard via "Machine settings".
+Also useful to disable key expiry of the opnsense machine in Tailscale dashboard via "Machine settings".
 
 I might have to run this everytime I start Tailscale on my machine:
 ```
@@ -753,7 +753,7 @@ It is showing when checking all tables, not just `main` (default):
 7:192.168.2.0/24 dev tailscale0 table 52 
 ```
 
-Usefull:
+Useful:
 ```
 -> % ip route get 192.168.2.1                   
 192.168.2.1 dev tailscale0 table 52 src 100.109.194.44 uid 1000 
@@ -794,7 +794,7 @@ Let's play it "safe" and install Proxmox on the Mac mini and get OPNSense on the
 Have that setup, in order to install Tailscale on the Proxmox OS I had to disable Enterprise repo's in the settings.
 
 Also I have to do some cert stuff: https://tailscale.com/kb/1133/proxmox#enable-https-access-to-the-proxmox-web-ui
-Adding the certs enables SSL over the Tailscale URL of the Mac mini: https://macmini.tail9271d2.ts.net:8006/
+Adding the certs enables SSL over the Tailscale URL of the Mac mini: https://macmini.<tailscale-domain>:8006/
 
 Curious if I can just add the subnet to Tailscale settings in OPN and will be able to reach the MBP again.
 
@@ -879,7 +879,7 @@ The DHCP refresh didn't take place, so I don't have access to my MacBook Pro con
 So I'm doing a little side project where I expose this file via a simple MkDocs setup.
 Hosting it using GitHub Pages, setting up a redirect of homelab.stansyfert.com to the GH Pages of the Homelab repo.
 
-This file will be reverted and the README will be slighly adjusted to render nicely.
+This file will be reverted and the README will be slightly adjusted to render nicely.
 Cursor created some scripts for this which worked and I haven't really looked at, let's see how long those hold up.
 
 For the domain to GH Pages redirect I'm following: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
@@ -995,9 +995,9 @@ Setup the second Mac mini with Proxmox running a Ubuntu Cloud image VM with RKE2
 followed the docs here: https://docs.rke2.io/install/quickstart
 Docs are simple and clear, added the .../bin to PATH, copied the kubeconfig.
 Little confusion when `systemctl start rke2-server` got stuck, printing issues with connection to 127.0.0.1:2379 (etcd),
-but cancelling the operation and starting it again it worked immediatly, maybe some race condition.
+but cancelling the operation and starting it again it worked immediately, maybe some race condition.
 
-Right of the bet, memory usage of the RKE2 master node is quite significant!
+Right off the bat, memory usage of the RKE2 master node is quite significant!
 Close to 4GB all together with the node OS (Ubuntu).
 
 Accessing the cluster from my machine it possible using the LAB IP, via the subnet forwarding on VyOS VM.
@@ -1037,7 +1037,7 @@ destroyed          false
 version            1
 ```
 
-Want to load scecret into pod using CSI driver: https://openbao.org/docs/platform/k8s/csi/examples/
+Want to load secret into pod using CSI driver: https://openbao.org/docs/platform/k8s/csi/examples/
 
 Installed CSI Secret Store Driver: https://secrets-store-csi-driver.sigs.k8s.io/getting-started/installation,
 and created SecretProviderClass pointing to my-first-secret.
@@ -1162,7 +1162,7 @@ From the coreos installer:
 sudo coreos-installer install /dev/sda --insecure-ignition --ignition-url http://192.168.1.179:8080/macmini1.ign
 ```
 This way I don't have to add the .ign file to the USB again,
-which I did the first time, I mounted the seperate USB partition locally:
+which I did the first time, I mounted the separate USB partition locally:
 ```
 sudo mkdir -p /mnt/usb
 sudo mount /dev/sda3 /mnt/usb
@@ -1173,7 +1173,7 @@ seems to run fine, which is exciting,
 this type of bootstrap booting and serving the config over HTTP,
 was what I was trying way back in the beginning of my Homelab journey with Ubuntu,
 that didn't work so smoothly, or at all really,
-I learned a bit about CloudInit and cloud images though, still usefull.
+I learned a bit about CloudInit and cloud images though, still useful.
 
 Re-leasing the IP on VyOS is still a bit of a puzzle.
 This did work:
@@ -1199,7 +1199,7 @@ can access the k3s node from my laptop, also added some extra tls-san:
 ```
 tls-san:
   - "macmini1"
-  - "macmini1.tail9271d2.ts.net"
+  - "macmini1.<tailscale-domain>"
   - "100.69.168.103"
   - "192.168.2.60"
 ```
@@ -1209,7 +1209,7 @@ tls-san:
 Want to install CoreOS on the MBP as well, to setup two node cluster with k3s.
 The motivation is to experiment with the combo of MetalLB and OVN-kubernetes.
 I want to recreate the egress bug that occurs when combining these.
-A OVN EgressService might be the anwer.
+An OVN EgressService might be the answer.
 Also I want to experiment with tracing packets and analyzing topology of OVN/OVS.
 Tools I want to use: nc (netcat), tcpdump, ovs-<>cli, ovn-<>cli.
 
@@ -1218,7 +1218,7 @@ Hello world, from the Devoteam laptop (devo-hp-fedora).
 Got my age file on here, so can decrypt my sops encrypted files with that!
 Added sops bin here: `~/.local/bin`.
 
-Copied macmini1 butane file, eventhough is 99% the same, only hostname is different...
+Copied macmini1 butane file, even though it's 99% the same, only hostname is different...
 ```
 sops -d macmini1-butane.yaml > ../mbp/mbp-butane.yaml
 ```
@@ -1237,7 +1237,7 @@ Serving mbp.ign butane on network, added MBP to Home LAN network for now:
 python3 -m http.server
 ```
 
-Has to to run `sudo wipefs -af /dev/sda` after error, simulair to mm1 install.
+Had to run `sudo wipefs -af /dev/sda` after error, similar to mm1 install.
 Importantly had to reboot after, then install worked.
 Also important to not serve the encrypted ignition file!
 
@@ -1311,7 +1311,7 @@ DNS works after reboot, but then stops working...
 
 Looks like OVS is interfering with the machine DNS settings, interesting!
 
-OVN in shared gateway mode has token over my default eth NIC and bridged it:
+OVN in shared gateway mode has taken over my default eth NIC and bridged it:
 - original: enp1s0f0
 - bridge: brenp1s0f0
 
@@ -1336,7 +1336,7 @@ they were fighting over it.
 Going to add the MBP as node!
 Forgot to connect the MBP to Lab LAN, was still on Home LAN, rebooting.
 Probably need to do some k3s config to fix the IP of the node settings.
-Being naief, just re-applied the k3s install script...
+Being naive, just re-applied the k3s install script...
 
 k3s-agent service:
 ```
@@ -1395,7 +1395,7 @@ Installing MetalLB:
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
 ```
 
-Added IPPool and L2 advertisment, created kong-echo-service,
+Added IPPool and L2 advertisement, created kong-echo-service,
 which gets IP from MetalLB: 192.168.2.111.
 Now trying netcat again:
 ```
@@ -1407,7 +1407,7 @@ Cannot reach 192.168.2.111 from my machine, lets check VyOS,
 also not, so IP is assigned my MetalLB, but not properly advertised to router/DHCP?
 
 MetalLB speaker sending ARP over wrong interface, default NIC instead of the bridge?
-Added bridge interfaces to L2 advertisment definition, so ARP will be sent over bridges.
+Added bridge interfaces to L2 advertisement definition, so ARP will be sent over bridges.
 
 Something is happening, redirecting, but ping (ICMP) not working, since not exposed by service:
 ```
@@ -1509,9 +1509,9 @@ Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
 DHCP-lease is expiring on the NIC interface,
 OVN took over the NIC with its bridge, inherits its IP for a while,
 but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
-so therefor drops it. NIC interface looses IP, OVN bridge gets internal IP assigned, 169.254.0.2.
+so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2.
 
-Solution would be to set status IP, either on the bridge,
+Solution would be to set static IP, either on the bridge,
 or perhaps to assign static IP from VyOS to the bridge MAC.
 
 Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
@@ -1524,5 +1524,5 @@ Rebooting the node sets all the NIC and its OVN bridge up more stable it seems.
 Only the bridge has the static IP, although on startup it is first the NIC, then OVN takes over.
 Interestingly if you restart NetworkManager via systemctl, the NIC interface gets backs its IP,
 I think this won't be a problem, since there is no lease issue anymore.
-Its just NetworkManager and OVN fighting a bit over managing the interfaces.
+It's just NetworkManager and OVN fighting a bit over managing the interfaces.
 
