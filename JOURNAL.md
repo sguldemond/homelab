@@ -1526,3 +1526,14 @@ Interestingly if you restart NetworkManager via systemctl, the NIC interface get
 I think this won't be a problem, since there is no lease issue anymore.
 It's just NetworkManager and OVN fighting a bit over managing the interfaces.
 
+---
+
+Rebooting my MkDocs setup to start hosting my blog from here as well.
+I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.
+```
+dig _github-pages-challenge-sguldemond.stansyfert.com
+...
+stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
+```
+

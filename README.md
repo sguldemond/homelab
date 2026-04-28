@@ -1,134 +1,67 @@
-# 🏠 Homelab — Proxmox · Talos Linux · Kubernetes · VyOS
+# Homelab — Proxmox · Fedora CoreOS · k3s · VyOS
 
-> **Live cluster view:** [https://homelab.stansyfert.com](https://homelab.stansyfert.com)
->
-> *(may be unstable — this lab is under active development.)*
+> A chronological log of what was built, what broke, and what was learned:
+> [homelab.stansyfert.com/journal](https://homelab.stansyfert.com/journal)
 
-This repository documents my **production-inspired Kubernetes homelab**, built to explore **platform engineering, networking, GitOps, and cluster operations** in a realistic environment.
-
-The goal is not experimentation for its own sake, but **operating Kubernetes the way it's run in real systems**: explicit infrastructure, minimal OSes, declarative configuration, and recoverable failure modes.
-
-
-## 🧱 Infrastructure (Core Focus)
-
-### Hypervisor
-
-**Proxmox VE**
-
-* Primary hypervisor for the lab
-* Hosts all infrastructure VMs:
-
-  * Talos Linux (Kubernetes control plane & workers)
-  * VyOS (router / firewall)
-  * Ubuntu Server (management & Tailscale exit node)
+This repository documents a **production-inspired Kubernetes homelab** built to explore platform engineering, networking, GitOps, and cluster operations at a realistic depth. The focus is on operating Kubernetes the way it runs in real systems: explicit infrastructure, immutable OSes, declarative configuration, and BGP-based load balancing.
 
 ---
 
-### Kubernetes Platform
+## Hardware
 
-**Talos Linux on Proxmox**
-
-* Kubernetes cluster running on **immutable, API-driven Linux**
-* No SSH or shell access by default
-* Control plane and worker nodes as VMs
-* Configuration managed entirely via Talos machine configs
-* **MetalLB** (Layer 2 mode) and **Traefik** manually installed via Helm/Terraform
-
-This setup enforces:
-
-* Declarative thinking
-* Strong separation between OS, platform, and workloads
-* Safe rebuilds and reproducible nodes
+| Machine | Role | OS |
+|---------|------|----|
+| macmini0 | Proxmox VE host (router/firewall VM) | Proxmox VE |
+| macmini1 | k3s control plane | Fedora CoreOS |
+| mbp | k3s worker node | Fedora CoreOS |
 
 ---
 
-### Networking & Edge
+## Architecture
 
-**VyOS (Proxmox VM)**
+### Network
 
-* Edge router and firewall for the lab
-* NAT (masquerade) for outbound traffic
-* DHCP (Kea) for the Lab LAN
-* Stateful firewall rules
-* DNS forwarding
+The lab runs on an isolated **Lab LAN (192.168.2.0/24)**, separated from the home network.
 
-**Lab LAN**
-
-* Seperated from my "Home LAN" network
-* Subnet: **192.168.2.0/24**
-* Gateway: **192.168.2.1**
-* All VMs obtain addresses via DHCP
-* Talos nodes rely on stable network identity for cluster bootstrapping
-
-Networking is intentionally **explicit and predictable** — no hidden defaults or UI magic.
+- **VyOS** runs as a Proxmox VM on macmini0, acting as router, DHCP server, NAT gateway, and DNS forwarder
+- **eBGP peering**: VyOS (AS 64513) peers with k3s nodes (AS 64512) via FRR
+- **MetalLB BGP speakers** on each node advertise LoadBalancer IPs to VyOS, which installs them as host routes — no ARP or L2 magic
+- **Tailscale** on VyOS advertises the Lab LAN subnet (`192.168.2.0/24`), enabling full remote access without a jump host
 
 [<img src="./docs/images/lab-lab-network.png" width="600" />]()
 
+### Kubernetes
+
+- **Distribution**: k3s (ServiceLB disabled; MetalLB handles LoadBalancer IPs)
+- **CNI**: OVN-Kubernetes in local gateway mode, with EgressService support for deterministic egress routing
+- **Load balancing**: MetalLB BGP mode, IP pool `192.168.2.110–192.168.2.200`
+- **Ingress**: Traefik (deployed via Helm/Terraform)
+
+### Node Provisioning
+
+Kubernetes nodes run **Fedora CoreOS** on bare metal, provisioned declaratively:
+
+1. Write machine config in **Butane YAML** (hostname, SSH keys, systemd units, network, packages)
+2. Transpile to **Ignition JSON** using the Butane container image
+3. Serve the `.ign` file over HTTP; install with `coreos-installer --ignition-url`
+4. Sensitive fields in Butane configs encrypted at rest with **SOPS + age**
+
 ---
 
-### Secure Access
+## Platform Stack
 
-**Tailscale**
-
-* Ubuntu Server VM acts as:
-  * Management node
-  * Tailscale exit node
-* Enables:
-  * Secure remote `kubectl` access
-  * MagicDNS access to internal services (e.g. Argo CD)
-  * Safe connectivity during firewall or routing changes (no lockouts)
-
-
-## ⚙️ Platform Capabilities
-
-Rather than isolated "projects", the cluster is operated as a **cohesive platform**:
-
-* **GitOps CI/CD**
-
-  * Argo CD, GitHub Actions, Kustomize
-* **Ingress & Load Balancing**
-
-  * Traefik
-  * MetalLB (Layer 2, migrating toward BGP)
-* **Observability**
-
-  * Fluent Bit, Loki, Grafana
-* **Registry**
-
-  * Self-hosted container registry
-* **Secure Exposure**
-
-  * Cloudflare Tunnel
-* **Cluster UI**
-
-  * Custom read-only portal (SvelteKit + RBAC)
-
-Each component is installed and maintained manually or declaratively — no "click-ops".
-
-
-## 🔬 Ongoing Work & Next Steps
-
-* MetalLB **BGP mode** for higher availability
-* Autoscaling workloads driven by real usage
-* Kafka-compatible messaging with **Redpanda**
-* Extended observability (Elastic stack)
-
-These changes are evaluated for **operability**, not just feature coverage.
-
-
-## 🧪 Experiments (Secondary)
-
-* Woodpecker CI (self-hosted pipelines)
-* Gitea (SCM + pipelines)
-
-Used selectively to compare trade-offs against managed tooling.
-
-
-## 🎯 What this lab demonstrates
-
-* End-to-end Kubernetes platform ownership
-* Networking beyond "Kubernetes-only" abstractions
-* Immutable infrastructure patterns
-* GitOps and declarative operations
-* Failure-aware design and recovery paths
-* Comfort operating without safety nets (SSH, UI firewalls, etc.)
+| Component | Purpose | Deployed via |
+|-----------|---------|--------------|
+| k3s | Kubernetes distribution | systemd service on CoreOS nodes |
+| OVN-Kubernetes | CNI — pod networking, egress control | Helm (from upstream repo) |
+| MetalLB (BGP) | LoadBalancer IP assignment | `kubectl apply` |
+| Traefik | HTTP/HTTPS ingress | Helm (Terraform) |
+| Argo CD | GitOps continuous delivery | `kubectl apply` |
+| GitHub Actions | CI — build, push, tag | Workflows in repo |
+| Kustomize | Manifest templating (image tags) | Used by Argo CD |
+| Fluent Bit + Loki + Grafana | Log aggregation and visualization | Helm |
+| Cloudflare Tunnel | Secure external ingress | `cloudflared` Deployment |
+| Tailscale | Encrypted remote access + MagicDNS | VyOS plugin + k8s operator |
+| Docker Registry | Self-hosted container registry | Deployment + PVC |
+| Portal | Read-only cluster UI (SvelteKit + RBAC) | Docker Hub → Argo CD |
+| SOPS + age | Secret encryption for infra configs | CLI + `.sops.yaml` rules |
