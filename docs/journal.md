@@ -2,6 +2,256 @@
 
 ---
 
+Lost connection to Homelab, Mac mini and MBP keep disconneting after some time.
+Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
+DHCP-lease is expiring on the NIC interface,
+OVN took over the NIC with its bridge, inherits its IP for a while,
+but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
+so therefor drops it. NIC interface looses IP, OVN bridge gets internal IP assigned, 169.254.0.2.
+
+Solution would be to set status IP, either on the bridge,
+or perhaps to assign static IP from VyOS to the bridge MAC.
+
+Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
+Added static IPs to Butane files as well, but for now did:
+```
+sudo nmcli con modify "Wired connection 1" ipv4.method manual ipv4.addresses 192.168.2.60/24 ipv4.gateway 192.168.2.1 ipv4.dns 192.168.2.1
+```
+
+Rebooting the node sets all the NIC and its OVN bridge up more stable it seems.
+Only the bridge has the static IP, although on startup it is first the NIC, then OVN takes over.
+Interestingly if you restart NetworkManager via systemctl, the NIC interface gets backs its IP,
+I think this won't be a problem, since there is no lease issue anymore.
+Its just NetworkManager and OVN fighting a bit over managing the interfaces.
+
+---
+
+Mac mini lost connection in the morning.
+
+alpine/socat deployment, lb service and egressservice running:
+```
+⬢ [stan@toolbx stan]$ nc -zv 192.168.2.120 2701
+Connection to 192.168.2.120 2701 port [tcp/sms-rcinfo] succeeded!
+⬢ [stan@toolbx stan]$ echo "hello" | nc -uzv 192.168.2.120 2701
+Connection to 192.168.2.120 2701 port [udp/sms-rcinfo] succeeded!
+```
+
+After changing TCP port to 1025 and UDP to 1026,
+TCP stopped working.
+Reverting back to both ports set to 2701, TCP stopped working, UDP still works.
+OVN caching some routes???
+
+TCP and UDP have to be exposed...
+
+---
+
+Looks like OVS is interfering with the machine DNS settings, interesting!
+
+OVN in shared gateway mode has token over my default eth NIC and bridged it:
+- original: enp1s0f0
+- bridge: brenp1s0f0
+
+Fix is to setup a global DNS on the machine via systemd-resolve:
+```
+sudo mkdir -p /etc/systemd/resolved.conf.d/
+sudo vi /etc/systemd/resolved.conf.d/global-dns.conf
+[Resolve]
+DNS=192.168.2.1
+FallbackDNS=1.1.1.1
+sudo systemctl restart systemd-resolved
+```
+
+DNS works now!
+Creating toolbox on macmini CoreOS to install ovs cli tools,
+not working getting stuck somewhere...
+
+Also disabling NetworkManager from managing the original NIC (enp1s0f0),
+since both it and the bridge (brenp1s0f0) has the same Lab LAN IP assigned,
+they were fighting over it.
+
+Going to add the MBP as node!
+Forgot to connect the MBP to Lab LAN, was still on Home LAN, rebooting.
+Probably need to do some k3s config to fix the IP of the node settings.
+Being naief, just re-applied the k3s install script...
+
+k3s-agent service:
+```
+Apr 20 08:37:05 mbp k3s[1258]: time="2026-04-20T08:37:05Z" level=error msg="Failed to validate connection to cluster at https://192.168.2.60:6443: token CA hash does not match the Cluster CA certificate hash: cfa9469b9905033c4c83bf18552d02ea64e699161e60ca4a09000f039275590b != eaf527c32542105452c6abf0c917a028813d6ee5b3ddc46d1c1b9ec776d19a9a"
+```
+
+Used the node-token of my fedora laptop, not the macmini...
+Having all Fedora based systems, same k3s, same username, easy to confuse.
+
+Node added and Ready!
+Want to make control-plane node not UnSchedulable and add make the second node a proper worker node.
+```
+kubectl taint nodes macmini1 node-role.kubernetes.io/control-plane:NoSchedule
+kubectl label node mbp node-role.kubernetes.io/worker=worker
+```
+
+Same issue with CNI binaries on mbp!
+```
+sudo mkdir -p /opt/cni/bin
+sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
+```
+And after this the DNS issue pops up!
+Redoing the systemd-resolve > global-dns > restart, added it to Butane of mbp as well.
+
+mm1 node got pod subnet: 10.42.55.0/24
+mbp node got pod subnet: 10.42.0.0/24
+
+The values.yaml annotation for OVN `podNetwork: 10.42.0.0/16/24`,
+means that each node will get its own 16-base subnet: 10.42.x.x,
+per node all addresses within that are then 24-base: 10.42.<node-range>.x
+
+Moving Kong Deployment and Service from DaedalusPlatform/k3s_collection here,
+to first test access without MetalLB.
+Starting with the kong/go-echo deployment, with a Port Forward (via k9s) to test TCP and UDP using netcat:
+```
+nc localhost 2701
+nc -u localhost 2701
+```
+TCP response looks good, no response UDP, since port-forward does not support UDP.
+Exposing deployment manually:
+```
+kubectl expose deployment tcp-echo-deployment --type=NodePort --port=2701 --protocol=UDP --name=go-echo-udp
+kubectl get svc go-echo-udp
+echo "hello" | nc -u 192.168.2.60 <nodeport>
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+In namespace default.
+With IP address 10.42.0.6.
+Service account default.
+hello
+```
+Need to send data over UDP first!
+
+Installing MetalLB:
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
+```
+
+Added IPPool and L2 advertisment, created kong-echo-service,
+which gets IP from MetalLB: 192.168.2.111.
+Now trying netcat again:
+```
+nc 192.168.2.111 2701
+echo "hello" | nc -u 192.168.2.111 2701
+```
+
+Cannot reach 192.168.2.111 from my machine, lets check VyOS,
+also not, so IP is assigned my MetalLB, but not properly advertised to router/DHCP?
+
+MetalLB speaker sending ARP over wrong interface, default NIC instead of the bridge?
+Added bridge interfaces to L2 advertisment definition, so ARP will be sent over bridges.
+
+Something is happening, redirecting, but ping (ICMP) not working, since not exposed by service:
+```
+stan@vyos:~$ ping 192.168.2.111
+PING 192.168.2.111 (192.168.2.111) 56(84) bytes of data.
+From 192.168.2.11: icmp_seq=2 Redirect Host(New nexthop: 192.168.2.111)
+```
+traceroute:
+```
+stan@vyos:~$ traceroute 192.168.2.111
+traceroute to 192.168.2.111 (192.168.2.111), 30 hops max, 60 byte packets
+ 1  192.168.2.11 (192.168.2.11)  2.822 ms  2.705 ms  2.675 ms
+ 2  192.168.2.11 (192.168.2.11)  3057.553 ms !H  3057.578 ms !H  3057.547 ms !H
+```
+Second hop meaning, host unreachable,
+we've seemed to have reach the bug, UDP is working!
+```
+⬢ [stan@toolbx ovn-kubernetes]$ echo "hello" | nc -u 192.168.2.111 2701
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+In namespace default.
+With IP address 10.42.0.6.
+Service account default.
+hello
+```
+
+Yeah, setting `externalTrafficPolicy: Cluster` on kong-echo-service works:
+```
+⬢ [stan@toolbx ovn-kubernetes]$ nc 192.168.2.111 2701
+Welcome, you are connected to node mbp.
+Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
+```
+
+Moved the "bugged" setup to v1 dir,
+starting EgressService fix in v2 dir.
+
+Claude Code filled the v2 dir with new setup,
+where MetalLB + OVN + Kong Service + EgressService are all in relationship.
+It works! But it is now tightly coupled.
+
+The question is why `externalTrafficPolicy: Local` was placed on the Service?
+Is there a specific reason why ingress and egress has to be from the same node?
+If not a wider L2Advertisement can be implemented,
+where egress might be from a different node then the ingress.
+Otherwise BGP can be implemented, where the speaker on the node only advertises routes it owns.
+So a LB Service on worker1 with Deployment on worker1 will expose an IP from there, promising ingress and egress from that node.
+
+Claude did not add `externalTrafficPolicy: Local` to the v2 service,
+since setup defacto implements this behavior.
+I want to set it to see what happens anyway.
+Manually changes it via k9s, still works!
+
+Creating v3 where we use BGP mode, lets keep going!
+Claude created v3, but issues BGP setup...
+
+Restarting VyOS BGP setup without ip-range, but hard coded neighbours (nodes).
+Neighbours setup, Netcat works!
+
+I want to learn to trace the packet getting stuck in v1.
+I just got a speed course on how to trace packets.
+
+Start a tcpdump on vyos:
+```
+stan@vyos:~$ tcpdump -i eth1 -n host 192.168.2.120
+```
+
+Add a debug container to Kong Pod:
+```
+kubectl debug -it -n default tcp-echo-deployment-6d977d7788-qzt5j --image=nicolaka/netshoot
+```
+Send a TCP packet using netcat from the Kong pod:
+```
+$ nc 192.168.1.108 2701
+```
+
+---
+
+Deployed OVN using Helm, Pods are not starting!
+
+One ovnkube-node pod is requesting more access:
+```
+│ ovnkube-controller E0419 14:57:15.198150   21349 reflector.go:204] "Failed to watch" err="failed to list *v1.Pod: pods is forbidden: User \"system:serviceaccount:ovn-kubernetes:ovnkube-node\" cannot list resource \"pods\" in API gro │
+```
+
+Running helm install from ovn-kubernetes repo:
+```
+cd /home/stan/Documents/ovn-kubernetes/helm/ovn-kubernetes
+helm upgrade --install ovn-kubernetes . -f ~/Documents/Homelab/homelab/projects/ovn-kubernetes/values.yaml
+```
+
+Test pod was not being created, error on events:
+```
+Warning  FailedCreatePodSandBox  6s    kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "8781ec838472431a04d303c02131ff01f5e27506367dd5 │
+│ 3b3aee4e6b1452e1f7": plugin type="loopback" failed (add): failed to find plugin "loopback" in path [/opt/cni/bin]
+```
+
+k3s manages cni binaries, but with Flannel disabled, these binaries are not present,
+quick fix:
+```
+sudo mkdir -p /opt/cni/bin
+sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
+```
+
+I have no DNS resolution on the macmini1...
+DNS works after reboot, but then stops working...
+
+---
+
 Want to install CoreOS on the MBP as well, to setup two node cluster with k3s.
 The motivation is to experiment with the combo of MetalLB and OVN-kubernetes.
 I want to recreate the egress bug that occurs when combining these.
@@ -10,6 +260,67 @@ Also I want to experiment with tracing packets and analyzing topology of OVN/OVS
 Tools I want to use: nc (netcat), tcpdump, ovs-<>cli, ovn-<>cli.
 
 Extending this repo, e.g. SOPS settings, SSH keys, to also develop on my Devoteam laptop.
+Hello world, from the Devoteam laptop (devo-hp-fedora).
+Got my age file on here, so can decrypt my sops encrypted files with that!
+Added sops bin here: `~/.local/bin`.
+
+Copied macmini1 butane file, eventhough is 99% the same, only hostname is different...
+```
+sops -d macmini1-butane.yaml > ../mbp/mbp-butane.yaml
+```
+
+Running Butane on Atomic Fedora
+```
+alias butane='podman --remote run --rm --interactive         \
+              --security-opt label=disable          \
+              --volume "${PWD}:/pwd" --workdir /pwd \
+              quay.io/coreos/butane:release'
+butane --pretty --strict mbp-butane.yaml > mbp.ign
+```
+
+Serving mbp.ign butane on network, added MBP to Home LAN network for now:
+```
+python3 -m http.server
+```
+
+Has to to run `sudo wipefs -af /dev/sda` after error, simulair to mm1 install.
+Importantly had to reboot after, then install worked.
+Also important to not serve the encrypted ignition file!
+
+Installed CoreOS on MBP, now need to SSH into it, first get its IP.
+Then init tailscale, should be already installed.
+After first boot, CoreOS auto reboots with Tailscale added to rpm-ostree!
+```
+sudo systemctl enable --now tailscaled
+sudo tailscale up
+```
+Disabled expiration key in Tailscale UI.
+
+Need to disable sleep on lid close and such still!
+Need to edit `/usr/lib/systemd/logind.conf`, and set ignore on HandleLidSwitch settings,
+but can't edit that in Atomic CoreOS.
+
+Added file:
+```
+sudo vi /etc/systemd/logind.conf.d/lid.conf
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+```
+Restart and check config:
+```
+sudo systemctl restart systemd-logind
+systemd-analyze cat-config systemd/logind.conf
+```
+I added this to the Butane file, but untested!
+
+MBP is up with CoreOS and Lid fix,
+I can access k3s cluster on macmini1.
+
+Need to setup k3s in mm1 without flannel and prepare for OVN-kubernetes,
+then add mbp to the cluster,
+then add MetalLB.
 
 ---
 
@@ -55,7 +366,7 @@ after /dev/sda3 was being busy.
 
 after I ran:
 ```
-sudo widefs -a /dev/sda
+sudo wipefs -a /dev/sda
 ```
 because on this forum someone needed to do that:
 https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7
