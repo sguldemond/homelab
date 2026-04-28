@@ -98,7 +98,7 @@
 <nav>
     <ul>
         <li><a href="#homelab">Homelab</a></li>
-        <li><a href="#infrastructure-core-focus">🧱 Infrastructure (Core Focus)</a></li><li><a href="#platform-capabilities">⚙️ Platform Capabilities</a></li><li><a href="#ongoing-work-next-steps">🔬 Ongoing Work &amp; Next Steps</a></li><li><a href="#experiments-secondary">🧪 Experiments (Secondary)</a></li><li><a href="#what-this-lab-demonstrates">🎯 What this lab demonstrates</a></li>
+        <li><a href="#hardware">Hardware</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#platform-stack">Platform Stack</a></li>
     </ul>
 </nav>
 </aside>
@@ -106,138 +106,142 @@
 <section id="mkdocs-terminal-content">
     <h1 id="homelab">Homelab</h1>
 <blockquote>
-<p><strong>Live cluster view:</strong> <a href="https://homelab.stansyfert.com">https://homelab.stansyfert.com</a></p>
-<p><em>(may be unstable — this lab is under active development.)</em></p>
+<p>A chronological log of what was built, what broke, and what was learned:
+<a href="https://homelab.stansyfert.com/journal">homelab.stansyfert.com/journal</a></p>
 </blockquote>
-<p>This repository documents my <strong>production-inspired Kubernetes homelab</strong>, built to explore <strong>platform engineering, networking, GitOps, and cluster operations</strong> in a realistic environment.</p>
-<p>The goal is not experimentation for its own sake, but <strong>operating Kubernetes the way it's run in real systems</strong>: explicit infrastructure, minimal OSes, declarative configuration, and recoverable failure modes.</p>
-<h2 id="infrastructure-core-focus">🧱 Infrastructure (Core Focus)</h2>
-<h3 id="hypervisor">Hypervisor</h3>
-<p><strong>Proxmox VE</strong></p>
-<ul>
-<li>Primary hypervisor for the lab</li>
-<li>
-<p>Hosts all infrastructure VMs:</p>
-</li>
-<li>
-<p>Talos Linux (Kubernetes control plane &amp; workers)</p>
-</li>
-<li>VyOS (router / firewall)</li>
-<li>Ubuntu Server (management &amp; Tailscale exit node)</li>
-</ul>
+<p>This repository documents a <strong>production-inspired Kubernetes homelab</strong> built to explore platform engineering, networking, GitOps, and cluster operations at a realistic depth. The focus is on operating Kubernetes the way it runs in real systems: explicit infrastructure, immutable OSes, declarative configuration, and BGP-based load balancing.</p>
 <hr />
-<h3 id="kubernetes-platform">Kubernetes Platform</h3>
-<p><strong>Talos Linux on Proxmox</strong></p>
-<ul>
-<li>Kubernetes cluster running on <strong>immutable, API-driven Linux</strong></li>
-<li>No SSH or shell access by default</li>
-<li>Control plane and worker nodes as VMs</li>
-<li>Configuration managed entirely via Talos machine configs</li>
-<li><strong>MetalLB</strong> (Layer 2 mode) and <strong>Traefik</strong> manually installed via Helm/Terraform</li>
-</ul>
-<p>This setup enforces:</p>
-<ul>
-<li>Declarative thinking</li>
-<li>Strong separation between OS, platform, and workloads</li>
-<li>Safe rebuilds and reproducible nodes</li>
-</ul>
+<h2 id="hardware">Hardware</h2>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>Role</th>
+<th>OS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>macmini0</td>
+<td>Proxmox VE host (router/firewall VM)</td>
+<td>Proxmox VE</td>
+</tr>
+<tr>
+<td>macmini1</td>
+<td>k3s control plane</td>
+<td>Fedora CoreOS</td>
+</tr>
+<tr>
+<td>mbp</td>
+<td>k3s worker node</td>
+<td>Fedora CoreOS</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h3 id="networking-edge">Networking &amp; Edge</h3>
-<p><strong>VyOS (Proxmox VM)</strong></p>
+<h2 id="architecture">Architecture</h2>
+<h3 id="network">Network</h3>
+<p>The lab runs on an isolated <strong>Lab LAN (192.168.2.0/24)</strong>, separated from the home network.</p>
 <ul>
-<li>Edge router and firewall for the lab</li>
-<li>NAT (masquerade) for outbound traffic</li>
-<li>DHCP (Kea) for the Lab LAN</li>
-<li>Stateful firewall rules</li>
-<li>DNS forwarding</li>
+<li><strong>VyOS</strong> runs as a Proxmox VM on macmini0, acting as router, DHCP server, NAT gateway, and DNS forwarder</li>
+<li><strong>eBGP peering</strong>: VyOS (AS 64513) peers with k3s nodes (AS 64512) via FRR</li>
+<li><strong>MetalLB BGP speakers</strong> on each node advertise LoadBalancer IPs to VyOS, which installs them as host routes — no ARP or L2 magic</li>
+<li><strong>Tailscale</strong> on VyOS advertises the Lab LAN subnet (<code>192.168.2.0/24</code>), enabling full remote access without a jump host</li>
 </ul>
-<p><strong>Lab LAN</strong></p>
-<ul>
-<li>Seperated from my "Home LAN" network</li>
-<li>Subnet: <strong>192.168.2.0/24</strong></li>
-<li>Gateway: <strong>192.168.2.1</strong></li>
-<li>All VMs obtain addresses via DHCP</li>
-<li>Talos nodes rely on stable network identity for cluster bootstrapping</li>
-</ul>
-<p>Networking is intentionally <strong>explicit and predictable</strong> — no hidden defaults or UI magic.</p>
 <p><a href=""><img src="./images/lab-lab-network.png" width="600" /></a></p>
+<h3 id="kubernetes">Kubernetes</h3>
+<ul>
+<li><strong>Distribution</strong>: k3s (ServiceLB disabled; MetalLB handles LoadBalancer IPs)</li>
+<li><strong>CNI</strong>: OVN-Kubernetes in local gateway mode, with EgressService support for deterministic egress routing</li>
+<li><strong>Load balancing</strong>: MetalLB BGP mode, IP pool <code>192.168.2.110–192.168.2.200</code></li>
+<li><strong>Ingress</strong>: Traefik (deployed via Helm/Terraform)</li>
+</ul>
+<h3 id="node-provisioning">Node Provisioning</h3>
+<p>Kubernetes nodes run <strong>Fedora CoreOS</strong> on bare metal, provisioned declaratively:</p>
+<ol>
+<li>Write machine config in <strong>Butane YAML</strong> (hostname, SSH keys, systemd units, network, packages)</li>
+<li>Transpile to <strong>Ignition JSON</strong> using the Butane container image</li>
+<li>Serve the <code>.ign</code> file over HTTP; install with <code>coreos-installer --ignition-url</code></li>
+<li>Sensitive fields in Butane configs encrypted at rest with <strong>SOPS + age</strong></li>
+</ol>
 <hr />
-<h3 id="secure-access">Secure Access</h3>
-<p><strong>Tailscale</strong></p>
-<ul>
-<li>Ubuntu Server VM acts as:</li>
-<li>Management node</li>
-<li>Tailscale exit node</li>
-<li>Enables:</li>
-<li>Secure remote <code>kubectl</code> access</li>
-<li>MagicDNS access to internal services (e.g. Argo CD)</li>
-<li>Safe connectivity during firewall or routing changes (no lockouts)</li>
-</ul>
-<h2 id="platform-capabilities">⚙️ Platform Capabilities</h2>
-<p>Rather than isolated "projects", the cluster is operated as a <strong>cohesive platform</strong>:</p>
-<ul>
-<li>
-<p><strong>GitOps CI/CD</strong></p>
-</li>
-<li>
-<p>Argo CD, GitHub Actions, Kustomize</p>
-</li>
-<li>
-<p><strong>Ingress &amp; Load Balancing</strong></p>
-</li>
-<li>
-<p>Traefik</p>
-</li>
-<li>MetalLB (Layer 2, migrating toward BGP)</li>
-<li>
-<p><strong>Observability</strong></p>
-</li>
-<li>
-<p>Fluent Bit, Loki, Grafana</p>
-</li>
-<li>
-<p><strong>Registry</strong></p>
-</li>
-<li>
-<p>Self-hosted container registry</p>
-</li>
-<li>
-<p><strong>Secure Exposure</strong></p>
-</li>
-<li>
-<p>Cloudflare Tunnel</p>
-</li>
-<li>
-<p><strong>Cluster UI</strong></p>
-</li>
-<li>
-<p>Custom read-only portal (SvelteKit + RBAC)</p>
-</li>
-</ul>
-<p>Each component is installed and maintained manually or declaratively — no "click-ops".</p>
-<h2 id="ongoing-work-next-steps">🔬 Ongoing Work &amp; Next Steps</h2>
-<ul>
-<li>MetalLB <strong>BGP mode</strong> for higher availability</li>
-<li>Autoscaling workloads driven by real usage</li>
-<li>Kafka-compatible messaging with <strong>Redpanda</strong></li>
-<li>Extended observability (Elastic stack)</li>
-</ul>
-<p>These changes are evaluated for <strong>operability</strong>, not just feature coverage.</p>
-<h2 id="experiments-secondary">🧪 Experiments (Secondary)</h2>
-<ul>
-<li>Woodpecker CI (self-hosted pipelines)</li>
-<li>Gitea (SCM + pipelines)</li>
-</ul>
-<p>Used selectively to compare trade-offs against managed tooling.</p>
-<h2 id="what-this-lab-demonstrates">🎯 What this lab demonstrates</h2>
-<ul>
-<li>End-to-end Kubernetes platform ownership</li>
-<li>Networking beyond "Kubernetes-only" abstractions</li>
-<li>Immutable infrastructure patterns</li>
-<li>GitOps and declarative operations</li>
-<li>Failure-aware design and recovery paths</li>
-<li>Comfort operating without safety nets (SSH, UI firewalls, etc.)</li>
-</ul>
+<h2 id="platform-stack">Platform Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+<th>Deployed via</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k3s</td>
+<td>Kubernetes distribution</td>
+<td>systemd service on CoreOS nodes</td>
+</tr>
+<tr>
+<td>OVN-Kubernetes</td>
+<td>CNI — pod networking, egress control</td>
+<td>Helm (from upstream repo)</td>
+</tr>
+<tr>
+<td>MetalLB (BGP)</td>
+<td>LoadBalancer IP assignment</td>
+<td><code>kubectl apply</code></td>
+</tr>
+<tr>
+<td>Traefik</td>
+<td>HTTP/HTTPS ingress</td>
+<td>Helm (Terraform)</td>
+</tr>
+<tr>
+<td>Argo CD</td>
+<td>GitOps continuous delivery</td>
+<td><code>kubectl apply</code></td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>CI — build, push, tag</td>
+<td>Workflows in repo</td>
+</tr>
+<tr>
+<td>Kustomize</td>
+<td>Manifest templating (image tags)</td>
+<td>Used by Argo CD</td>
+</tr>
+<tr>
+<td>Fluent Bit + Loki + Grafana</td>
+<td>Log aggregation and visualization</td>
+<td>Helm</td>
+</tr>
+<tr>
+<td>Cloudflare Tunnel</td>
+<td>Secure external ingress</td>
+<td><code>cloudflared</code> Deployment</td>
+</tr>
+<tr>
+<td>Tailscale</td>
+<td>Encrypted remote access + MagicDNS</td>
+<td>VyOS plugin + k8s operator</td>
+</tr>
+<tr>
+<td>Docker Registry</td>
+<td>Self-hosted container registry</td>
+<td>Deployment + PVC</td>
+</tr>
+<tr>
+<td>Portal</td>
+<td>Read-only cluster UI (SvelteKit + RBAC)</td>
+<td>Docker Hub → Argo CD</td>
+</tr>
+<tr>
+<td>SOPS + age</td>
+<td>Secret encryption for infra configs</td>
+<td>CLI + <code>.sops.yaml</code> rules</td>
+</tr>
+</tbody>
+</table>
 </section>
 
             </main>
