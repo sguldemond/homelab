@@ -3,3 +3,4 @@ theme:
   name: terminal
 nav:
   - Home: index.md
+  - Journal: journal.md
