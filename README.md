@@ -1,4 +1,4 @@
-# Homelab — Proxmox · Fedora CoreOS · k3s · VyOS
+# Homelab — Intel Macs · Fedora CoreOS · k3s · VyOS
 
 > A chronological log of what was built, what broke, and what was learned:
 > [homelab.stansyfert.com/journal](https://homelab.stansyfert.com/journal)
