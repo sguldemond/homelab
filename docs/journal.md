@@ -2,7 +2,18 @@
 
 ---
 
-Lost connection to Homelab, Mac mini and MBP keep disconneting after some time.
+Rebooting my MkDocs setup to start hosting my blog from here as well.
+I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.
+```
+dig _github-pages-challenge-sguldemond.stansyfert.com
+...
+stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
+```
+
+---
+
+Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
 Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
 DHCP-lease is expiring on the NIC interface,
 OVN took over the NIC with its bridge, inherits its IP for a while,

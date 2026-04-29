@@ -1504,7 +1504,7 @@ TCP and UDP have to be exposed...
 
 ---
 
-Lost connection to Homelab, Mac mini and MBP keep disconneting after some time.
+Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
 Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
 DHCP-lease is expiring on the NIC interface,
 OVN took over the NIC with its bridge, inherits its IP for a while,
