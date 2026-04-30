@@ -1,5 +1,7 @@
 # this blog
 
+(30-04-2026)
+
 inspired by lena dunham's/hannah horvath's quote:
 > I think I might be the voice of my generation. Or, at least, a voice of a generation
 
@@ -23,9 +25,8 @@ it didn't exist. i guess wel'll be talking about a pre and post ai time pretty s
 and i remember it being quite a lot of work, especially when it becomes a shadow book keeping task, where every change needs to be reflected in the documentation again. nontheless i was impressed by myself, because i was immediatly transported to the work i was doing at the time. the stuff i was figuring out, the work arounds, it was like being transported back in time to what my mind was figuring out.
 
 and recently i saw this article on hackernews:
->  Large language models may be standardizing human expression — and subtly influencing how we think, say computer science and psychology researchers at USC Dornsife.
->
-> (https://dornsife.usc.edu/news/stories/ai-may-be-making-us-think-and-write-more-alike/)
+> [Large language models may be standardizing human expression — and subtly influencing how we think, say computer science and psychology researchers at USC Dornsife.](https://dornsife.usc.edu/news/stories/ai-may-be-making-us-think-and-write-more-alike/)
+
 
 i have no clue if this is going to pan out like this, but i did get me activated. i want to presurve my unique way of thinking, speaking, doing, because i like it. my entire life i've been building up my vocabulary, problem solving skills, creative thinking, which i want to keep expanding, improving, play around with it.
 

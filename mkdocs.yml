@@ -1,8 +1,11 @@
 site_name: stan syfert
 theme:
   name: terminal
+  features:
+      - navigation.side.indexes
 nav:
-  - home: index.md
-  - journal: journal.md
   - blog:
+    - Index: blog/index.md
     - this blog: blog/this-blog.md
+  - homelab: index.md
+  - journal: journal.md

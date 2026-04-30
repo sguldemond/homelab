@@ -1537,3 +1537,6 @@ dig _github-pages-challenge-sguldemond.stansyfert.com
 stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
 ```
 
+Whenever I tun `mkdocs gh-deploy` my GitHub Pages connection to my domain `readme.stansyfert.com` breaks,
+need to fix this!
+Also I need to delete all the build files every time.
