@@ -1540,3 +1540,4 @@ stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.c
 Whenever I tun `mkdocs gh-deploy` my GitHub Pages connection to my domain `readme.stansyfert.com` breaks,
 need to fix this!
 Also I need to delete all the build files every time.
+GitHub pages has a thing where you include CNAME as file with your domain name in the docs folder, which MkDocs respects.
