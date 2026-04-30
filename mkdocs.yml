@@ -1,6 +1,8 @@
-site_name: Homelab - Stan Syfert
+site_name: stan syfert
 theme:
   name: terminal
 nav:
-  - Home: index.md
-  - Journal: journal.md
+  - home: index.md
+  - journal: journal.md
+  - blog:
+    - this blog: blog/this-blog.md
