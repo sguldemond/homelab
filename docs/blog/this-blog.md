@@ -21,7 +21,7 @@ i had a nfc scanner which could scan passports, cool project, might talk about t
 
 anyhow, i was reading the documentation i wrote for it, and i was thinking to myself,
 how crazy that i wrote all this stuff, by hand! no ai/llm to generate it for me at all,
-it didn't exist. i guess wel'll be talking about a pre and post ai time pretty soon.
+it didn't exist. i guess we'll be talking about a pre and post ai time pretty soon.
 and i remember it being quite a lot of work, especially when it becomes a shadow book keeping task, where every change needs to be reflected in the documentation again. nontheless i was impressed by myself, because i was immediatly transported to the work i was doing at the time. the stuff i was figuring out, the work arounds, it was like being transported back in time to what my mind was figuring out.
 
 and recently i saw this article on hackernews:
