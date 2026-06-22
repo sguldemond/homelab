@@ -6,7 +6,7 @@ theme:
 nav:
   - blog:
     - Index: blog/index.md
-    - i stuck a goblin inside a k8s cluster: blog/goblin-operator.md
+    - goblin operator: blog/goblin-operator.md
     - my homelab: blog/my-homelab.md
     - this blog: blog/this-blog.md
   - homelab: index.md
