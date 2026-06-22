@@ -1,0 +1,89 @@
+{
+  "ignition": {
+    "version": "3.5.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "groups": [
+          "wheel"
+        ],
+        "name": "stan",
+        "passwordHash": "$6$6SpgcLbCKN3.igkA$DK/bPskr5Rj2EBA1ZZrPgT7QauUtrFZ8IonDxfan6i5x0jCaMtNfbqowEnyPAEl/WzFHbmH.X5piz5cEQiadl0",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPKFMbjStE5sjG2Q5z3ovmbB3hTj85E4FtIC46T8NSHWDqCbMEpdN4AP2UZEjdf8tBS+LH5EGeQEQD1DTGScPodOloeU9/2OHHrjD066qIjYGa/2AWwdbnOSNxGY0sOFW//RojO8DeoK4fhWHunTbgxbzpuqFegmttyRrIkiaTQilBuIPM0Z52Dh9o1aLDnXBBScoz/txvVspNSqTgXWELO5TM3guHWaQhtHt5nEMksd0wmbtXmDu3aBXOQoQv2t1s3JIzyDk1wPLEfeiwXRM92yXv/pyV8Ww3UhdvDFol9MO00FDRQzaC6iKUQmIB2WhccSb/OgrCiG0gLnCrKGoAnDzpalTy1Ytq5zH+wVl+kfCSqTnId+9fXly5wK5LTw39P/T8VqbbQqi3s489Evh+wUOuy07NziF5fSwHzHYOP0Kz0bcKNoPb+SKIyC55HKOfsLR98JLdvEghYcDgntkQOAfTf3eYGzu2dUR3cw5JByD8lAtUZL5rJ0H+r1WEvJU= stan@tp1-ubuntu",
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOD37/sEc6hPrsZw7xgVKN+Ln9Ug6jpP8UKkNsqhBdOr devo-hp-fedora"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "compression": "",
+          "source": "data:,mbp"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/sysctl.d/99-kubernetes.conf",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/8pLLdFLKspMSU+FUrp5abrJiTk5upkFJYlJOanFCrYKhlz4lJmhqcssKDPRyyyIT8svKk8sSgGLAwIAAP//DfrWpWcAAAA="
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/systemd/system/disable-swap.service",
+        "contents": {
+          "compression": "",
+          "source": "data:,%5BUnit%5D%0ADescription%3DDisable%20swap%0AAfter%3Dnetwork-online.target%0A%0A%5BService%5D%0AType%3Doneshot%0AExecStart%3D%2Fusr%2Fsbin%2Fswapoff%20-a%0A%0A%5BInstall%5D%0AWantedBy%3Dmulti-user.target%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/systemd/logind.conf.d/ignore-lid-switch.conf",
+        "contents": {
+          "compression": "",
+          "source": "data:,%5BLogin%5D%0AHandleLidSwitch%3Dignore%0AHandleLidSwitchExternalPower%3Dignore%0AHandleLidSwitchDocked%3Dignore%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/systemd/resolved.conf.d/global-dns.conf",
+        "contents": {
+          "compression": "",
+          "source": "data:,%5BResolve%5D%0ADNS%3D192.168.2.1%0AFallbackDNS%3D1.1.1.1%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/NetworkManager/system-connections/wired-connection.nmconnection",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/1SMyw6DIBAA7/svWlFjlYQvMRw2sK0kZTGw1vj3PfR9nZnM7BIzOQmJLQRv9pDJV18IcqxkSBbKTAKBhfIFHVWMkQxxmQDmt7YQ0VXofaZSDDo9njV2WnW6GbVqAOaw3nsLkWRJ3kTkDW/w6qkYNbW1Gsa6rZU6tT1cUWjH45eD57/u+Rw+T9wkwSMAAP//bQtfP9UAAAA="
+        },
+        "mode": 384
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "enabled": true,
+        "name": "disable-swap.service"
+      },
+      {
+        "enabled": true,
+        "name": "sshd.service"
+      },
+      {
+        "contents": "[Unit]\nDescription=Install Tailscale\nWants=network-online.target\nAfter=network-online.target\nConditionPathExists=!/usr/bin/tailscale\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/rpm-ostree install tailscale\nExecStart=/usr/bin/systemctl reboot\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "rpm-ostree-install-tailscale.service"
+      }
+    ]
+  }
+}

@@ -1541,3 +1541,45 @@ Whenever I tun `mkdocs gh-deploy` my GitHub Pages connection to my domain `readm
 need to fix this!
 Also I need to delete all the build files every time.
 GitHub pages has a thing where you include CNAME as file with your domain name in the docs folder, which MkDocs respects.
+
+---
+
+Some issues with mbp access it seems,
+I installed NetworkManager-ovs, not sure if its playing nicely.
+Removed it for now:
+```
+sudo rpm-ostree remove NetworkManager-ovs
+```
+
+---
+
+Going to re-install both k8s machines with CoreOS,
+since after installen OVN-kubernetes I'm gaving connection issues.
+It was a fun experiment, but I want a stable cluster again.
+
+I also would like to create a seperate storage partition on the mac mini,
+so that I can store data there, and when I would need to reinstall the OS,
+I can leave that partition be, so it can be mounted again.
+
+I was able to add the partition via Butane file. Still some unused disk space there,
+but I'll leave that for now. The root partition has 32GB and the data one 200GB,
+the total size of the disk is almost 500GB.
+
+In more deperate attempt to let my Thunderbolt-to-Ethernet dongle work nice in my homelab added this in the Proxmox OS:
+```
+  echo 'ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{authorized}=="1", TEST=="power/control", ATTR{power/control}="on"' \
+    > /etc/udev/rules.d/99-thunderbolt-pm.rules
+  udevadm control --reload && udevadm trigger
+```
+
+Installing mbp as k3s agent is kinda annoying.
+Unclear where to get the node token from, now using:
+```
+stan@macmini1:~$ sudo cat /var/lib/rancher/k3s/server/node-token
+```
+Also need to add 6443 in the ip address when running script on mbp:
+```
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.2.60:6443 K3S_TOKEN=xxx sh -s - --debug
+```
+Its up, finally.
+

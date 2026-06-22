@@ -1,0 +1,96 @@
+variant: fcos
+version: 1.6.0
+passwd:
+    users:
+        - name: stan
+          groups:
+            - wheel
+          password_hash: $6$6SpgcLbCKN3.igkA$DK/bPskr5Rj2EBA1ZZrPgT7QauUtrFZ8IonDxfan6i5x0jCaMtNfbqowEnyPAEl/WzFHbmH.X5piz5cEQiadl0
+          ssh_authorized_keys:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPKFMbjStE5sjG2Q5z3ovmbB3hTj85E4FtIC46T8NSHWDqCbMEpdN4AP2UZEjdf8tBS+LH5EGeQEQD1DTGScPodOloeU9/2OHHrjD066qIjYGa/2AWwdbnOSNxGY0sOFW//RojO8DeoK4fhWHunTbgxbzpuqFegmttyRrIkiaTQilBuIPM0Z52Dh9o1aLDnXBBScoz/txvVspNSqTgXWELO5TM3guHWaQhtHt5nEMksd0wmbtXmDu3aBXOQoQv2t1s3JIzyDk1wPLEfeiwXRM92yXv/pyV8Ww3UhdvDFol9MO00FDRQzaC6iKUQmIB2WhccSb/OgrCiG0gLnCrKGoAnDzpalTy1Ytq5zH+wVl+kfCSqTnId+9fXly5wK5LTw39P/T8VqbbQqi3s489Evh+wUOuy07NziF5fSwHzHYOP0Kz0bcKNoPb+SKIyC55HKOfsLR98JLdvEghYcDgntkQOAfTf3eYGzu2dUR3cw5JByD8lAtUZL5rJ0H+r1WEvJU= stan@tp1-ubuntu
+            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOD37/sEc6hPrsZw7xgVKN+Ln9Ug6jpP8UKkNsqhBdOr devo-hp-fedora
+storage:
+    files:
+        - path: /etc/hostname
+          mode: 420
+          contents:
+            inline: mbp
+        - path: /etc/sysctl.d/99-kubernetes.conf
+          mode: 420
+          contents:
+            inline: |
+                net.bridge.bridge-nf-call-iptables = 1
+                net.bridge.bridge-nf-call-ip6tables = 1
+                net.ipv4.ip_forward = 1
+        - path: /etc/systemd/system/disable-swap.service
+          mode: 420
+          contents:
+            inline: |
+                [Unit]
+                Description=Disable swap
+                After=network-online.target
+
+                [Service]
+                Type=oneshot
+                ExecStart=/usr/sbin/swapoff -a
+
+                [Install]
+                WantedBy=multi-user.target
+        - path: /etc/systemd/logind.conf.d/ignore-lid-switch.conf
+          mode: 420
+          contents:
+            inline: |
+                [Login]
+                HandleLidSwitch=ignore
+                HandleLidSwitchExternalPower=ignore
+                HandleLidSwitchDocked=ignore
+        - path: /etc/systemd/resolved.conf.d/global-dns.conf
+          mode: 420
+          contents:
+            inline: |
+                [Resolve]
+                DNS=192.168.2.1
+                FallbackDNS=1.1.1.1
+        - path: /etc/NetworkManager/system-connections/wired-connection.nmconnection
+          mode: 384
+          contents:
+            inline: |
+                [connection]
+                id=wired-connection
+                type=ethernet
+                interface-name=ens9
+
+                [ethernet]
+                mac-address=ac:87:a3:13:08:10
+
+                [ipv4]
+                method=manual
+                addresses=192.168.2.11/24
+                gateway=192.168.2.1
+                dns=192.168.2.1
+
+                [ipv6]
+                method=auto
+systemd:
+    units:
+        - name: disable-swap.service
+          enabled: true
+        - name: sshd.service
+          enabled: true
+        - name: rpm-ostree-install-tailscale.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Install Tailscale
+            Wants=network-online.target
+            After=network-online.target
+            ConditionPathExists=!/usr/bin/tailscale
+
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/bin/rpm-ostree install tailscale
+            ExecStart=/usr/bin/systemctl reboot
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
