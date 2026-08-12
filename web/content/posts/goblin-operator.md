@@ -1,5 +1,5 @@
 ---
-title: "i stuck a goblin inside a k8s cluster"
+title: "i stuck a goblin inside a kubernetes cluster"
 date: 2026-06-22
 tags: ["kubernetes", "llm", "operators"]
 aliases: ["/blog/goblin-operator/"]

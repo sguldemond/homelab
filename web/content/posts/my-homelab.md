@@ -1,5 +1,5 @@
 ---
-title: "my homelab"
+title: "about my homelab? or not"
 date: 2026-05-04
 tags: ["homelab"]
 aliases: ["/blog/my-homelab/"]

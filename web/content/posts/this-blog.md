@@ -1,5 +1,5 @@
 ---
-title: "this blog"
+title: "starting a new blog, this one"
 date: 2026-04-30
 tags: ["meta", "writing"]
 aliases: ["/blog/this-blog/"]

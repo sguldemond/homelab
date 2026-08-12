@@ -1,5 +1,5 @@
 ---
-title: "rebuilding the blog"
+title: "rebuilding this blog with only claude code prompts"
 date: 2026-08-12
 tags: [meta, ai, claude code, blog]
 ---
