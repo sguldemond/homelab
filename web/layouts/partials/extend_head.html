@@ -22,6 +22,15 @@
     vertical-align: middle;
   }
 
+  /* lift images in posts off the page — mostly screenshots */
+  .post-content img {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .10), 0 8px 24px rgba(0, 0, 0, .12);
+  }
+  .dark .post-content img {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .40), 0 8px 24px rgba(0, 0, 0, .45);
+  }
+
   /* labelled social links: icon and word on one baseline */
   .social-icons a {
     display: inline-flex;

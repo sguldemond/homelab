@@ -32,6 +32,7 @@ list of my claude code prompts since the rewrite untill now:
 
 before:
 
+![the mkdocs blog, terminal theme](/images/blog-before-mkdocs.png)
 
 after:
 
