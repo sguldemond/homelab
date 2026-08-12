@@ -17,15 +17,14 @@ list of my claude code prompts since the rewrite untill now:
 - https://www.linkedin.com/in/stan-syfert-56291b120/ _(sent mid-turn, correcting the LinkedIn URL I'd guessed)_
 - when i click through it now it links to my live website
 - possible to make this a drop in replacement for mkdocs and serve it on gh pages as is, without changing gh pages settings?
-- can we use this as a logo, add to it to the home page, somehow add it as favicon etc (with the goblin image attached)
-- _(re-sent the image with its path, /home/stan/Projects/Go/goblin/docs/images/goblin-logo.png, after I said I couldn't find the file on disk)_
+- can we use this as a logo, add to it to the home page, somehow add it as favicon etc _(with the goblin image attached)_
 - i missed the gh pages stuff, ready to deploy?
-- (answering my deploy question, no option selected) and merge with main to make it work.
+- _(answering my deploy question, no option selected)_ and merge with main to make it work.
 - looks good, drop the mkdocs stuff
 - did you change the papermodx repo? whats with the dirty thing? _(sent mid-turn)_
 - commit and push it
-- align the goblin to the right, so its aligned with hello world )(with the screenshot attached)_
-- (answering my alignment question) Left, above the title
+- align the goblin to the right, so its aligned with hello world _(with the screenshot attached)_
+- _(answering my alignment question)_ Left, above the title
 - are you able to align the goblin inside its frame more centrally? are you able to see that on the bottom it has more black space? _(sent mid-turn)_
 - is it supported to make the links to my GitHub and LinkedIn more explicit, with a word next to the logo?
 - give me a list of my prompts since this one: "go ahead and rebuild my blog into a hugo blog...
