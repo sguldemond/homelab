@@ -27,8 +27,12 @@
     text-transform: none;
   }
 
-  /* lift images in posts off the page — mostly screenshots */
+  /* lift images in posts off the page — mostly screenshots.
+     height:auto matters: the render hook emits intrinsic width/height
+     attributes and the theme's reset caps width without releasing height,
+     so without it images squash vertically on narrow screens. */
   .post-content img {
+    height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .10), 0 8px 24px rgba(0, 0, 0, .12);
   }
