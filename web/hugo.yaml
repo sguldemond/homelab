@@ -56,10 +56,12 @@ params:
   images: ["/images/goblin-logo.png"]
 
   homeInfoParams:
-    Title: "hello world!"
+    Title: "stan syfert"
     Content: |
-      - [posts](/posts/) — the blog
-      - [homelab](/homelab/) — what the lab actually is
+      i love building systems with people. software, platform, integration, the hats changr and probably more to come. what doesn’t change is the chase: making the system tick, and making it stick.
+
+      - [posts](/posts/) — my blog
+      - [homelab](/homelab/) — what my lab actually is
       - [journal](/journal/) — chronological log of what broke
       - [resume](/resume/) — where i've worked, as a pdf
 
