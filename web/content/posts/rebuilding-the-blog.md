@@ -2,7 +2,6 @@
 title: "rebuilding the blog"
 date: 2026-08-12
 tags: [meta, ai, claude code, blog]
-draft: true
 ---
 
 lets capture the moment we're in, in a few years this is going to feel ancient again.
