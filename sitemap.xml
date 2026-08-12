@@ -2,6 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://readme.stansyfert.com/tags/ai/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/blog/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/claude-code/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/meta/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/posts/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/posts/rebuilding-the-blog/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/</loc>
+    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://readme.stansyfert.com/posts/goblin-operator/</loc>
     <lastmod>2026-06-22T00:00:00+00:00</lastmod>
   </url><url>
@@ -14,23 +38,11 @@
     <loc>https://readme.stansyfert.com/tags/operators/</loc>
     <lastmod>2026-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://readme.stansyfert.com/posts/</loc>
-    <lastmod>2026-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://readme.stansyfert.com/</loc>
-    <lastmod>2026-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://readme.stansyfert.com/tags/</loc>
-    <lastmod>2026-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://readme.stansyfert.com/tags/homelab/</loc>
     <lastmod>2026-05-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://readme.stansyfert.com/posts/my-homelab/</loc>
     <lastmod>2026-05-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://readme.stansyfert.com/tags/meta/</loc>
-    <lastmod>2026-04-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://readme.stansyfert.com/posts/this-blog/</loc>
     <lastmod>2026-04-30T00:00:00+00:00</lastmod>
