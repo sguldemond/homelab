@@ -32,7 +32,7 @@ The lab runs on an isolated **Lab LAN (192.168.2.0/24)**, separated from the hom
 - **MetalLB BGP speakers** on each node advertise LoadBalancer IPs to VyOS, which installs them as host routes — no ARP or L2 magic
 - **Tailscale** on VyOS advertises the Lab LAN subnet (`192.168.2.0/24`), enabling full remote access without a jump host
 
-![lab-network](/images/lab-lab-network.png)
+![lab-lab-network](/images/lab-lab-network.png)
 
 ### Kubernetes
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Script to revert JOURNAL.md by reversing sections delimited by "---"
-# Output saved to docs/journal.md
+# Output saved to web/content/journal.md, with Hugo front matter prepended.
 
 INPUT_FILE="JOURNAL.md"
-OUTPUT_FILE="docs/journal.md"
+OUTPUT_FILE="web/content/journal.md"
 
 # Check if input file exists
 if [ ! -f "$INPUT_FILE" ]; then
@@ -14,6 +14,10 @@ fi
 
 # Create output directory if it doesn't exist
 mkdir -p "$(dirname "$OUTPUT_FILE")"
+
+# Hugo front matter; the "# Journal" H1 from JOURNAL.md is dropped below
+# because the theme renders the title itself.
+printf -- '---\ntitle: "journal"\nShowToc: true\n---\n\n' > "$OUTPUT_FILE"
 
 # Use awk to split by "---" delimiter and reverse sections
 awk '
@@ -29,17 +33,12 @@ BEGIN {
     }
 }
 END {
-    # Check if first section is a header (starts with "# Journal")
+    # Skip the leading "# Journal" header section; Hugo renders the title
     start_idx = 0
     if (section_count > 0 && sections[0] ~ /^# Journal/) {
-        # Print header
-        print sections[0]
-        print ""
-        print "---"
-        print ""
         start_idx = 1
     }
-    
+
     # Print sections in reverse order
     for (i = section_count - 1; i >= start_idx; i--) {
         if (i < section_count - 1) {
@@ -49,6 +48,6 @@ END {
         }
         print sections[i]
     }
-}' "$INPUT_FILE" > "$OUTPUT_FILE"
+}' "$INPUT_FILE" >> "$OUTPUT_FILE"
 
 echo "Reversed journal saved to $OUTPUT_FILE"

@@ -30,8 +30,14 @@ curl -sSL https://github.com/gohugoio/hugo/releases/download/v0.164.0/hugo_exten
 ## Layout
 
 - `content/posts/` — blog posts (front matter: `title`, `date`, `tags`)
-- `content/homelab.md`, `content/journal.md` — standalone pages
+- `content/homelab.md` — **generated** from the repo `README.md` by
+  `scripts/prepare-readme-for-hugo.sh` (pre-commit hook). Edit `README.md`.
+- `content/journal.md` — **generated** from `JOURNAL.md` by
+  `scripts/revert-journal.sh`, which reverses the entries so newest is first
+  (pre-commit hook). Edit `JOURNAL.md`.
 - `static/images/` — images, referenced as `/images/foo.png`
+- `static/blog/images/`, `static/drawio/` — kept only so deep links from the
+  old MkDocs site don't 404
 - `static/CNAME` — GitHub Pages custom domain
 - `layouts/` — local overrides of theme templates (see notes in each file;
   PaperModX is a bit behind current Hugo and needs a few patches)
