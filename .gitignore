@@ -8,3 +8,7 @@
 
 # Python
 .venv/
+# Hugo
+web/public/
+web/resources/
+.hugo_build.lock

@@ -1,0 +1,22 @@
+{{/*
+  Override of PaperModX's partial: the upstream version uses `getJSON`, which
+  was removed from Hugo in v0.157.0. Same behaviour via resources.GetRemote.
+*/}}
+<div class="tweet social-quote">
+  <div class="title">
+    {{ safeHTML (index site.Data.svg "twitter-simple") }}
+    {{ with .title }}<span>{{ . }}</span>{{ end }}
+  </div>
+
+  {{- $url := printf "https://twitter.com/%v/status/%v" .user .id -}}
+  {{- $query := querify "url" $url "dnt" true -}}
+  {{- $request := printf "https://publish.twitter.com/oembed?%s" $query -}}
+  {{- with try (resources.GetRemote $request) -}}
+    {{- with .Err -}}
+      {{- warnf "social_quote_tweet: %s" . -}}
+    {{- else with .Value -}}
+      {{- $json := unmarshal .Content -}}
+      {{- replaceRE "<script.+/script>" "" $json.html | safeHTML -}}
+    {{- end -}}
+  {{- end -}}
+</div>

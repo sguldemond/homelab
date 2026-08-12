@@ -1,12 +1,15 @@
-# i stuck a goblin inside a k8s cluster
-
-(22-06-2026)
+---
+title: "i stuck a goblin inside a k8s cluster"
+date: 2026-06-22
+tags: ["kubernetes", "llm", "operators"]
+aliases: ["/blog/goblin-operator/"]
+---
 
 could i create a small LLM agent with limited permissions, that can still be useful?
 
 [yes i can, and i did!](https://github.com/sguldemond/goblin-operator)
 
-![goblin-scout](images/goblin-scout.png)
+![goblin-scout](/images/goblin-scout.png)
 
 the idea is that when an issue occurs in the middle of the night, the goblin pings you on telegram (or slack, whatever).
 you see the proposed solution and you can chat with the goblin about it.

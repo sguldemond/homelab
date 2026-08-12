@@ -1,0 +1,24 @@
+{{/* Extra favicon sizes; the .ico and apple-touch-icon come from params in head.html. */}}
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | absURL }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ "favicon-16x16.png" | absURL }}">
+
+<style>
+  /* goblin logo on the home page */
+  .home-info .home-logo {
+    display: block;
+    margin: 0 auto var(--gap, 24px);
+    border-radius: 12px;
+    max-width: 180px;
+    height: auto;
+  }
+  /* the artwork has a black background, so give it a glow instead of a hard edge */
+  .home-info .home-logo,
+  .logo img {
+    background: #000;
+  }
+  .logo img {
+    border-radius: 6px;
+    margin-inline-end: 8px;
+    vertical-align: middle;
+  }
+</style>

@@ -1,0 +1,21 @@
+# Lower-cased overrides of PaperModX's English strings.
+- id: home
+  translation: "home"
+
+- id: prev_page
+  translation: "prev page"
+
+- id: next_page
+  translation: "next page"
+
+- id: toc
+  translation: "table of contents"
+
+- id: translations
+  translation: "translations"
+
+- id: edit_post
+  translation: "edit"
+
+- id: comments
+  translation: "comments"

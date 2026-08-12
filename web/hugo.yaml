@@ -1,0 +1,107 @@
+baseURL: "https://readme.stansyfert.com/"
+title: "stan syfert"
+theme: PaperModX
+locale: en-us
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+enableEmoji: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# keep auto-generated titles (taxonomies, terms) as written instead of Title Cased
+titleCaseStyle: none
+
+disableKinds:
+  - rss
+
+pagination:
+  pagerSize: 10
+
+params:
+  env: production
+  description: "notes on platform engineering, kubernetes and whatever else i'm poking at"
+  author: "stan syfert"
+  mainSections:
+    - posts
+  DateFormat: "02-01-2006"
+
+  defaultTheme: light
+  ShowReadingTime: false
+  ShowWordCount: false
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  TocOpen: false
+  TocSide: "right"
+  EnableInstantClick: true
+  EnableImageZoom: true
+  disableAnchoredHeadings: true
+
+  # header logo, resolved from web/assets/
+  logo:
+    icon: images/goblin-logo.png
+    iconHeight: 30
+    iconWidth: 30
+
+  favicon: "/favicon.ico"
+  appleTouchIcon: "/apple-touch-icon.png"
+
+  # fallback social/link-preview image
+  images: ["/images/goblin-logo.png"]
+
+  homeInfoParams:
+    Title: "hello world!"
+    Content: |
+      i write to think
+
+      - [posts](/posts/) — the blog
+      - [homelab](/homelab/) — what the lab actually is
+      - [journal](/journal/) — chronological log of what broke
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/sguldemond"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/stan-syfert-56291b120/"
+
+menu:
+  main:
+    - name: posts
+      url: /posts/
+      weight: 1
+    - name: homelab
+      url: /homelab/
+      weight: 2
+    - name: journal
+      url: /journal/
+      weight: 3
+    - name: tags
+      url: /tags/
+      weight: 4
+    - name: search
+      url: /search/
+      weight: 5
+
+outputs:
+  home:
+    - HTML
+    - JSON
+
+taxonomies:
+  tag: tags
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: dracula
+    lineNos: false
+    noClasses: false
+
+minify:
+  disableXML: true

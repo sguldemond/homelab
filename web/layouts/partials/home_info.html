@@ -1,0 +1,23 @@
+{{/*
+  Override of PaperModX's home_info: same as upstream, plus the goblin logo
+  above the title. Lives here rather than in homeInfoParams so editing the
+  intro text in hugo.yaml can't drop the image.
+*/}}
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info">
+  {{- with resources.Get "images/goblin-logo.png" }}
+    {{- $logo := .Resize "360x webp q90" }}
+  <img class="home-logo" src="{{ $logo.RelPermalink }}" width="180" height="180"
+       alt="a neon goblin holding a wrench" loading="eager">
+  {{- end }}
+  <header class="entry-header">
+    <h1>{{ .Title | markdownify }}</h1>
+  </header>
+  <section class="entry-content">
+    {{- trim .Content "\n" | markdownify -}}
+  </section>
+  <footer class="entry-footer">
+    {{- partial "social_icons.html" (dict "icons" site.Params.socialIcons "svg" hugo.Data.svg "MaskedEmail" site.Params.MaskedEmail "Email" site.Params.Email) -}}
+  </footer>
+</article>
+{{- end -}}

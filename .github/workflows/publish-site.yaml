@@ -1,0 +1,51 @@
+name: publish-site
+
+# Builds the Hugo site in web/ and pushes it to the root of the gh-pages
+# branch — the same place `mkdocs gh-deploy` used to publish to, so the
+# existing GitHub Pages "deploy from branch" setting keeps working unchanged.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - '.github/workflows/publish-site.yaml'
+  workflow_dispatch:
+
+env:
+  HUGO_VERSION: 0.164.0
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install Hugo
+        run: |
+          curl -sSL -o hugo.tar.gz \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          tar xzf hugo.tar.gz hugo
+          sudo install -m 0755 hugo /usr/local/bin/hugo
+          hugo version
+
+      - name: Build
+        run: hugo --source web --minify
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./web/public
+          # CNAME and .nojekyll ship from web/static, so nothing extra needed
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Deployed ${{ github.sha }} with Hugo ${{ env.HUGO_VERSION }}"

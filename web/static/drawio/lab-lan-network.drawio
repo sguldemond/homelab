@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0" version="29.2.9">
+  <diagram name="Page-1" id="Lp5ogyroLJ5sEboWOQuD">
+    <mxGraphModel dx="883" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-19" edge="1" parent="1" source="kIWhCLuOIBJcznp3t5KV-16" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" target="kIWhCLuOIBJcznp3t5KV-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-16" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1" value="&lt;div&gt;Home LAB&lt;/div&gt;192.168.1.0/24" vertex="1">
+          <mxGeometry height="30" width="120" x="325" y="227" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-20" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="120" width="210" x="110" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-6" parent="kIWhCLuOIBJcznp3t5KV-20" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Mac mini&lt;/div&gt;&lt;div&gt;Proxmox VE&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="210" x="-1" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-7" parent="kIWhCLuOIBJcznp3t5KV-20" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Talos VM&lt;/div&gt;&lt;div&gt;Control Plane&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="90" x="9" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-8" parent="kIWhCLuOIBJcznp3t5KV-20" style="rounded=1;whiteSpace=wrap;html=1;" value="Talos VM&lt;br&gt;Worker" vertex="1">
+          <mxGeometry height="60" width="90" x="109" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-21" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="120" width="210" x="453" y="479" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-12" parent="kIWhCLuOIBJcznp3t5KV-21" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;MacBook Pro&lt;/div&gt;&lt;div&gt;Proxmox VE&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="210" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-13" parent="kIWhCLuOIBJcznp3t5KV-21" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Talos VM&lt;/div&gt;&lt;div&gt;Control Plane&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="90" x="10" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-14" parent="kIWhCLuOIBJcznp3t5KV-21" style="rounded=1;whiteSpace=wrap;html=1;" value="Talos VM&lt;br&gt;Worker" vertex="1">
+          <mxGeometry height="60" width="90" x="110" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-22" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="120" width="210" x="280" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-1" parent="kIWhCLuOIBJcznp3t5KV-22" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Mac mini&lt;/div&gt;&lt;div&gt;Proxmox VE&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="210" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-3" parent="kIWhCLuOIBJcznp3t5KV-22" style="rounded=1;whiteSpace=wrap;html=1;" value="VyOS VM" vertex="1">
+          <mxGeometry height="60" width="90" x="10" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-4" parent="kIWhCLuOIBJcznp3t5KV-22" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Ubuntu&lt;/div&gt;&lt;div&gt;Server VM&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="90" x="110" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1" value="&lt;div&gt;Lab LAN&lt;/div&gt;192.168.2.0/24" vertex="1">
+          <mxGeometry height="30" width="60" x="355" y="523" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-26" edge="1" parent="1" source="kIWhCLuOIBJcznp3t5KV-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" target="kIWhCLuOIBJcznp3t5KV-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-27" edge="1" parent="1" source="kIWhCLuOIBJcznp3t5KV-6" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" target="kIWhCLuOIBJcznp3t5KV-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kIWhCLuOIBJcznp3t5KV-28" edge="1" parent="1" source="kIWhCLuOIBJcznp3t5KV-12" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" target="kIWhCLuOIBJcznp3t5KV-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,27 @@
+{{/*
+  Override of PaperModX's image render hook: upstream only resolves page
+  resources and assets, and warns for anything else. We fall back to serving
+  the path as-is so images living in static/ just work.
+*/}}
+{{- $url := urls.Parse .Destination -}}
+{{- if $url.Scheme -}}
+  <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ $.Text }}" {{ with $.Title }} title="{{ . }}" {{ end }} />
+{{- else -}}
+  {{- $img := .Page.Resources.GetMatch .Destination -}}
+  {{- if not $img -}}
+    {{- $img = resources.Get .Destination -}}
+  {{- end -}}
+
+  {{- if and $img (eq $img.MediaType.MainType "video") -}}
+    <figure>
+    <video class="video-shortcode" preload="metadata" controls>
+      <source src="{{ $img.RelPermalink }}">
+      There should have been a video here but your browser does not seem to support it.
+    </video>
+    </figure>
+  {{- else -}}
+    {{- $src := .Destination -}}
+    {{- with $img }}{{ $src = .RelPermalink }}{{ end -}}
+    <img loading="lazy" src="{{ $src | relURL }}" alt="{{ $.Text }}" {{ with $.Title }} title="{{ . }}" {{ end }} />
+  {{- end -}}
+{{- end -}}

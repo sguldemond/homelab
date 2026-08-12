@@ -1,0 +1,4 @@
+---
+title: "posts"
+aliases: ["/blog/"]
+---
