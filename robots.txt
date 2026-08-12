@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://readme.stansyfert.com/sitemap.xml

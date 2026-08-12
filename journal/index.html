@@ -1,611 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="generator" content="mkdocs-1.6.1, mkdocs-terminal-4.7.0">
-     
-     
-    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png" />
-<link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
-<link rel="shortcut icon" type="image/png" sizes="48x48" href="../img/favicon.ico" />
-<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png" />
-
-
-    
- 
-<title>journal - stan syfert</title>
-
-
-<link href="../css/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-<link href="../css/fontawesome/css/solid.min.css" rel="stylesheet">
-<link href="../css/normalize.css" rel="stylesheet">
-<link href="../css/terminal.css" rel="stylesheet">
-<link href="../css/theme.css" rel="stylesheet">
-<link href="../css/theme.tile_grid.css" rel="stylesheet">
-<link href="../css/theme.footer.css" rel="stylesheet">
-<!-- default color palette -->
-<link href="../css/palettes/default.css" rel="stylesheet">
-
-<!-- page layout -->
-<style>
-/* initially set page layout to a one column grid */
-.terminal-mkdocs-main-grid {
-    display: grid;
-    grid-column-gap: 1.4em;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-}
-
-/*  
-*   when side navigation is not hidden, use a two column grid.  
-*   if the screen is too narrow, fall back to the initial one column grid layout.
-*   in this case the main content will be placed under the navigation panel. 
-*/
-@media only screen and (min-width: 70em) {
-    .terminal-mkdocs-main-grid {
-        grid-template-columns: 4fr 9fr;
-    }
-}</style>
-
-
-
-     
-    
-    
-
-    
-    <!-- search css support -->
-<link href="../css/search/bootstrap-modal.css" rel="stylesheet">
-<!-- search scripts -->
-<script>
-    var base_url = "..",
-    shortcuts = "{}";
-</script>
-<script src="../js/jquery/jquery-1.10.1.min.js" defer></script>
-<script src="../js/bootstrap/bootstrap.min.js" defer></script>
-<script src="../js/mkdocs/base.js" defer></script>
-    
-    
-    
-    
-    <script src="../search/main.js"></script>
-    
-
-    
-</head>
-
-<body class="terminal"><div class="container">
-    <div class="terminal-nav">
-        <header class="terminal-logo">
-            <div id="mkdocs-terminal-site-name" class="logo terminal-prompt"><a href="/" class="no-style">stan syfert</a></div>
-        </header>
-        
-        <nav class="terminal-menu">
-            
-            <ul vocab="https://schema.org/" typeof="BreadcrumbList">
-                
-                
-                
-                
-                <li property="itemListElement" typeof="ListItem">
-                    <a href=".." class="menu-item " property="item" typeof="WebPage">
-                        <span property="name">homelab</span>
-                    </a>
-                    <meta property="position" content="0">
-                </li>
-                
-                
-                <li property="itemListElement" typeof="ListItem">
-                    <a href="./" class="menu-item active" property="item" typeof="WebPage">
-                        <span property="name">journal</span>
-                    </a>
-                    <meta property="position" content="1">
-                </li>
-                
-                    
-                    
-
-
-<li property="itemListElement" typeof="ListItem">
-    <a href="#" class="menu-item" data-toggle="modal" data-target="#mkdocs_search_modal" property="item" typeof="SearchAction">
-        <i aria-hidden="true" class="fa fa-search"></i> <span property="name">Search</span>
-    </a>
-    <meta property="position" content="2">
-</li>
-                    
-            </ul>
-            
-        </nav>
-    </div>
-</div>
-        
-    <div class="container">
-        <div class="terminal-mkdocs-main-grid"><aside id="terminal-mkdocs-side-panel"><nav>
-  
-    <ul class="terminal-mkdocs-side-nav-items">
-        
-          
-
-
-
-<li class="terminal-mkdocs-side-nav-li">
-    
-    
-        
-        
-            
-            
-                
-                
-        
-
-             
-            
-    
-        
-        <a class="
-
-    terminal-mkdocs-side-nav-item" href="../blog/">blog</a>
-    
-    
-        
-      
-        
-            <ul class="terminal-mkdocs-side-nav-li-ul">
-        
-            
-            
-                
-                
-            
-
-             
-                <li class="terminal-mkdocs-side-nav-li-ul-li">
-    
-        
-        
-            <a class="
-
-    terminal-mkdocs-side-nav-item" href="../blog/goblin-operator/">goblin operator</a>
-        
-    
-    </li>
-            
-        
-            
-            
-                
-                
-            
-
-             
-                <li class="terminal-mkdocs-side-nav-li-ul-li">
-    
-        
-        
-            <a class="
-
-    terminal-mkdocs-side-nav-item" href="../blog/my-homelab/">my homelab</a>
-        
-    
-    </li>
-            
-        
-            
-            
-                
-                
-            
-
-             
-                <li class="terminal-mkdocs-side-nav-li-ul-li">
-    
-        
-        
-            <a class="
-
-    terminal-mkdocs-side-nav-item" href="../blog/this-blog/">this blog</a>
-        
-    
-    </li>
-            
-            
-    </ul>
-        
-    
-  </li>
-        
-          
-
-
-
-<li class="terminal-mkdocs-side-nav-li">
-    
-    
-    
-        
-        
-            <a class="
-
-    terminal-mkdocs-side-nav-item" href="..">homelab</a>
-        
-    
-    
-    
-  </li>
-        
-          
-
-
-
-<li class="terminal-mkdocs-side-nav-li">
-    
-    
-    
-        
-        <span class="
-
-    terminal-mkdocs-side-nav-item--active">journal</span>
-    
-    
-    
-  </li>
-        
-    </ul>
-  
-</nav><hr>
-<nav>
-    <ul>
-        <li><a href="#journal">Journal</a></li>
-        
-    </ul>
-</nav>
-</aside>
-            <main id="terminal-mkdocs-main-content">
-<section id="mkdocs-terminal-content">
-    <h1 id="journal">Journal</h1>
-<hr />
-<p>Rebooting my MkDocs setup to start hosting my blog from here as well.
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>journal | stan syfert</title><meta name=keywords content><meta name=description content="
+Rebooting my MkDocs setup to start hosting my blog from here as well.
 I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
-I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.</p>
-<pre><code>dig _github-pages-challenge-sguldemond.stansyfert.com
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.
+dig _github-pages-challenge-sguldemond.stansyfert.com
 ...
 stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
-</code></pre>
-<hr />
-<p>Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
+
+Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
 Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
 DHCP-lease is expiring on the NIC interface,
 OVN took over the NIC with its bridge, inherits its IP for a while,
 but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
-so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2.</p>
-<p>Solution would be to set static IP, either on the bridge,
-or perhaps to assign static IP from VyOS to the bridge MAC.</p>
-<p>Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
-Added static IPs to Butane files as well, but for now did:</p>
-<pre><code>sudo nmcli con modify &quot;Wired connection 1&quot; ipv4.method manual ipv4.addresses 192.168.2.60/24 ipv4.gateway 192.168.2.1 ipv4.dns 192.168.2.1
-</code></pre>
-<p>Rebooting the node sets all the NIC and its OVN bridge up more stable it seems.
+so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2."><meta name=author content="stan syfert"><link rel=canonical href=https://readme.stansyfert.com/journal/><link crossorigin=anonymous href=/assets/css/stylesheet.min.7bebf52ca2da639b2f944628d8fe7921bb771321e93ddb9a344553975d766fd7.css integrity="sha256-e+v1LKLaY5svlEYo2P55Ibt3EyHpPduaNEVTl112b9c=" rel="preload stylesheet" as=style><link rel=icon href=https://readme.stansyfert.com/favicon.ico><link rel=apple-touch-icon href=https://readme.stansyfert.com/apple-touch-icon.png><link rel=alternate hreflang=en href=https://readme.stansyfert.com/journal/><meta name=twitter:card content="summary"><meta name=twitter:title content="journal | stan syfert"><meta name=twitter:description content="
+Rebooting my MkDocs setup to start hosting my blog from here as well.
+I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.
+dig _github-pages-challenge-sguldemond.stansyfert.com
+...
+stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
+
+Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
+Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
+DHCP-lease is expiring on the NIC interface,
+OVN took over the NIC with its bridge, inherits its IP for a while,
+but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
+so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2."><meta property="og:title" content="journal | stan syfert"><meta property="og:description" content="
+Rebooting my MkDocs setup to start hosting my blog from here as well.
+I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.
+dig _github-pages-challenge-sguldemond.stansyfert.com
+...
+stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
+
+Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
+Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
+DHCP-lease is expiring on the NIC interface,
+OVN took over the NIC with its bridge, inherits its IP for a while,
+but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
+so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2."><meta property="og:type" content="article"><meta property="og:url" content="https://readme.stansyfert.com/journal/"><meta property="og:image" content="https://readme.stansyfert.com/images/goblin-logo.png"><meta property="article:section" content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"journal","item":"https://readme.stansyfert.com/journal/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"journal | stan syfert","name":"journal","description":" Rebooting my MkDocs setup to start hosting my blog from here as well. I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records. I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.\ndig _github-pages-challenge-sguldemond.stansyfert.com ... stansyfert.com. 1800 IN SOA brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800 Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time. Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging. DHCP-lease is expiring on the NIC interface, OVN took over the NIC with its bridge, inherits its IP for a while, but when DHCP lease expires, router does not match the new bridge MAC-address to the lease, so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2.\n","keywords":[],"wordCount":"8056","inLanguage":"en","datePublished":"0001-01-01T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","author":{"@type":"Person","name":"stan syfert"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://readme.stansyfert.com/journal/"},"publisher":{"@type":"Organization","name":"stan syfert","logo":{"@type":"ImageObject","url":"https://readme.stansyfert.com/favicon.ico"}}}</script><link rel=icon type=image/png sizes=32x32 href=https://readme.stansyfert.com/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://readme.stansyfert.com/favicon-16x16.png><style>.home-info .home-logo{display:block;margin:0 auto var(--gap,24px);border-radius:12px;max-width:180px;height:auto}.home-info .home-logo,.logo img{background:#000}.logo img{border-radius:6px;margin-inline-end:8px;vertical-align:middle}</style><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript></head><body class="type-page kind-page layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="light",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://readme.stansyfert.com/ accesskey=h title="stan syfert (Alt + H)"><img src=https://readme.stansyfert.com/images/goblin-logo_hu_592bc4ff06729c4b.png alt=logo aria-label=logo height=30 width=30>stan syfert</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)">
+<svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://readme.stansyfert.com/posts/ title=posts>posts</a></li><li><a href=https://readme.stansyfert.com/homelab/ title=homelab>homelab</a></li><li><a href=https://readme.stansyfert.com/journal/ title=journal class=active>journal</a></li><li><a href=https://readme.stansyfert.com/tags/ title=tags>tags</a></li><li><a href=https://readme.stansyfert.com/search/ title="search (Alt + /)" data-no-instant accesskey=/>search</a></li></ul></nav></header><main class="main post"><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://readme.stansyfert.com/>home</a></div><h1 class=post-title>journal</h1><div class=post-meta></div></header><div class=post-content><hr><p>Rebooting my MkDocs setup to start hosting my blog from here as well.
+I want to redirect a subdomain of stansyfert.com there, but had some issues with setting the TXT DNS records.
+I checked this command to see the TXT records myself, and saw that I had Cloudflare setup in between, forgot about that.</p><pre tabindex=0><code>dig _github-pages-challenge-sguldemond.stansyfert.com
+...
+stansyfert.com.         1800    IN      SOA     brianna.ns.cloudflare.com. dns.cloudflare.com. 2402276066 10000 2400 604800 1800
+</code></pre><hr><p>Lost connection to Homelab, Mac mini and MBP keep disconnecting after some time.
+Need to figure out why! Else Homelab is not reliable for OVN+MetalLB debugging.
+DHCP-lease is expiring on the NIC interface,
+OVN took over the NIC with its bridge, inherits its IP for a while,
+but when DHCP lease expires, router does not match the new bridge MAC-address to the lease,
+so therefore drops it. NIC interface loses IP, OVN bridge gets internal IP assigned, 169.254.0.2.</p><p>Solution would be to set static IP, either on the bridge,
+or perhaps to assign static IP from VyOS to the bridge MAC.</p><p>Best solution seems to set static IP on the machines themselves, avoid DHCP on the interfaces entirely.
+Added static IPs to Butane files as well, but for now did:</p><pre tabindex=0><code>sudo nmcli con modify &#34;Wired connection 1&#34; ipv4.method manual ipv4.addresses 192.168.2.60/24 ipv4.gateway 192.168.2.1 ipv4.dns 192.168.2.1
+</code></pre><p>Rebooting the node sets all the NIC and its OVN bridge up more stable it seems.
 Only the bridge has the static IP, although on startup it is first the NIC, then OVN takes over.
 Interestingly if you restart NetworkManager via systemctl, the NIC interface gets backs its IP,
-I think this won't be a problem, since there is no lease issue anymore.
-It's just NetworkManager and OVN fighting a bit over managing the interfaces.</p>
-<hr />
-<p>Mac mini lost connection in the morning.</p>
-<p>alpine/socat deployment, lb service and egressservice running:</p>
-<pre><code>⬢ [stan@toolbx stan]$ nc -zv 192.168.2.120 2701
+I think this won&rsquo;t be a problem, since there is no lease issue anymore.
+It&rsquo;s just NetworkManager and OVN fighting a bit over managing the interfaces.</p><hr><p>Mac mini lost connection in the morning.</p><p>alpine/socat deployment, lb service and egressservice running:</p><pre tabindex=0><code>⬢ [stan@toolbx stan]$ nc -zv 192.168.2.120 2701
 Connection to 192.168.2.120 2701 port [tcp/sms-rcinfo] succeeded!
-⬢ [stan@toolbx stan]$ echo &quot;hello&quot; | nc -uzv 192.168.2.120 2701
+⬢ [stan@toolbx stan]$ echo &#34;hello&#34; | nc -uzv 192.168.2.120 2701
 Connection to 192.168.2.120 2701 port [udp/sms-rcinfo] succeeded!
-</code></pre>
-<p>After changing TCP port to 1025 and UDP to 1026,
+</code></pre><p>After changing TCP port to 1025 and UDP to 1026,
 TCP stopped working.
 Reverting back to both ports set to 2701, TCP stopped working, UDP still works.
-OVN caching some routes???</p>
-<p>TCP and UDP have to be exposed...</p>
-<hr />
-<p>Looks like OVS is interfering with the machine DNS settings, interesting!</p>
-<p>OVN in shared gateway mode has taken over my default eth NIC and bridged it:
-- original: enp1s0f0
-- bridge: brenp1s0f0</p>
-<p>Fix is to setup a global DNS on the machine via systemd-resolve:</p>
-<pre><code>sudo mkdir -p /etc/systemd/resolved.conf.d/
+OVN caching some routes???</p><p>TCP and UDP have to be exposed&mldr;</p><hr><p>Looks like OVS is interfering with the machine DNS settings, interesting!</p><p>OVN in shared gateway mode has taken over my default eth NIC and bridged it:</p><ul><li>original: enp1s0f0</li><li>bridge: brenp1s0f0</li></ul><p>Fix is to setup a global DNS on the machine via systemd-resolve:</p><pre tabindex=0><code>sudo mkdir -p /etc/systemd/resolved.conf.d/
 sudo vi /etc/systemd/resolved.conf.d/global-dns.conf
 [Resolve]
 DNS=192.168.2.1
 FallbackDNS=1.1.1.1
 sudo systemctl restart systemd-resolved
-</code></pre>
-<p>DNS works now!
+</code></pre><p>DNS works now!
 Creating toolbox on macmini CoreOS to install ovs cli tools,
-not working getting stuck somewhere...</p>
-<p>Also disabling NetworkManager from managing the original NIC (enp1s0f0),
+not working getting stuck somewhere&mldr;</p><p>Also disabling NetworkManager from managing the original NIC (enp1s0f0),
 since both it and the bridge (brenp1s0f0) has the same Lab LAN IP assigned,
-they were fighting over it.</p>
-<p>Going to add the MBP as node!
+they were fighting over it.</p><p>Going to add the MBP as node!
 Forgot to connect the MBP to Lab LAN, was still on Home LAN, rebooting.
 Probably need to do some k3s config to fix the IP of the node settings.
-Being naive, just re-applied the k3s install script...</p>
-<p>k3s-agent service:</p>
-<pre><code>Apr 20 08:37:05 mbp k3s[1258]: time=&quot;2026-04-20T08:37:05Z&quot; level=error msg=&quot;Failed to validate connection to cluster at https://192.168.2.60:6443: token CA hash does not match the Cluster CA certificate hash: cfa9469b9905033c4c83bf18552d02ea64e699161e60ca4a09000f039275590b != eaf527c32542105452c6abf0c917a028813d6ee5b3ddc46d1c1b9ec776d19a9a&quot;
-</code></pre>
-<p>Used the node-token of my fedora laptop, not the macmini...
-Having all Fedora based systems, same k3s, same username, easy to confuse.</p>
-<p>Node added and Ready!
-Want to make control-plane node not UnSchedulable and add make the second node a proper worker node.</p>
-<pre><code>kubectl taint nodes macmini1 node-role.kubernetes.io/control-plane:NoSchedule
+Being naive, just re-applied the k3s install script&mldr;</p><p>k3s-agent service:</p><pre tabindex=0><code>Apr 20 08:37:05 mbp k3s[1258]: time=&#34;2026-04-20T08:37:05Z&#34; level=error msg=&#34;Failed to validate connection to cluster at https://192.168.2.60:6443: token CA hash does not match the Cluster CA certificate hash: cfa9469b9905033c4c83bf18552d02ea64e699161e60ca4a09000f039275590b != eaf527c32542105452c6abf0c917a028813d6ee5b3ddc46d1c1b9ec776d19a9a&#34;
+</code></pre><p>Used the node-token of my fedora laptop, not the macmini&mldr;
+Having all Fedora based systems, same k3s, same username, easy to confuse.</p><p>Node added and Ready!
+Want to make control-plane node not UnSchedulable and add make the second node a proper worker node.</p><pre tabindex=0><code>kubectl taint nodes macmini1 node-role.kubernetes.io/control-plane:NoSchedule
 kubectl label node mbp node-role.kubernetes.io/worker=worker
-</code></pre>
-<p>Same issue with CNI binaries on mbp!</p>
-<pre><code>sudo mkdir -p /opt/cni/bin
+</code></pre><p>Same issue with CNI binaries on mbp!</p><pre tabindex=0><code>sudo mkdir -p /opt/cni/bin
 sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
-</code></pre>
-<p>And after this the DNS issue pops up!
-Redoing the systemd-resolve &gt; global-dns &gt; restart, added it to Butane of mbp as well.</p>
-<p>mm1 node got pod subnet: 10.42.55.0/24
-mbp node got pod subnet: 10.42.0.0/24</p>
-<p>The values.yaml annotation for OVN <code>podNetwork: 10.42.0.0/16/24</code>,
+</code></pre><p>And after this the DNS issue pops up!
+Redoing the systemd-resolve > global-dns > restart, added it to Butane of mbp as well.</p><p>mm1 node got pod subnet: 10.42.55.0/24
+mbp node got pod subnet: 10.42.0.0/24</p><p>The values.yaml annotation for OVN <code>podNetwork: 10.42.0.0/16/24</code>,
 means that each node will get its own 16-base subnet: 10.42.x.x,
-per node all addresses within that are then 24-base: 10.42.<node-range>.x</p>
-<p>Moving Kong Deployment and Service from DaedalusPlatform/k3s_collection here,
+per node all addresses within that are then 24-base: 10.42.<node-range>.x</p><p>Moving Kong Deployment and Service from DaedalusPlatform/k3s_collection here,
 to first test access without MetalLB.
-Starting with the kong/go-echo deployment, with a Port Forward (via k9s) to test TCP and UDP using netcat:</p>
-<pre><code>nc localhost 2701
+Starting with the kong/go-echo deployment, with a Port Forward (via k9s) to test TCP and UDP using netcat:</p><pre tabindex=0><code>nc localhost 2701
 nc -u localhost 2701
-</code></pre>
-<p>TCP response looks good, no response UDP, since port-forward does not support UDP.
-Exposing deployment manually:</p>
-<pre><code>kubectl expose deployment tcp-echo-deployment --type=NodePort --port=2701 --protocol=UDP --name=go-echo-udp
+</code></pre><p>TCP response looks good, no response UDP, since port-forward does not support UDP.
+Exposing deployment manually:</p><pre tabindex=0><code>kubectl expose deployment tcp-echo-deployment --type=NodePort --port=2701 --protocol=UDP --name=go-echo-udp
 kubectl get svc go-echo-udp
-echo &quot;hello&quot; | nc -u 192.168.2.60 &lt;nodeport&gt;
+echo &#34;hello&#34; | nc -u 192.168.2.60 &lt;nodeport&gt;
 Welcome, you are connected to node mbp.
 Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
 In namespace default.
 With IP address 10.42.0.6.
 Service account default.
 hello
-</code></pre>
-<p>Need to send data over UDP first!</p>
-<p>Installing MetalLB:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
-</code></pre>
-<p>Added IPPool and L2 advertisement, created kong-echo-service,
+</code></pre><p>Need to send data over UDP first!</p><p>Installing MetalLB:</p><pre tabindex=0><code>kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
+</code></pre><p>Added IPPool and L2 advertisement, created kong-echo-service,
 which gets IP from MetalLB: 192.168.2.111.
-Now trying netcat again:</p>
-<pre><code>nc 192.168.2.111 2701
-echo &quot;hello&quot; | nc -u 192.168.2.111 2701
-</code></pre>
-<p>Cannot reach 192.168.2.111 from my machine, lets check VyOS,
-also not, so IP is assigned my MetalLB, but not properly advertised to router/DHCP?</p>
-<p>MetalLB speaker sending ARP over wrong interface, default NIC instead of the bridge?
-Added bridge interfaces to L2 advertisement definition, so ARP will be sent over bridges.</p>
-<p>Something is happening, redirecting, but ping (ICMP) not working, since not exposed by service:</p>
-<pre><code>stan@vyos:~$ ping 192.168.2.111
+Now trying netcat again:</p><pre tabindex=0><code>nc 192.168.2.111 2701
+echo &#34;hello&#34; | nc -u 192.168.2.111 2701
+</code></pre><p>Cannot reach 192.168.2.111 from my machine, lets check VyOS,
+also not, so IP is assigned my MetalLB, but not properly advertised to router/DHCP?</p><p>MetalLB speaker sending ARP over wrong interface, default NIC instead of the bridge?
+Added bridge interfaces to L2 advertisement definition, so ARP will be sent over bridges.</p><p>Something is happening, redirecting, but ping (ICMP) not working, since not exposed by service:</p><pre tabindex=0><code>stan@vyos:~$ ping 192.168.2.111
 PING 192.168.2.111 (192.168.2.111) 56(84) bytes of data.
 From 192.168.2.11: icmp_seq=2 Redirect Host(New nexthop: 192.168.2.111)
-</code></pre>
-<p>traceroute:</p>
-<pre><code>stan@vyos:~$ traceroute 192.168.2.111
+</code></pre><p>traceroute:</p><pre tabindex=0><code>stan@vyos:~$ traceroute 192.168.2.111
 traceroute to 192.168.2.111 (192.168.2.111), 30 hops max, 60 byte packets
  1  192.168.2.11 (192.168.2.11)  2.822 ms  2.705 ms  2.675 ms
  2  192.168.2.11 (192.168.2.11)  3057.553 ms !H  3057.578 ms !H  3057.547 ms !H
-</code></pre>
-<p>Second hop meaning, host unreachable,
-we've seemed to have reach the bug, UDP is working!</p>
-<pre><code>⬢ [stan@toolbx ovn-kubernetes]$ echo &quot;hello&quot; | nc -u 192.168.2.111 2701
+</code></pre><p>Second hop meaning, host unreachable,
+we&rsquo;ve seemed to have reach the bug, UDP is working!</p><pre tabindex=0><code>⬢ [stan@toolbx ovn-kubernetes]$ echo &#34;hello&#34; | nc -u 192.168.2.111 2701
 Welcome, you are connected to node mbp.
 Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
 In namespace default.
 With IP address 10.42.0.6.
 Service account default.
 hello
-</code></pre>
-<p>Yeah, setting <code>externalTrafficPolicy: Cluster</code> on kong-echo-service works:</p>
-<pre><code>⬢ [stan@toolbx ovn-kubernetes]$ nc 192.168.2.111 2701
+</code></pre><p>Yeah, setting <code>externalTrafficPolicy: Cluster</code> on kong-echo-service works:</p><pre tabindex=0><code>⬢ [stan@toolbx ovn-kubernetes]$ nc 192.168.2.111 2701
 Welcome, you are connected to node mbp.
 Running on Pod tcp-echo-deployment-6d977d7788-qzt5j.
-</code></pre>
-<p>Moved the "bugged" setup to v1 dir,
-starting EgressService fix in v2 dir.</p>
-<p>Claude Code filled the v2 dir with new setup,
+</code></pre><p>Moved the &ldquo;bugged&rdquo; setup to v1 dir,
+starting EgressService fix in v2 dir.</p><p>Claude Code filled the v2 dir with new setup,
 where MetalLB + OVN + Kong Service + EgressService are all in relationship.
-It works! But it is now tightly coupled.</p>
-<p>The question is why <code>externalTrafficPolicy: Local</code> was placed on the Service?
+It works! But it is now tightly coupled.</p><p>The question is why <code>externalTrafficPolicy: Local</code> was placed on the Service?
 Is there a specific reason why ingress and egress has to be from the same node?
 If not a wider L2Advertisement can be implemented,
 where egress might be from a different node then the ingress.
 Otherwise BGP can be implemented, where the speaker on the node only advertises routes it owns.
-So a LB Service on worker1 with Deployment on worker1 will expose an IP from there, promising ingress and egress from that node.</p>
-<p>Claude did not add <code>externalTrafficPolicy: Local</code> to the v2 service,
+So a LB Service on worker1 with Deployment on worker1 will expose an IP from there, promising ingress and egress from that node.</p><p>Claude did not add <code>externalTrafficPolicy: Local</code> to the v2 service,
 since setup defacto implements this behavior.
 I want to set it to see what happens anyway.
-Manually changes it via k9s, still works!</p>
-<p>Creating v3 where we use BGP mode, lets keep going!
-Claude created v3, but issues BGP setup...</p>
-<p>Restarting VyOS BGP setup without ip-range, but hard coded neighbours (nodes).
-Neighbours setup, Netcat works!</p>
-<p>I want to learn to trace the packet getting stuck in v1.
-I just got a speed course on how to trace packets.</p>
-<p>Start a tcpdump on vyos:</p>
-<pre><code>stan@vyos:~$ tcpdump -i eth1 -n host 192.168.2.120
-</code></pre>
-<p>Add a debug container to Kong Pod:</p>
-<pre><code>kubectl debug -it -n default tcp-echo-deployment-6d977d7788-qzt5j --image=nicolaka/netshoot
-</code></pre>
-<p>Send a TCP packet using netcat from the Kong pod:</p>
-<pre><code>$ nc 192.168.1.108 2701
-</code></pre>
-<hr />
-<p>Deployed OVN using Helm, Pods are not starting!</p>
-<p>One ovnkube-node pod is requesting more access:</p>
-<pre><code>│ ovnkube-controller E0419 14:57:15.198150   21349 reflector.go:204] &quot;Failed to watch&quot; err=&quot;failed to list *v1.Pod: pods is forbidden: User \&quot;system:serviceaccount:ovn-kubernetes:ovnkube-node\&quot; cannot list resource \&quot;pods\&quot; in API gro │
-</code></pre>
-<p>Running helm install from ovn-kubernetes repo:</p>
-<pre><code>cd /home/stan/Documents/ovn-kubernetes/helm/ovn-kubernetes
+Manually changes it via k9s, still works!</p><p>Creating v3 where we use BGP mode, lets keep going!
+Claude created v3, but issues BGP setup&mldr;</p><p>Restarting VyOS BGP setup without ip-range, but hard coded neighbours (nodes).
+Neighbours setup, Netcat works!</p><p>I want to learn to trace the packet getting stuck in v1.
+I just got a speed course on how to trace packets.</p><p>Start a tcpdump on vyos:</p><pre tabindex=0><code>stan@vyos:~$ tcpdump -i eth1 -n host 192.168.2.120
+</code></pre><p>Add a debug container to Kong Pod:</p><pre tabindex=0><code>kubectl debug -it -n default tcp-echo-deployment-6d977d7788-qzt5j --image=nicolaka/netshoot
+</code></pre><p>Send a TCP packet using netcat from the Kong pod:</p><pre tabindex=0><code>$ nc 192.168.1.108 2701
+</code></pre><hr><p>Deployed OVN using Helm, Pods are not starting!</p><p>One ovnkube-node pod is requesting more access:</p><pre tabindex=0><code>│ ovnkube-controller E0419 14:57:15.198150   21349 reflector.go:204] &#34;Failed to watch&#34; err=&#34;failed to list *v1.Pod: pods is forbidden: User \&#34;system:serviceaccount:ovn-kubernetes:ovnkube-node\&#34; cannot list resource \&#34;pods\&#34; in API gro │
+</code></pre><p>Running helm install from ovn-kubernetes repo:</p><pre tabindex=0><code>cd /home/stan/Documents/ovn-kubernetes/helm/ovn-kubernetes
 helm upgrade --install ovn-kubernetes . -f ~/Documents/Homelab/homelab/projects/ovn-kubernetes/values.yaml
-</code></pre>
-<p>Test pod was not being created, error on events:</p>
-<pre><code>Warning  FailedCreatePodSandBox  6s    kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox &quot;8781ec838472431a04d303c02131ff01f5e27506367dd5 │
-│ 3b3aee4e6b1452e1f7&quot;: plugin type=&quot;loopback&quot; failed (add): failed to find plugin &quot;loopback&quot; in path [/opt/cni/bin]
-</code></pre>
-<p>k3s manages cni binaries, but with Flannel disabled, these binaries are not present,
-quick fix:</p>
-<pre><code>sudo mkdir -p /opt/cni/bin
+</code></pre><p>Test pod was not being created, error on events:</p><pre tabindex=0><code>Warning  FailedCreatePodSandBox  6s    kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox &#34;8781ec838472431a04d303c02131ff01f5e27506367dd5 │
+│ 3b3aee4e6b1452e1f7&#34;: plugin type=&#34;loopback&#34; failed (add): failed to find plugin &#34;loopback&#34; in path [/opt/cni/bin]
+</code></pre><p>k3s manages cni binaries, but with Flannel disabled, these binaries are not present,
+quick fix:</p><pre tabindex=0><code>sudo mkdir -p /opt/cni/bin
 sudo ln -sf /var/lib/rancher/k3s/data/current/bin/* /opt/cni/bin/
-</code></pre>
-<p>I have no DNS resolution on the macmini1...
-DNS works after reboot, but then stops working...</p>
-<hr />
-<p>Want to install CoreOS on the MBP as well, to setup two node cluster with k3s.
+</code></pre><p>I have no DNS resolution on the macmini1&mldr;
+DNS works after reboot, but then stops working&mldr;</p><hr><p>Want to install CoreOS on the MBP as well, to setup two node cluster with k3s.
 The motivation is to experiment with the combo of MetalLB and OVN-kubernetes.
 I want to recreate the egress bug that occurs when combining these.
 An OVN EgressService might be the answer.
 Also I want to experiment with tracing packets and analyzing topology of OVN/OVS.
-Tools I want to use: nc (netcat), tcpdump, ovs-&lt;&gt;cli, ovn-&lt;&gt;cli.</p>
-<p>Extending this repo, e.g. SOPS settings, SSH keys, to also develop on my Devoteam laptop.
+Tools I want to use: nc (netcat), tcpdump, ovs-&lt;>cli, ovn-&lt;>cli.</p><p>Extending this repo, e.g. SOPS settings, SSH keys, to also develop on my Devoteam laptop.
 Hello world, from the Devoteam laptop (devo-hp-fedora).
 Got my age file on here, so can decrypt my sops encrypted files with that!
-Added sops bin here: <code>~/.local/bin</code>.</p>
-<p>Copied macmini1 butane file, even though it's 99% the same, only hostname is different...</p>
-<pre><code>sops -d macmini1-butane.yaml &gt; ../mbp/mbp-butane.yaml
-</code></pre>
-<p>Running Butane on Atomic Fedora</p>
-<pre><code>alias butane='podman --remote run --rm --interactive         \
+Added sops bin here: <code>~/.local/bin</code>.</p><p>Copied macmini1 butane file, even though it&rsquo;s 99% the same, only hostname is different&mldr;</p><pre tabindex=0><code>sops -d macmini1-butane.yaml &gt; ../mbp/mbp-butane.yaml
+</code></pre><p>Running Butane on Atomic Fedora</p><pre tabindex=0><code>alias butane=&#39;podman --remote run --rm --interactive         \
               --security-opt label=disable          \
-              --volume &quot;${PWD}:/pwd&quot; --workdir /pwd \
-              quay.io/coreos/butane:release'
+              --volume &#34;${PWD}:/pwd&#34; --workdir /pwd \
+              quay.io/coreos/butane:release&#39;
 butane --pretty --strict mbp-butane.yaml &gt; mbp.ign
-</code></pre>
-<p>Serving mbp.ign butane on network, added MBP to Home LAN network for now:</p>
-<pre><code>python3 -m http.server
-</code></pre>
-<p>Had to run <code>sudo wipefs -af /dev/sda</code> after error, similar to mm1 install.
+</code></pre><p>Serving mbp.ign butane on network, added MBP to Home LAN network for now:</p><pre tabindex=0><code>python3 -m http.server
+</code></pre><p>Had to run <code>sudo wipefs -af /dev/sda</code> after error, similar to mm1 install.
 Importantly had to reboot after, then install worked.
-Also important to not serve the encrypted ignition file!</p>
-<p>Installed CoreOS on MBP, now need to SSH into it, first get its IP.
+Also important to not serve the encrypted ignition file!</p><p>Installed CoreOS on MBP, now need to SSH into it, first get its IP.
 Then init tailscale, should be already installed.
-After first boot, CoreOS auto reboots with Tailscale added to rpm-ostree!</p>
-<pre><code>sudo systemctl enable --now tailscaled
+After first boot, CoreOS auto reboots with Tailscale added to rpm-ostree!</p><pre tabindex=0><code>sudo systemctl enable --now tailscaled
 sudo tailscale up
-</code></pre>
-<p>Disabled expiration key in Tailscale UI.</p>
-<p>Need to disable sleep on lid close and such still!
+</code></pre><p>Disabled expiration key in Tailscale UI.</p><p>Need to disable sleep on lid close and such still!
 Need to edit <code>/usr/lib/systemd/logind.conf</code>, and set ignore on HandleLidSwitch settings,
-but can't edit that in Atomic CoreOS.</p>
-<p>Added file:</p>
-<pre><code>sudo vi /etc/systemd/logind.conf.d/lid.conf
+but can&rsquo;t edit that in Atomic CoreOS.</p><p>Added file:</p><pre tabindex=0><code>sudo vi /etc/systemd/logind.conf.d/lid.conf
 [Login]
 HandleLidSwitch=ignore
 HandleLidSwitchExternalPower=ignore
 HandleLidSwitchDocked=ignore
-</code></pre>
-<p>Restart and check config:</p>
-<pre><code>sudo systemctl restart systemd-logind
+</code></pre><p>Restart and check config:</p><pre tabindex=0><code>sudo systemctl restart systemd-logind
 systemd-analyze cat-config systemd/logind.conf
-</code></pre>
-<p>I added this to the Butane file, but untested!</p>
-<p>MBP is up with CoreOS and Lid fix,
-I can access k3s cluster on macmini1.</p>
-<p>Need to setup k3s in mm1 without flannel and prepare for OVN-kubernetes,
+</code></pre><p>I added this to the Butane file, but untested!</p><p>MBP is up with CoreOS and Lid fix,
+I can access k3s cluster on macmini1.</p><p>Need to setup k3s in mm1 without flannel and prepare for OVN-kubernetes,
 then add mbp to the cluster,
-then add MetalLB.</p>
-<hr />
-<p>Installing k3s on CoreOS Mac mini now...
+then add MetalLB.</p><hr><p>Installing k3s on CoreOS Mac mini now&mldr;
 with no issues at all,
-can access the k3s node from my laptop, also added some extra tls-san:</p>
-<pre><code>tls-san:
-  - &quot;macmini1&quot;
-  - &quot;macmini1.&lt;tailscale-domain&gt;&quot;
-  - &quot;100.69.168.103&quot;
-  - &quot;192.168.2.60&quot;
-</code></pre>
-<hr />
-<p>Been talking with ChatGPT for a while!
+can access the k3s node from my laptop, also added some extra tls-san:</p><pre tabindex=0><code>tls-san:
+  - &#34;macmini1&#34;
+  - &#34;macmini1.&lt;tailscale-domain&gt;&#34;
+  - &#34;100.69.168.103&#34;
+  - &#34;192.168.2.60&#34;
+</code></pre><hr><p>Been talking with ChatGPT for a while!
 Result is that I want to install Fedora CoreOS on macmini1,
 with k3s (probably).
-Also instead of a static IP VyOS should make a DHCP reservation for the macmini1 mac address:</p>
-<pre><code>vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 mac '0c:4d:e9:9a:70:aa'
-vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 ip '192.168.2.20'
-vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 description 'macmini1-coreos'
-</code></pre>
-<p>For CoreOS I'm using the Ignition feature to bootstrap the server,
+Also instead of a static IP VyOS should make a DHCP reservation for the macmini1 mac address:</p><pre tabindex=0><code>vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 mac &#39;0c:4d:e9:9a:70:aa&#39;
+vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 ip &#39;192.168.2.20&#39;
+vyos@vyos# set service dhcp-server shared-network-name LAB subnet 192.168.2.0/24 static-mapping macmini1 description &#39;macmini1-coreos&#39;
+</code></pre><p>For CoreOS I&rsquo;m using the Ignition feature to bootstrap the server,
 this JSON file can be generated from a Butane YAML file,,
-docs: https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/</p>
-<p>Call this in the same directory as the Butane file:</p>
-<pre><code>alias butane='podman run --rm --interactive         \
+docs: <a href=https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/>https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/</a></p><p>Call this in the same directory as the Butane file:</p><pre tabindex=0><code>alias butane=&#39;podman run --rm --interactive         \
               --security-opt label=disable          \
-              --volume &quot;${PWD}:/pwd&quot; --workdir /pwd \
-              quay.io/coreos/butane:release'
+              --volume &#34;${PWD}:/pwd&#34; --workdir /pwd \
+              quay.io/coreos/butane:release&#39;
 butane --pretty --strict macmini1-butane.yaml &gt; macmini1.ign
-</code></pre>
-<p>Installing CoreOS on Mac mini,
+</code></pre><p>Installing CoreOS on Mac mini,
 had to unset some LVM stuff (not sure what, LLM told me what to do),
-after /dev/sda3 was being busy.</p>
-<p>after I ran:</p>
-<pre><code>sudo wipefs -a /dev/sda
-</code></pre>
-<p>because on this forum someone needed to do that:
-https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7</p>
-<p>Install worked, but my user had no password,
+after /dev/sda3 was being busy.</p><p>after I ran:</p><pre tabindex=0><code>sudo wipefs -a /dev/sda
+</code></pre><p>because on this forum someone needed to do that:
+<a href=https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7>https://discussion.fedoraproject.org/t/installing-bare-metal-on-mac-mini-late-2012-fails-with-fsconfig-system-call-failed-dev-disk-by-label-root-cant-lookup-blockdev/127241/7</a></p><p>Install worked, but my user had no password,
 so reinstalling.
-This time serving the Ignition file (macmini1.ign) from my laptop:</p>
-<pre><code>butane --pretty --strict macmini1-butane.yaml &gt; macmini1.ign
+This time serving the Ignition file (macmini1.ign) from my laptop:</p><pre tabindex=0><code>butane --pretty --strict macmini1-butane.yaml &gt; macmini1.ign
 python3 -m http.server 8080
-</code></pre>
-<p>From the coreos installer:</p>
-<pre><code>sudo coreos-installer install /dev/sda --insecure-ignition --ignition-url http://192.168.1.179:8080/macmini1.ign
-</code></pre>
-<p>This way I don't have to add the .ign file to the USB again,
-which I did the first time, I mounted the separate USB partition locally:</p>
-<pre><code>sudo mkdir -p /mnt/usb
+</code></pre><p>From the coreos installer:</p><pre tabindex=0><code>sudo coreos-installer install /dev/sda --insecure-ignition --ignition-url http://192.168.1.179:8080/macmini1.ign
+</code></pre><p>This way I don&rsquo;t have to add the .ign file to the USB again,
+which I did the first time, I mounted the separate USB partition locally:</p><pre tabindex=0><code>sudo mkdir -p /mnt/usb
 sudo mount /dev/sda3 /mnt/usb
-</code></pre>
-<p>So far no issues with installing CoreOS on the Mac mini 2012,
+</code></pre><p>So far no issues with installing CoreOS on the Mac mini 2012,
 seems to run fine, which is exciting,
 this type of bootstrap booting and serving the config over HTTP,
 was what I was trying way back in the beginning of my Homelab journey with Ubuntu,
-that didn't work so smoothly, or at all really,
-I learned a bit about CloudInit and cloud images though, still useful.</p>
-<p>Re-leasing the IP on VyOS is still a bit of a puzzle.
-This did work:</p>
-<pre><code>vyos@vyos:~$ clear dhcp-server lease 192.168.2.24
-Lease &quot;192.168.2.24&quot; has been cleared
-</code></pre>
-<p>Mac mini still has this IP though.</p>
-<p>The static IP I chose, was already taken by other machine.
+that didn&rsquo;t work so smoothly, or at all really,
+I learned a bit about CloudInit and cloud images though, still useful.</p><p>Re-leasing the IP on VyOS is still a bit of a puzzle.
+This did work:</p><pre tabindex=0><code>vyos@vyos:~$ clear dhcp-server lease 192.168.2.24
+Lease &#34;192.168.2.24&#34; has been cleared
+</code></pre><p>Mac mini still has this IP though.</p><p>The static IP I chose, was already taken by other machine.
 Changed it to: 191.168.2.60,
 removed the lease on VyOS,
-reconnected the eth device on CoreOS:</p>
-<pre><code>sudo nmcli device disconnect enp1s0f0 &amp;&amp; sudo nmcli device connect enp1s0f0
-</code></pre>
-<hr />
-<p>Setup the second Mac mini with Proxmox running a Ubuntu Cloud image VM with RKE2 installed,
-followed the docs here: https://docs.rke2.io/install/quickstart
-Docs are simple and clear, added the .../bin to PATH, copied the kubeconfig.
+reconnected the eth device on CoreOS:</p><pre tabindex=0><code>sudo nmcli device disconnect enp1s0f0 &amp;&amp; sudo nmcli device connect enp1s0f0
+</code></pre><hr><p>Setup the second Mac mini with Proxmox running a Ubuntu Cloud image VM with RKE2 installed,
+followed the docs here: <a href=https://docs.rke2.io/install/quickstart>https://docs.rke2.io/install/quickstart</a>
+Docs are simple and clear, added the &mldr;/bin to PATH, copied the kubeconfig.
 Little confusion when <code>systemctl start rke2-server</code> got stuck, printing issues with connection to 127.0.0.1:2379 (etcd),
-but cancelling the operation and starting it again it worked immediately, maybe some race condition.</p>
-<p>Right off the bat, memory usage of the RKE2 master node is quite significant!
-Close to 4GB all together with the node OS (Ubuntu).</p>
-<p>Accessing the cluster from my machine it possible using the LAB IP, via the subnet forwarding on VyOS VM.
-Want to install and try out OpenBao, but not gonna bother with Terraform and stuff, just imperativaly.</p>
-<pre><code>helm install openbao openbao/openbao -n openbao --create-namespace
-</code></pre>
-<p>OpenBao needs PersistentVolume or default storage class to start a pod:</p>
-<pre><code>  Normal  FailedBinding  11s (x8 over 107s)  persistentvolume-controller  no persistent volumes available for this claim and no storage class is set
-</code></pre>
-<p>Installed: https://github.com/rancher/local-path-provisioner
-Pod is not running.</p>
-<pre><code>k exec -it -n openbao openbao-0 -- sh
+but cancelling the operation and starting it again it worked immediately, maybe some race condition.</p><p>Right off the bat, memory usage of the RKE2 master node is quite significant!
+Close to 4GB all together with the node OS (Ubuntu).</p><p>Accessing the cluster from my machine it possible using the LAB IP, via the subnet forwarding on VyOS VM.
+Want to install and try out OpenBao, but not gonna bother with Terraform and stuff, just imperativaly.</p><pre tabindex=0><code>helm install openbao openbao/openbao -n openbao --create-namespace
+</code></pre><p>OpenBao needs PersistentVolume or default storage class to start a pod:</p><pre tabindex=0><code>  Normal  FailedBinding  11s (x8 over 107s)  persistentvolume-controller  no persistent volumes available for this claim and no storage class is set
+</code></pre><p>Installed: <a href=https://github.com/rancher/local-path-provisioner>https://github.com/rancher/local-path-provisioner</a>
+Pod is not running.</p><pre tabindex=0><code>k exec -it -n openbao openbao-0 -- sh
 $ bao secrets enable kv
 Success! Enabled the kv secrets engine at: kv/
-</code></pre>
-<p>Docs: https://openbao.org/docs/commands/secrets/enable/</p>
-<pre><code>/ $ bao kv put secret/my-first-secret name=stansyfert
+</code></pre><p>Docs: <a href=https://openbao.org/docs/commands/secrets/enable/>https://openbao.org/docs/commands/secrets/enable/</a></p><pre tabindex=0><code>/ $ bao kv put secret/my-first-secret name=stansyfert
 ======= Secret Path =======
 secret/data/my-first-secret
 
@@ -617,56 +254,38 @@ custom_metadata    &lt;nil&gt;
 deletion_time      n/a
 destroyed          false
 version            1
-</code></pre>
-<p>Want to load secret into pod using CSI driver: https://openbao.org/docs/platform/k8s/csi/examples/</p>
-<p>Installed CSI Secret Store Driver: https://secrets-store-csi-driver.sigs.k8s.io/getting-started/installation,
-and created SecretProviderClass pointing to my-first-secret.</p>
-<p>Had to enable the Openbao CSI provider in Helm install:</p>
-<pre><code>...
+</code></pre><p>Want to load secret into pod using CSI driver: <a href=https://openbao.org/docs/platform/k8s/csi/examples/>https://openbao.org/docs/platform/k8s/csi/examples/</a></p><p>Installed CSI Secret Store Driver: <a href=https://secrets-store-csi-driver.sigs.k8s.io/getting-started/installation>https://secrets-store-csi-driver.sigs.k8s.io/getting-started/installation</a>,
+and created SecretProviderClass pointing to my-first-secret.</p><p>Had to enable the Openbao CSI provider in Helm install:</p><pre tabindex=0><code>...
 csi:
   enabled: true
-</code></pre>
-<p>upgrade release:</p>
-<pre><code>helm upgrade openbao openbao/openbao -n openbao -f ~/Development/DevOps/homelab/projects/openbao/values.yaml
-</code></pre>
-<p>Now getting:</p>
-<pre><code>  Warning  FailedMount  3s (x5 over 11s)  kubelet            MountVolume.SetUp failed for volume &quot;openbao-first-secret&quot; : rpc error: code = Unknown desc = failed to mount secrets store objects for pod openbao/demo-app-5574d78dc4-rhw9v, err: rpc error: code = Unknown desc = error making mount request: couldn't read secret &quot;my-first-secret&quot;: failed to login: Error making API request.
-</code></pre>
-<p>I think secret path should be: <code>secretPath: "secret/my-first-secret"</code>,
-based on this:</p>
-<pre><code>/ $ bao kv get secret/data/my-first-secret
+</code></pre><p>upgrade release:</p><pre tabindex=0><code>helm upgrade openbao openbao/openbao -n openbao -f ~/Development/DevOps/homelab/projects/openbao/values.yaml
+</code></pre><p>Now getting:</p><pre tabindex=0><code>  Warning  FailedMount  3s (x5 over 11s)  kubelet            MountVolume.SetUp failed for volume &#34;openbao-first-secret&#34; : rpc error: code = Unknown desc = failed to mount secrets store objects for pod openbao/demo-app-5574d78dc4-rhw9v, err: rpc error: code = Unknown desc = error making mount request: couldn&#39;t read secret &#34;my-first-secret&#34;: failed to login: Error making API request.
+</code></pre><p>I think secret path should be: <code>secretPath: "secret/my-first-secret"</code>,
+based on this:</p><pre tabindex=0><code>/ $ bao kv get secret/data/my-first-secret
 No value found at secret/data/data/my-first-secret
 / $ bao kv get secret/my-first-secret
 ======= Secret Path =======
 secret/data/my-first-secret
 ...
-</code></pre>
-<p>Still not working after recreating the SecretProviderClass,
-maybe it has to do with the "failed to login" part.</p>
-<p>creates SA:</p>
-<pre><code>k create sa -n openbao demo-app
-</code></pre>
-<pre><code>bao auth enable kubernetes
+</code></pre><p>Still not working after recreating the SecretProviderClass,
+maybe it has to do with the &ldquo;failed to login&rdquo; part.</p><p>creates SA:</p><pre tabindex=0><code>k create sa -n openbao demo-app
+</code></pre><pre tabindex=0><code>bao auth enable kubernetes
 bao write auth/kubernetes/role/demo-app \
     bound_service_account_names=demo-app \
     bound_service_account_namespaces=openbao \
     policies=default \
     ttl=1h
-</code></pre>
-<p>New error:</p>
-<pre><code>│   Warning  FailedMount  26s   kubelet            MountVolume.SetUp failed for volume &quot;openbao-first-secret&quot; : rpc error: code = DeadlineExceeded desc = failed to mount secrets store obje │
-│ cts for pod openbao/demo-app-6f8bf7fb98-245b5, err: rpc error: code = DeadlineExceeded desc = error making mount request: couldn't read secret &quot;my-first-secret&quot;: failed to login: context │
+</code></pre><p>New error:</p><pre tabindex=0><code>│   Warning  FailedMount  26s   kubelet            MountVolume.SetUp failed for volume &#34;openbao-first-secret&#34; : rpc error: code = DeadlineExceeded desc = failed to mount secrets store obje │
+│ cts for pod openbao/demo-app-6f8bf7fb98-245b5, err: rpc error: code = DeadlineExceeded desc = error making mount request: couldn&#39;t read secret &#34;my-first-secret&#34;: failed to login: context │
 │  deadline exceeded
-</code></pre>
-<p>Seeing this in the openbao-0 logs, might be related:</p>
-<pre><code>
+</code></pre><p>Seeing this in the openbao-0 logs, might be related:</p><pre tabindex=0><code>
 WARNING! dev mode is enabled! In this mode, OpenBao runs entirely in-memory
 and starts unsealed with a single unseal key. The root token is already
 authenticated to the CLI, so you can immediately begin using OpenBao.
 
 You may need to set the following environment variables:
 
-    $ export BAO_ADDR='http://[::]:8200'
+    $ export BAO_ADDR=&#39;http://[::]:8200&#39;
 
 The unseal key and root token are displayed below in case you want to
 seal/unseal the Vault or re-authenticate.
@@ -675,158 +294,75 @@ Unseal Key: ma7kWLthWXy/4XOCCJcLHo4GTtFDnp2t8jn9L+E9jvQ=
 Root Token: root
 
 Development mode should NOT be used in production installations!
-</code></pre>
-<hr />
-<p>Decided to already step away from Talos, although cool,
-now want to try RKE2, alternative to K3s.</p>
-<p>Talos is working on my MBP, so I'll leave that for now.
-I can use the other Mac mini to try out RKE2.</p>
-<p>Just quickly set stuff up:
-- Gave MBP a static IP: 192.168.2.2
-- Advertising 192.168.2.0/24 subnet via VyOS using tailscale (<code>tailscale set --advertise-routes=192.168.2.0/24</code>)
-- Accepted routes on Thinkpad (<code>tailscale set --accept-routes</code>), no need for physical connection to Lab LAN, should be able to access everything remotely
-- Tested if I can reach my whomai service on Talos, no problems, needed to update the MetalLB routes matching the Lab LAN network
-- Installing Proxmox OS on macmini1, with static IP: 192.168.2.3
-- Mount USB and copy ssh pub key to Proxmox:
-  - mkdir /mnt/usb
-  - mount /dev/sdb5 /mnt/usb
-  - cat /mnt/usb/key.txt &gt;&gt; ~/.ssh/authorized_keys
-- Setup Proxmox cluster on MBP: <code>pvecm add lab</code>
-- Added macmnini1 to cluster: <code>pvecm add 192.168.2.2 --use_ssh 1</code></p>
-<p>Cluster setup failed, I broke both Proxmox machines, ChatGPT helped me recover them!
-Not trying that again...</p>
-<hr />
-<p>Need to setup VyOS so LAB devices can reach the internet.
-I think I need to setup (S)NAT as well as DNS.
-- https://docs.vyos.io/en/latest/quick-start.html#nat
-- https://docs.vyos.io/en/latest/quick-start.html#dhcp-dns-quick-start</p>
-<p>I think I've setup NAT correctly, the MBP can reach the internet now:</p>
-<pre><code>set nat source rule 100 outbound-interface name 'eth0'
-set nat source rule 100 source address '192.168.2.0/24'
+</code></pre><hr><p>Decided to already step away from Talos, although cool,
+now want to try RKE2, alternative to K3s.</p><p>Talos is working on my MBP, so I&rsquo;ll leave that for now.
+I can use the other Mac mini to try out RKE2.</p><p>Just quickly set stuff up:</p><ul><li>Gave MBP a static IP: 192.168.2.2</li><li>Advertising 192.168.2.0/24 subnet via VyOS using tailscale (<code>tailscale set --advertise-routes=192.168.2.0/24</code>)</li><li>Accepted routes on Thinkpad (<code>tailscale set --accept-routes</code>), no need for physical connection to Lab LAN, should be able to access everything remotely</li><li>Tested if I can reach my whomai service on Talos, no problems, needed to update the MetalLB routes matching the Lab LAN network</li><li>Installing Proxmox OS on macmini1, with static IP: 192.168.2.3</li><li>Mount USB and copy ssh pub key to Proxmox:<ul><li>mkdir /mnt/usb</li><li>mount /dev/sdb5 /mnt/usb</li><li>cat /mnt/usb/key.txt &#187; ~/.ssh/authorized_keys</li></ul></li><li>Setup Proxmox cluster on MBP: <code>pvecm add lab</code></li><li>Added macmnini1 to cluster: <code>pvecm add 192.168.2.2 --use_ssh 1</code></li></ul><p>Cluster setup failed, I broke both Proxmox machines, ChatGPT helped me recover them!
+Not trying that again&mldr;</p><hr><p>Need to setup VyOS so LAB devices can reach the internet.
+I think I need to setup (S)NAT as well as DNS.</p><ul><li><a href=https://docs.vyos.io/en/latest/quick-start.html#nat>https://docs.vyos.io/en/latest/quick-start.html#nat</a></li><li><a href=https://docs.vyos.io/en/latest/quick-start.html#dhcp-dns-quick-start>https://docs.vyos.io/en/latest/quick-start.html#dhcp-dns-quick-start</a></li></ul><p>I think I&rsquo;ve setup NAT correctly, the MBP can reach the internet now:</p><pre tabindex=0><code>set nat source rule 100 outbound-interface name &#39;eth0&#39;
+set nat source rule 100 source address &#39;192.168.2.0/24&#39;
 set nat source rule 100 translation address masquerade
-</code></pre>
-<p>Some docs: https://docs.vyos.io/en/latest/configuration/nat/nat44.html#source-nat</p>
-<p>Now need to setup DNS!  </p>
-<pre><code>set service dns forwarding cache-size '0'
-set service dns forwarding listen-address '192.168.2.1'
-set service dns forwarding allow-from '192.168.2.0/24'
-</code></pre>
-<p>This worked as well, domain names now resolve to IPs on the MBP.</p>
-<hr />
-<p>I didn't change VyOS (I think).
+</code></pre><p>Some docs: <a href=https://docs.vyos.io/en/latest/configuration/nat/nat44.html#source-nat>https://docs.vyos.io/en/latest/configuration/nat/nat44.html#source-nat</a></p><p>Now need to setup DNS!</p><pre tabindex=0><code>set service dns forwarding cache-size &#39;0&#39;
+set service dns forwarding listen-address &#39;192.168.2.1&#39;
+set service dns forwarding allow-from &#39;192.168.2.0/24&#39;
+</code></pre><p>This worked as well, domain names now resolve to IPs on the MBP.</p><hr><p>I didn&rsquo;t change VyOS (I think).
 On the Ubuntu VM (same machine, but also get both NICs),
-I added a netplan config:</p>
-<pre><code>$ sudo vim /etc/netplan/60-cloud-init.yaml
+I added a netplan config:</p><pre tabindex=0><code>$ sudo vim /etc/netplan/60-cloud-init.yaml
 network:
   version: 2
   ethernets:
     enp6s19:
       match:
-        macaddress: &quot;bc:24:11:f9:b9:dc&quot;
+        macaddress: &#34;bc:24:11:f9:b9:dc&#34;
       dhcp4: true
-      set-name: &quot;enp6s19&quot;
-</code></pre>
-<p>Applying it: <code>sudo netplan apply</code>,
+      set-name: &#34;enp6s19&#34;
+</code></pre><p>Applying it: <code>sudo netplan apply</code>,
 gives me a IP address now and I can reach the VyOS and vice versa!
-So DHCP is working on VyOS! Small win there, got me into understanding netplan a bit again.</p>
-<p>Looks like the Thunderbolt NIC is not being loaded on the Proxmox OS on Ubuntu,
+So DHCP is working on VyOS! Small win there, got me into understanding netplan a bit again.</p><p>Looks like the Thunderbolt NIC is not being loaded on the Proxmox OS on Ubuntu,
 so my Ubuntu VM is getting an IP since VyOS is making it available on vmbr1,
 but nic1 is connecting to vmbr1, which I though it was.
-Is this again the badly supported Thunderbolt Ethernet NIC chasing me...?</p>
-<p>Success! Got an IP on my laptop, doesn't bode well for my Thunderbolt Ethernet though...
-When it happens again, should look into the logs.</p>
-<pre><code>vyos@vyos:~$ show dhcp server leases
+Is this again the badly supported Thunderbolt Ethernet NIC chasing me&mldr;?</p><p>Success! Got an IP on my laptop, doesn&rsquo;t bode well for my Thunderbolt Ethernet though&mldr;
+When it happens again, should look into the logs.</p><pre tabindex=0><code>vyos@vyos:~$ show dhcp server leases
 IP Address    MAC address        State    Lease start                Lease expiration           Remaining    Pool    Hostname       Origin
 ------------  -----------------  -------  -------------------------  -------------------------  -----------  ------  -------------  --------
 192.168.2.10  bc:24:11:f9:b9:dc  active   2026-02-03 10:38:51+00:00  2026-02-04 10:38:51+00:00  23:41:08     LAB     ubuntu-server  local
 192.168.2.11  bc:24:11:af:6d:02  active   2026-02-03 10:56:00+00:00  2026-02-04 10:56:00+00:00  23:58:17     LAB     talos-v1v-p8m  local
 192.168.2.12  bc:24:11:7c:fb:b6  active   2026-02-03 10:56:19+00:00  2026-02-04 10:56:19+00:00  23:58:36     LAB     talos-j2r-sow  local
 192.168.2.13  00:e0:4c:4d:22:a0  active   2026-02-03 10:56:25+00:00  2026-02-04 10:56:25+00:00  23:58:42     LAB     tp1-ubuntu     local
-</code></pre>
-<p>Looks like the MBP VMs are getting an IP now from VyOS,
+</code></pre><p>Looks like the MBP VMs are getting an IP now from VyOS,
 now need to get into the Proxmox UI of the MBP.
-This works, need to install Tailscale on this Proxmox instance as well.</p>
-<hr />
-<p>Back at it (02-02-2026).
+This works, need to install Tailscale on this Proxmox instance as well.</p><hr><p>Back at it (02-02-2026).
 Want to get an IP on the MBP from the DHCP server running on VyOS VM on the Mac mini.
 After system reboot and <code>ifreload -a</code> no luck.
-Would VyOS be handing out IPs correctly?</p>
-<p>Connecting my laptop to the LAB switch is also not giving me an IP on the 192.168.2.1/32 subnet.
-so seems like VyOS indeed.</p>
-<hr />
-<p>The DHCP refresh didn't take place, so I don't have access to my MacBook Pro connected to only Lab LAN.</p>
-<p>So I'm doing a little side project where I expose this file via a simple MkDocs setup.
-Hosting it using GitHub Pages, setting up a redirect of homelab.stansyfert.com to the GH Pages of the Homelab repo.</p>
-<p>This file will be reverted and the README will be slightly adjusted to render nicely.
-Cursor created some scripts for this which worked and I haven't really looked at, let's see how long those hold up.</p>
-<p>For the domain to GH Pages redirect I'm following: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site</p>
-<p>They recommend to add my domain to my GH account, did that, so waiting for DNS records to update:
-https://github.com/settings/pages_verified_domains/stansyfert.com</p>
-<p>When that is setup I should follow this: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain</p>
-<hr />
-<p>Installed Tailscale on VyOS using by downloading the binary files and supporting systemd files from: https://pkgs.tailscale.com/stable/#static
-- curl'd the tgz &amp; unpacked it
-- moved the files inside to the right place, based on how it is on my laptop</p>
-<p>Adding my SSH public key uses this command (https://docs.vyos.io/en/latest/configuration/service/ssh.html):</p>
-<pre><code>generate public-key-command user vyos path id_rsa_t480s.pub
-</code></pre>
-<p>I can now access VyOS using my SSH key, so I disabled password auth:</p>
-<pre><code>set service ssh disable-password-authentication
-</code></pre>
-<p>I've setup a DHCP server, serving IPs on the 192.168.2.0/24 subnet (https://docs.vyos.io/en/latest/configuration/service/dhcp-server.html).
-- Set subnet id: 1
-- Set start and stop range: <em>.10 --&gt; </em>.100
-- DNS (name-server): 192.168.2.1
-- Default route: 192.168.2.1</p>
-<p>I would want to access my MacBook now, which is only connected to Lab LAB, but it might be stuck with a old DHCP lease of the old OPNSense setup.
-Could check up in 12-24h to see of the lease expired and VyOS has served it a new IP now, would be cool.</p>
-<pre><code>show dhcp server leases
-</code></pre>
-<p>Btw, I have a backup of the VyOS config using:</p>
-<pre><code>scp vyos:/config/config.boot /my/path/config.boot
-</code></pre>
-<hr />
-<p>Setting up a Ubuntu Server VM as exit node via Tailscale.
-This way I can flow traffic via The Netherlands while I'm in Poland.</p>
-<p>Pasting in a Proxmox VM seems a common issue.</p>
-<p>Adding a serial port via Hardware and running this in the VM:</p>
-<pre><code>sudo systemctl enable serial-getty@ttyS0.service
-</code></pre>
-<p>works, then I can get a shell via the Proxmox OS:</p>
-<pre><code>qm terminal &lt;VMID&gt;
-</code></pre>
-<p>Now I can install Tailscale on the VM and SSH to it from my machine.
-After install I ran:</p>
-<pre><code>sudo tailscale up --advertise-exit-node
-</code></pre>
-<p>In Tailscale I have to allow the machine to be an exit node.
-Also I have to enable IP forwarding on the VM as explained here: https://tailscale.com/kb/1019/subnets?tab=linux#enable-ip-forwarding</p>
-<pre><code>echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
-echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+Would VyOS be handing out IPs correctly?</p><p>Connecting my laptop to the LAB switch is also not giving me an IP on the 192.168.2.1/32 subnet.
+so seems like VyOS indeed.</p><hr><p>The DHCP refresh didn&rsquo;t take place, so I don&rsquo;t have access to my MacBook Pro connected to only Lab LAN.</p><p>So I&rsquo;m doing a little side project where I expose this file via a simple MkDocs setup.
+Hosting it using GitHub Pages, setting up a redirect of homelab.stansyfert.com to the GH Pages of the Homelab repo.</p><p>This file will be reverted and the README will be slightly adjusted to render nicely.
+Cursor created some scripts for this which worked and I haven&rsquo;t really looked at, let&rsquo;s see how long those hold up.</p><p>For the domain to GH Pages redirect I&rsquo;m following: <a href=https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site>https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site</a></p><p>They recommend to add my domain to my GH account, did that, so waiting for DNS records to update:
+<a href=https://github.com/settings/pages_verified_domains/stansyfert.com>https://github.com/settings/pages_verified_domains/stansyfert.com</a></p><p>When that is setup I should follow this: <a href=https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain>https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain</a></p><hr><p>Installed Tailscale on VyOS using by downloading the binary files and supporting systemd files from: <a href=https://pkgs.tailscale.com/stable/#static>https://pkgs.tailscale.com/stable/#static</a></p><ul><li>curl&rsquo;d the tgz & unpacked it</li><li>moved the files inside to the right place, based on how it is on my laptop</li></ul><p>Adding my SSH public key uses this command (<a href=https://docs.vyos.io/en/latest/configuration/service/ssh.html)>https://docs.vyos.io/en/latest/configuration/service/ssh.html)</a>:</p><pre tabindex=0><code>generate public-key-command user vyos path id_rsa_t480s.pub
+</code></pre><p>I can now access VyOS using my SSH key, so I disabled password auth:</p><pre tabindex=0><code>set service ssh disable-password-authentication
+</code></pre><p>I&rsquo;ve setup a DHCP server, serving IPs on the 192.168.2.0/24 subnet (<a href=https://docs.vyos.io/en/latest/configuration/service/dhcp-server.html)>https://docs.vyos.io/en/latest/configuration/service/dhcp-server.html)</a>.</p><ul><li>Set subnet id: 1</li><li>Set start and stop range: *.10 &ndash;> *.100</li><li>DNS (name-server): 192.168.2.1</li><li>Default route: 192.168.2.1</li></ul><p>I would want to access my MacBook now, which is only connected to Lab LAB, but it might be stuck with a old DHCP lease of the old OPNSense setup.
+Could check up in 12-24h to see of the lease expired and VyOS has served it a new IP now, would be cool.</p><pre tabindex=0><code>show dhcp server leases
+</code></pre><p>Btw, I have a backup of the VyOS config using:</p><pre tabindex=0><code>scp vyos:/config/config.boot /my/path/config.boot
+</code></pre><hr><p>Setting up a Ubuntu Server VM as exit node via Tailscale.
+This way I can flow traffic via The Netherlands while I&rsquo;m in Poland.</p><p>Pasting in a Proxmox VM seems a common issue.</p><p>Adding a serial port via Hardware and running this in the VM:</p><pre tabindex=0><code>sudo systemctl enable serial-getty@ttyS0.service
+</code></pre><p>works, then I can get a shell via the Proxmox OS:</p><pre tabindex=0><code>qm terminal &lt;VMID&gt;
+</code></pre><p>Now I can install Tailscale on the VM and SSH to it from my machine.
+After install I ran:</p><pre tabindex=0><code>sudo tailscale up --advertise-exit-node
+</code></pre><p>In Tailscale I have to allow the machine to be an exit node.
+Also I have to enable IP forwarding on the VM as explained here: <a href="https://tailscale.com/kb/1019/subnets?tab=linux#enable-ip-forwarding">https://tailscale.com/kb/1019/subnets?tab=linux#enable-ip-forwarding</a></p><pre tabindex=0><code>echo &#39;net.ipv4.ip_forward = 1&#39; | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+echo &#39;net.ipv6.conf.all.forwarding = 1&#39; | sudo tee -a /etc/sysctl.d/99-tailscale.conf
 sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
-</code></pre>
-<hr />
-<p>Playing around with VyOS on Proxmox now. Installed it.
-Setup for WAN IP:</p>
-<pre><code>configure
-set interfaces ethernet eth0 description 'WAN'
+</code></pre><hr><p>Playing around with VyOS on Proxmox now. Installed it.
+Setup for WAN IP:</p><pre tabindex=0><code>configure
+set interfaces ethernet eth0 description &#39;WAN&#39;
 set interfaces ethernet eth0 address dhcp
 commit
 ip a
 save
-</code></pre>
-<hr />
-<p>Moving to VyOS, a Linux kernel based router, all CLI based.
-Or not, no GUI, just CLI, seems cool, but after install I got no screen.</p>
-<p>Let's play it "safe" and install Proxmox on the Mac mini and get OPNSense on there.
-Have that setup, in order to install Tailscale on the Proxmox OS I had to disable Enterprise repo's in the settings.</p>
-<p>Also I have to do some cert stuff: https://tailscale.com/kb/1133/proxmox#enable-https-access-to-the-proxmox-web-ui
-Adding the certs enables SSL over the Tailscale URL of the Mac mini: https://macmini.<tailscale-domain>:8006/</p>
-<p>Curious if I can just add the subnet to Tailscale settings in OPN and will be able to reach the MBP again.</p>
-<hr />
-<p>Thunderbolt Ethernet on Mac mini with OPNSense (FreeBSD) failed again.
-I now have the logs:</p>
-<pre><code>bge1: firmware handshake timed out, found 0xffffffff
+</code></pre><hr><p>Moving to VyOS, a Linux kernel based router, all CLI based.
+Or not, no GUI, just CLI, seems cool, but after install I got no screen.</p><p>Let&rsquo;s play it &ldquo;safe&rdquo; and install Proxmox on the Mac mini and get OPNSense on there.
+Have that setup, in order to install Tailscale on the Proxmox OS I had to disable Enterprise repo&rsquo;s in the settings.</p><p>Also I have to do some cert stuff: <a href=https://tailscale.com/kb/1133/proxmox#enable-https-access-to-the-proxmox-web-ui>https://tailscale.com/kb/1133/proxmox#enable-https-access-to-the-proxmox-web-ui</a>
+Adding the certs enables SSL over the Tailscale URL of the Mac mini: https://macmini.<tailscale-domain>:8006/</p><p>Curious if I can just add the subnet to Tailscale settings in OPN and will be able to reach the MBP again.</p><hr><p>Thunderbolt Ethernet on Mac mini with OPNSense (FreeBSD) failed again.
+I now have the logs:</p><pre tabindex=0><code>bge1: firmware handshake timed out, found 0xffffffff
 brgphy1: detached
 miibus1: detached
 bge1: detached
@@ -835,17 +371,10 @@ pcib9: detached
 pci8: detached
 pcib8: detached
 pci7: detached
-</code></pre>
-<p>"This is a hard device failure from the OS point of view."
-FreeBSD forum responses on the "bge" driver doesn't look hopefull.</p>
-<hr />
-<p>The MBP with Proxmox is connected to the router and the Talos VMs have their new IPs.
-The traefik service still has a 192.168.1.xxx IP, which needs to be updated.</p>
-<hr />
-<p>I want to know how Tailscale routes the requests to the Lab LAN via the Tailscale interface to to router.
-It is not showing up in my <code>ip route show</code> results.</p>
-<p>It is showing when checking all tables, not just <code>main</code> (default):</p>
-<pre><code>-&gt; % ip route show table all | grep tailscale -n
+</code></pre><p>&ldquo;This is a hard device failure from the OS point of view.&rdquo;
+FreeBSD forum responses on the &ldquo;bge&rdquo; driver doesn&rsquo;t look hopefull.</p><hr><p>The MBP with Proxmox is connected to the router and the Talos VMs have their new IPs.
+The traefik service still has a 192.168.1.xxx IP, which needs to be updated.</p><hr><p>I want to know how Tailscale routes the requests to the Lab LAN via the Tailscale interface to to router.
+It is not showing up in my <code>ip route show</code> results.</p><p>It is showing when checking all tables, not just <code>main</code> (default):</p><pre tabindex=0><code>-&gt; % ip route show table all | grep tailscale -n
 1:100.83.153.29 dev tailscale0 table 52 
 2:100.83.234.73 dev tailscale0 table 52 
 3:100.93.235.14 dev tailscale0 table 52 
@@ -853,17 +382,11 @@ It is not showing up in my <code>ip route show</code> results.</p>
 5:100.111.248.12 dev tailscale0 table 52 
 6:100.111.255.7 dev tailscale0 table 52 
 7:192.168.2.0/24 dev tailscale0 table 52 
-</code></pre>
-<p>Useful:</p>
-<pre><code>-&gt; % ip route get 192.168.2.1                   
+</code></pre><p>Useful:</p><pre tabindex=0><code>-&gt; % ip route get 192.168.2.1                   
 192.168.2.1 dev tailscale0 table 52 src 100.109.194.44 uid 1000 
     cache 
-</code></pre>
-<p>Also involves <code>ip rule</code> setting "Policy decision" which I don't fully understand yet.</p>
-<hr />
-<p>Haven't worked on my lab for a few days, can't reach the OPNSense router via the LAN IP.
-Expected to be able to via Tailscale, <code>ip route show</code> is not showing the Lab LAN subnet:</p>
-<pre><code>-&gt; % ip route show
+</code></pre><p>Also involves <code>ip rule</code> setting &ldquo;Policy decision&rdquo; which I don&rsquo;t fully understand yet.</p><hr><p>Haven&rsquo;t worked on my lab for a few days, can&rsquo;t reach the OPNSense router via the LAN IP.
+Expected to be able to via Tailscale, <code>ip route show</code> is not showing the Lab LAN subnet:</p><pre tabindex=0><code>-&gt; % ip route show
 default via 192.168.1.1 dev wlp61s0 proto dhcp src 192.168.1.179 metric 600 
 172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
 172.18.0.0/16 dev br-9fee8da751a1 proto kernel scope link src 172.f18.0.1 linkdown 
@@ -872,85 +395,45 @@ default via 192.168.1.1 dev wlp61s0 proto dhcp src 192.168.1.179 metric 600
 172.21.0.0/16 dev br-444ba1ec82d0 proto kernel scope link src 172.21.0.1 linkdown 
 172.22.0.0/16 dev br-bbad8fd4fad4 proto kernel scope link src 172.22.0.1 linkdown 
 192.168.1.0/24 dev wlp61s0 proto kernel scope link src 192.168.1.179 metric 600 
-</code></pre>
-<p>Not getting an IP after physically connecting to the Lab LAN using Ethernet on my laptop either.
+</code></pre><p>Not getting an IP after physically connecting to the Lab LAN using Ethernet on my laptop either.
 Seems like the router is not responding, Home LAN IP is not responding to ping either.
 Attached monitor and keyboard to router. When I disable the firewall I can ping it.
-It can ping the ISP router as well, and get into the web GUI via the WAN IP, using http://<wan-ip>.</p>
-<p>I see that the LAN interface has the device <code>bge1</code>, but it says "missing". Also I don't see it using <code>ifconfig -a</code>.
-The switch light is green though, so I don't think the Thunderbolt adapter is dead.
+It can ping the ISP router as well, and get into the web GUI via the WAN IP, using http://<wan-ip>.</p><p>I see that the LAN interface has the device <code>bge1</code>, but it says &ldquo;missing&rdquo;. Also I don&rsquo;t see it using <code>ifconfig -a</code>.
+The switch light is green though, so I don&rsquo;t think the Thunderbolt adapter is dead.
 Not ideal, but rebooting system, see if it shows up again. I see it in the startup logs already present.
-It's back after the reboot, could be that OPNSense/FreeBSD disconnected the NIC and didn't reconnect.</p>
-<hr />
-<p>Reattaching the MacBook to the new Lab LAN.
+It&rsquo;s back after the reboot, could be that OPNSense/FreeBSD disconnected the NIC and didn&rsquo;t reconnect.</p><hr><p>Reattaching the MacBook to the new Lab LAN.
 Edited <code>/etc/network/interfaces</code> and ran <code>ifreload -a</code>, but got a error that no IP was found for vmbr0.
-After reboot it worked again.</p>
-<hr />
-<p>I added the <code>os-tailscale</code> community plugin to OPNSense, can't find proper documentation on its use.
-Had to restart OPN to see the options. Options are available via VPN &gt; Tailscale.
+After reboot it worked again.</p><hr><p>I added the <code>os-tailscale</code> community plugin to OPNSense, can&rsquo;t find proper documentation on its use.
+Had to restart OPN to see the options. Options are available via VPN > Tailscale.
 Under Settings you need to enable Tailscale first, then under Status you can get the auth link.
 I enable Accept Subnet Router, with an Advertised Route of 192.168.2.0/24 (LAN).
-In the Tailscale dashboard under <code>opnsense</code> I still needed to confirm that this subroute is legit.</p>
-<p>To setup Firewall rules I need to first assign the Tailscale interface <code>tailscale0</code> to OPNSense via Interfaces &gt; Assignment.
+In the Tailscale dashboard under <code>opnsense</code> I still needed to confirm that this subroute is legit.</p><p>To setup Firewall rules I need to first assign the Tailscale interface <code>tailscale0</code> to OPNSense via Interfaces > Assignment.
 Under the OPNSense shell (FreeBSD) using <code>ifconfig -a</code> you can see the interfaces as well.
-Also don't forget after creation to Enable the interface, now I can set Firewall rules to allow access to LAN net via Tailscale.</p>
-<p>Firewall → Rules → Tailscale</p>
-<pre><code>Action: Pass
+Also don&rsquo;t forget after creation to Enable the interface, now I can set Firewall rules to allow access to LAN net via Tailscale.</p><p>Firewall → Rules → Tailscale</p><pre tabindex=0><code>Action: Pass
 Interface: Tailscale
 Source: Tailscale net
 Destination: LAN net
 Description: Allow Tailscale access to Lab LAN
-</code></pre>
-<pre><code>Action: Pass
+</code></pre><pre tabindex=0><code>Action: Pass
 Interface: Tailscale
 Source: Tailscale net
 Destination: This Firewall
 Description: Allow Tailscale access to OPNsense
-</code></pre>
-<p>Finally on my laptop I have to run the following command:</p>
-<pre><code>sudo tailscale set --accept-routes
-</code></pre>
-<p>As explained here: https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices</p>
-<p>Also useful to disable key expiry of the opnsense machine in Tailscale dashboard via "Machine settings".</p>
-<p>I might have to run this everytime I start Tailscale on my machine:</p>
-<pre><code>sudo tailscale up --accept-routes
-</code></pre>
-<p>But it works, I can ping the LAN address of OPNSense Mac mini.</p>
-<hr />
-<p>I have my Thunderbolt-Ethernet cable and I setup my new hardware arrangement.
-Now going to install OPNSense directly on the 2014 Mac mini, which now has two NICs.</p>
-<p>I dd'd the ISO onto my USB, but it's not showing up in the post-Alt screen on the Mac mini (yet).</p>
-<pre><code>sudo dd if=/home/stan/Downloads/OPNsense-25.7-dvd-amd64.iso of=/dev/sdb bs=4M status=progress oflag=sync
-</code></pre>
-<p>Downloading the "vga" version which is a <code>.img</code> file as instructed in the docs (https://docs.opnsense.org/manual/install.html#installation-media).
- <code>sudo dd if=/home/stan/Downloads/OPNsense-25.7-vga-amd64.img of=/dev/sdb bs=16k status=progress oflag=sync</code></p>
-<p>I can already check the MAC addresses of the two NIC on the current Debian install.
- - enp3s0f0: 0c:4d:e9:c6:85:30, should become WAN
- - ens9 (enp9s0): 0c:4d:e9:d1:54:11, should become LAN</p>
-<p>I need to give the WAN side a static IP on my ISP router.</p>
-<p>OPNSense it setup and working on the Mac mini, there is an option for auto config, would be good to document the settings.
-Here a quick overview:
-- Set WAN and LAN to correct NICs
-- WAN gets static IP from ISP router (192.168.1.100)
-- LAN sets static IP: 192.168.2.1/24
-- Enable DHCP on LAN with range .10 &gt; .100</p>
-<hr />
-<p>I can connect via Tailscale as well using the <code>os-tailscale</code> plugin.
-This requires me to update OPNSense though:</p>
-<pre><code>***GOT REQUEST TO INSTALL***
+</code></pre><p>Finally on my laptop I have to run the following command:</p><pre tabindex=0><code>sudo tailscale set --accept-routes
+</code></pre><p>As explained here: <a href=https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices>https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices</a></p><p>Also useful to disable key expiry of the opnsense machine in Tailscale dashboard via &ldquo;Machine settings&rdquo;.</p><p>I might have to run this everytime I start Tailscale on my machine:</p><pre tabindex=0><code>sudo tailscale up --accept-routes
+</code></pre><p>But it works, I can ping the LAN address of OPNSense Mac mini.</p><hr><p>I have my Thunderbolt-Ethernet cable and I setup my new hardware arrangement.
+Now going to install OPNSense directly on the 2014 Mac mini, which now has two NICs.</p><p>I dd&rsquo;d the ISO onto my USB, but it&rsquo;s not showing up in the post-Alt screen on the Mac mini (yet).</p><pre tabindex=0><code>sudo dd if=/home/stan/Downloads/OPNsense-25.7-dvd-amd64.iso of=/dev/sdb bs=4M status=progress oflag=sync
+</code></pre><p>Downloading the &ldquo;vga&rdquo; version which is a <code>.img</code> file as instructed in the docs (<a href=https://docs.opnsense.org/manual/install.html#installation-media)>https://docs.opnsense.org/manual/install.html#installation-media)</a>.</p><pre tabindex=0><code>sudo dd if=/home/stan/Downloads/OPNsense-25.7-vga-amd64.img of=/dev/sdb bs=16k status=progress oflag=sync
+</code></pre><p>I can already check the MAC addresses of the two NIC on the current Debian install.</p><ul><li>enp3s0f0: 0c:4d:e9:c6:85:30, should become WAN</li><li>ens9 (enp9s0): 0c:4d:e9:d1:54:11, should become LAN</li></ul><p>I need to give the WAN side a static IP on my ISP router.</p><p>OPNSense it setup and working on the Mac mini, there is an option for auto config, would be good to document the settings.
+Here a quick overview:</p><ul><li>Set WAN and LAN to correct NICs</li><li>WAN gets static IP from ISP router (192.168.1.100)</li><li>LAN sets static IP: 192.168.2.1/24</li><li>Enable DHCP on LAN with range .10 > .100</li></ul><hr><p>I can connect via Tailscale as well using the <code>os-tailscale</code> plugin.
+This requires me to update OPNSense though:</p><pre tabindex=0><code>***GOT REQUEST TO INSTALL***
 Currently running OPNsense 25.7 (amd64) at Tue Dec  9 20:27:27 UTC 2025
 Installation out of date. The update to opnsense-25.7.9 is required.
 ***DONE***
-</code></pre>
-<hr />
-<p>I'm going to clean up my repo so I can commit my changes.
-Need to encrypt some secrets, trying SOPS in combination with age.</p>
-<p>Created age key:</p>
-<pre><code>mkdir -p ~/.config/sops/age
+</code></pre><hr><p>I&rsquo;m going to clean up my repo so I can commit my changes.
+Need to encrypt some secrets, trying SOPS in combination with age.</p><p>Created age key:</p><pre tabindex=0><code>mkdir -p ~/.config/sops/age
 age-keygen -o ~/.config/sops/age/keys.txt
-</code></pre>
-<p>Added .sops.yaml in repo main:</p>
-<pre><code>keys:
+</code></pre><p>Added .sops.yaml in repo main:</p><pre tabindex=0><code>keys:
   - &amp;me &lt;age-public-key&gt;
 
 creation_rules:
@@ -958,28 +441,18 @@ creation_rules:
     key_groups:
       - age:
           - *me
-</code></pre>
-<p>Encrypted my YAML files:</p>
-<pre><code>sops -e -i controlplane.yaml
+</code></pre><p>Encrypted my YAML files:</p><pre tabindex=0><code>sops -e -i controlplane.yaml
 sops -e -i worker.yaml
 sops -e -i talosconfig.yaml
-</code></pre>
-<p>In order to use the encrypted file I have two options:</p>
-<pre><code>sops -d talos/controlplane.yaml | talosctl apply-config \
+</code></pre><p>In order to use the encrypted file I have two options:</p><pre tabindex=0><code>sops -d talos/controlplane.yaml | talosctl apply-config \
   --nodes 192.168.2.59 \
   --file /dev/stdin
-</code></pre>
-<pre><code>sops -d talos/controlplane.yaml &gt; cp.dec.yaml
+</code></pre><pre tabindex=0><code>sops -d talos/controlplane.yaml &gt; cp.dec.yaml
 talosctl apply-config --nodes 192.168.2.59 --file cp.dec.yaml
 rm cp.dec.yaml
-</code></pre>
-<hr />
-<p>Want to port forward the calls to the WAN IP on 6443 to the Talos VIP so I don't need the Ubuntu VM.
-It is not working as expected, trying setting up WireGuard instead.</p>
-<p>I have WireGuard working with OPNSense and Ubuntu.
-This guide has most information: https://docs.opnsense.org/manual/how-tos/wireguard-client.html</p>
-<p>I'm using this config on Ubuntu:</p>
-<pre><code>[Interface]
+</code></pre><hr><p>Want to port forward the calls to the WAN IP on 6443 to the Talos VIP so I don&rsquo;t need the Ubuntu VM.
+It is not working as expected, trying setting up WireGuard instead.</p><p>I have WireGuard working with OPNSense and Ubuntu.
+This guide has most information: <a href=https://docs.opnsense.org/manual/how-tos/wireguard-client.html>https://docs.opnsense.org/manual/how-tos/wireguard-client.html</a></p><p>I&rsquo;m using this config on Ubuntu:</p><pre tabindex=0><code>[Interface]
 PrivateKey = &lt; private key from client! &gt;
 Address = 10.0.0.2/32
 DNS = 192.168.2.1
@@ -989,55 +462,21 @@ PublicKey = &lt; public key of wireguard instance in opnsense! &gt;
 Endpoint = 192.168.1.51:51820
 AllowedIPs = 192.168.2.0/24, 10.0.0.0/24
 PersistentKeepalive = 25
-</code></pre>
-<p>Firewall → Rules → WireGuard</p>
-<p>Add rule:
-- Interface: WireGuard
-- Source: 10.0.0.0/24
-- Destination: LAN net
-- Description: Allow WG clients to LAN</p>
-<p>Also add:
-- Interface: WireGuard
-- Source: 10.0.0.0/24
-- Destination: This firewall
-- Description: Allow WG to reach OPNSense itself</p>
-<p>Without this rule you cannot reach 192.168.2.1.</p>
-<hr />
-<p>I have successfully updated the IP and VIP related to the control plane node.
+</code></pre><p>Firewall → Rules → WireGuard</p><p>Add rule:</p><ul><li>Interface: WireGuard</li><li>Source: 10.0.0.0/24</li><li>Destination: LAN net</li><li>Description: Allow WG clients to LAN</li></ul><p>Also add:</p><ul><li>Interface: WireGuard</li><li>Source: 10.0.0.0/24</li><li>Destination: This firewall</li><li>Description: Allow WG to reach OPNSense itself</li></ul><p>Without this rule you cannot reach 192.168.2.1.</p><hr><p>I have successfully updated the IP and VIP related to the control plane node.
 I changed the references to both in the <code>controlplane.yaml</code>, transferred this file to my Ubuntu VM and applied the changes there.
-On my machine:</p>
-<pre><code>scp controlplane.yaml proxmox-ubuntu:/home/stan/talos-cluster
-</code></pre>
-<p>On the Ubuntu VM:</p>
-<pre><code>talosctl apply-config --nodes 192.168.2.59 --file talos-cluster/controlplane.yaml
-</code></pre>
-<p>Talos seems quite reactive to these kind of changes, unlike k3s.</p>
-<hr />
-<p>Setting up a Ubuntu Server VM in order to access everything inside the OPNSense LAN, like Talos (talosctl, kubectl).
-Using Cloud-Init feature, needed to download a cloud image of Ubuntu from https://cloud-images.ubuntu.com/noble/current/.
+On my machine:</p><pre tabindex=0><code>scp controlplane.yaml proxmox-ubuntu:/home/stan/talos-cluster
+</code></pre><p>On the Ubuntu VM:</p><pre tabindex=0><code>talosctl apply-config --nodes 192.168.2.59 --file talos-cluster/controlplane.yaml
+</code></pre><p>Talos seems quite reactive to these kind of changes, unlike k3s.</p><hr><p>Setting up a Ubuntu Server VM in order to access everything inside the OPNSense LAN, like Talos (talosctl, kubectl).
+Using Cloud-Init feature, needed to download a cloud image of Ubuntu from <a href=https://cloud-images.ubuntu.com/noble/current/>https://cloud-images.ubuntu.com/noble/current/</a>.
 The .img is not like a .iso, you cannot boot from it by attaching it to a CDROM drive.
-I changed the size of the img, following https://github.com/UntouchedWagons/Ubuntu-CloudInit-Docs:</p>
-<pre><code>qemu-img resize noble-server-cloudimg-amd64.img 16G
-</code></pre>
-<p>And now going to mount that as the main drive.</p>
-<pre><code>qm importdisk 104 noble-server-cloudimg-amd64.img local-lvm
-</code></pre>
-<p>This is working. Using a cloud-image is different from using a ISO install in that the img is already pre-configured for usage within a cloud setting. No installer is needed, the cloud-init vars are used to create a user, add SSH key etc and you can start using the VM, pretty cool.</p>
-<hr />
-<p>Installing OPNSense on Proxmox.
-I added to network interfaces to the VM.
-- vmbr0: default bridge by Proxmox, connected to the physical NIC of the machine (MacBook)
-- vmbr1: newly created bridge without any NIC or IP (yet)</p>
-<p>From OPNSense console I had to configure both interfaces.
+I changed the size of the img, following <a href=https://github.com/UntouchedWagons/Ubuntu-CloudInit-Docs>https://github.com/UntouchedWagons/Ubuntu-CloudInit-Docs</a>:</p><pre tabindex=0><code>qemu-img resize noble-server-cloudimg-amd64.img 16G
+</code></pre><p>And now going to mount that as the main drive.</p><pre tabindex=0><code>qm importdisk 104 noble-server-cloudimg-amd64.img local-lvm
+</code></pre><p>This is working. Using a cloud-image is different from using a ISO install in that the img is already pre-configured for usage within a cloud setting. No installer is needed, the cloud-init vars are used to create a user, add SSH key etc and you can start using the VM, pretty cool.</p><hr><p>Installing OPNSense on Proxmox.
+I added to network interfaces to the VM.</p><ul><li>vmbr0: default bridge by Proxmox, connected to the physical NIC of the machine (MacBook)</li><li>vmbr1: newly created bridge without any NIC or IP (yet)</li></ul><p>From OPNSense console I had to configure both interfaces.
 The vmbr0 would be the WAN (Wide Area Network) side, connected to my router ISP.
 vmbr1 would be the LAN side, which gets its own subnet (192.168.2.1/24 in this case).
-The Talos VMs will connect then connect to vmbr1 instead of vmbr0 and get their IP from OPNSense DHCP.</p>
-<p>Haven't been able to connect to the Web GUI yet. The WAN IP was not responsing, and the LAN ip is not accessible from my machine.</p>
-<p>Also Traefik has stopped working again...</p>
-<p>I can access the web GUI via the WAN IP when I disable the firewall in the shell (<code>pfctl -d</code>, to re-enable: <code>pfctl -e</code>).
-There should be a way to setup access via WAN securily via the web interface, haven't found that yet.</p>
-<p>Trying the steps described here: https://forum.opnsense.org/index.php?topic=36950.0</p>
-<pre><code>1. Go to Interfaces &gt; [WAN] deselect &quot;Block private networks&quot;
+The Talos VMs will connect then connect to vmbr1 instead of vmbr0 and get their IP from OPNSense DHCP.</p><p>Haven&rsquo;t been able to connect to the Web GUI yet. The WAN IP was not responsing, and the LAN ip is not accessible from my machine.</p><p>Also Traefik has stopped working again&mldr;</p><p>I can access the web GUI via the WAN IP when I disable the firewall in the shell (<code>pfctl -d</code>, to re-enable: <code>pfctl -e</code>).
+There should be a way to setup access via WAN securily via the web interface, haven&rsquo;t found that yet.</p><p>Trying the steps described here: <a href="https://forum.opnsense.org/index.php?topic=36950.0">https://forum.opnsense.org/index.php?topic=36950.0</a></p><pre tabindex=0><code>1. Go to Interfaces &gt; [WAN] deselect &#34;Block private networks&#34;
 2. Go to Firewall &gt; Rules &gt; WAN and create a new rule using below parameter save then apply.
 
   Action : Pass
@@ -1051,442 +490,178 @@ There should be a way to setup access via WAN securily via the web interface, ha
   Gateway: default
   repeate this for IPv6
 
-3. Go to Firewall &gt; Settings &gt; Advanced and tick &quot;Disable reply-to (Disable reply-to on WAN rules)&quot;
+3. Go to Firewall &gt; Settings &gt; Advanced and tick &#34;Disable reply-to (Disable reply-to on WAN rules)&#34;
 4. Reboot (Very Important)
-</code></pre>
-<p>This worked! I can now access the web GUI from the WAN IP.</p>
-<p>Of course now I'm in for some fun.
+</code></pre><p>This worked! I can now access the web GUI from the WAN IP.</p><p>Of course now I&rsquo;m in for some fun.
 I have switched the network interface of the two Talos VMs to vmbr1, which first of all makes it not directly accessible from my machine.
-I can do some port forwarding in OPNSense in order to forward traffic from the WAN IP with k8s API port (6443) to the new internal LAN IP of the control plane node. But that doesn't just work, like I expected.
-I can either completely re-install Talos on both VMs starting of with the now internal LAN IP, or try to figure out what I can do to get it working without... Reinstall takes a while, figuring out how to fix it as well.</p>
-<hr />
-<p>Time to get something running, lets start with <code>whoami</code>.
+I can do some port forwarding in OPNSense in order to forward traffic from the WAN IP with k8s API port (6443) to the new internal LAN IP of the control plane node. But that doesn&rsquo;t just work, like I expected.
+I can either completely re-install Talos on both VMs starting of with the now internal LAN IP, or try to figure out what I can do to get it working without&mldr; Reinstall takes a while, figuring out how to fix it as well.</p><hr><p>Time to get something running, lets start with <code>whoami</code>.
 For this I need Traefic.
-I'm installing the Helm chart using Terraform so I have everything documented.</p>
-<p>The LoadBalancer service is not getting a external-ip yet, so that is pending, which made Terraform wait.</p>
-<p>Added MetalLB as well via Terraform, giving the Traefic LoadBalancer a IP from my routers DHCP service.</p>
-<p>Applied the whoami manifests, almost there, got errors on the traefic pods:</p>
-<pre><code>│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z INF Updated ingress status ingress=whoami-ingress namespace=whoami                                                                            │
-│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error=&quot;service not found&quot; ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
-│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error=&quot;service not found&quot; ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
-</code></pre>
-<p>Changing to a IngressRoute instead of Ingress gives me these errors:</p>
-<pre><code>│ 2025-12-04T20:21:14Z ERR error=&quot;kubernetes service not found: default/whoami-svc&quot; ingress=whoami namespace=default providerName=kubernetescrd                                              │
-│ 2025-12-04T20:21:37Z ERR error=&quot;kubernetes service not found: default/whoami-svc&quot; ingress=whoami namespace=default providerName=kubernetescrd                                              │
-</code></pre>
-<p>Seems like a namespace issue, where Traefik is looking in default.</p>
-<p>In order to re-apply Traefik via Terraform I had to run:</p>
-<pre><code>terraform import helm_release.traefik traefik/traefik
+I&rsquo;m installing the Helm chart using Terraform so I have everything documented.</p><p>The LoadBalancer service is not getting a external-ip yet, so that is pending, which made Terraform wait.</p><p>Added MetalLB as well via Terraform, giving the Traefic LoadBalancer a IP from my routers DHCP service.</p><p>Applied the whoami manifests, almost there, got errors on the traefic pods:</p><pre tabindex=0><code>│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z INF Updated ingress status ingress=whoami-ingress namespace=whoami                                                                            │
+│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error=&#34;service not found&#34; ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
+│ traefik-9bfb99fc6-qx97t 2025-12-04T17:38:47Z ERR Cannot create service error=&#34;service not found&#34; ingress=whoami-ingress namespace=whoami providerName=kubernetes serviceName=whoami-svc se │
+</code></pre><p>Changing to a IngressRoute instead of Ingress gives me these errors:</p><pre tabindex=0><code>│ 2025-12-04T20:21:14Z ERR error=&#34;kubernetes service not found: default/whoami-svc&#34; ingress=whoami namespace=default providerName=kubernetescrd                                              │
+│ 2025-12-04T20:21:37Z ERR error=&#34;kubernetes service not found: default/whoami-svc&#34; ingress=whoami namespace=default providerName=kubernetescrd                                              │
+</code></pre><p>Seems like a namespace issue, where Traefik is looking in default.</p><p>In order to re-apply Traefik via Terraform I had to run:</p><pre tabindex=0><code>terraform import helm_release.traefik traefik/traefik
 terraform import helm_release.metallb metallb/metallb
 terraform plan
-</code></pre>
-<p>Issue around re-applying MetalLB now, interesting resource to check in k8s:</p>
-<pre><code>kubectl -n metallb get events --sort-by=.metadata.creationTimestamp | tail -n 30
-</code></pre>
-<p>Or just check k9s ==&gt; <code>:events</code></p>
-<p>This issue on GitHub helped me fix deploying MetalLB: https://github.com/siderolabs/talos/issues/10291
-I had to add some labels to the namespace:</p>
-<pre><code>pod-security.kubernetes.io/audit: privileged
+</code></pre><p>Issue around re-applying MetalLB now, interesting resource to check in k8s:</p><pre tabindex=0><code>kubectl -n metallb get events --sort-by=.metadata.creationTimestamp | tail -n 30
+</code></pre><p>Or just check k9s ==> <code>:events</code></p><p>This issue on GitHub helped me fix deploying MetalLB: <a href=https://github.com/siderolabs/talos/issues/10291>https://github.com/siderolabs/talos/issues/10291</a>
+I had to add some labels to the namespace:</p><pre tabindex=0><code>pod-security.kubernetes.io/audit: privileged
 pod-security.kubernetes.io/enforce: privileged
 pod-security.kubernetes.io/enforce-version: latest
 pod-security.kubernetes.io/warn: privileged
-</code></pre>
-<p>It seemed like initially installing MetalLB went okay, but I might be wrong here.</p>
-<p>Continuing with getting Traefik working.
+</code></pre><p>It seemed like initially installing MetalLB went okay, but I might be wrong here.</p><p>Continuing with getting Traefik working.
 Installing via Terraform keeps it in <code>pending-install</code> state.
-Doing it directly using helm command works:</p>
-<pre><code>helm upgrade --install traefik oci://ghcr.io/traefik/helm/traefik -f values/traefik.yaml -n traefik --create-namespace --debug
-</code></pre>
-<p>But! The External-IP keep state <code>&lt;pending&gt;</code>. Which is odd, since it did get it the first time I tried it.
+Doing it directly using helm command works:</p><pre tabindex=0><code>helm upgrade --install traefik oci://ghcr.io/traefik/helm/traefik -f values/traefik.yaml -n traefik --create-namespace --debug
+</code></pre><p>But! The External-IP keep state <code>&lt;pending></code>. Which is odd, since it did get it the first time I tried it.
 What changes is that I now am using a Virtual IP for Talos, this might influence stuff.
-I have to still apply the MetalLB manifests! This immediately gives the Traefik LoadBalancer an external-ip.</p>
-<p>Apparently the Service had to be defined before the Ingress(Route) for it to work.
-Although I had this working on k3s (I thought...).</p>
-<hr />
-<p>I need a single IP when you have a HA control plane cluster.
+I have to still apply the MetalLB manifests! This immediately gives the Traefik LoadBalancer an external-ip.</p><p>Apparently the Service had to be defined before the Ingress(Route) for it to work.
+Although I had this working on k3s (I thought&mldr;).</p><hr><p>I need a single IP when you have a HA control plane cluster.
 I thought of using kube-vip, but Talos has its own solution.
 Setting up a Virtual IP for the CP node for when I have multiple CP nodes:
-https://docs.siderolabs.com/talos/v1.9/networking/vip</p>
-<p>I added this to the <code>controlplane.yaml</code>:</p>
-<pre><code>machine:
+<a href=https://docs.siderolabs.com/talos/v1.9/networking/vip>https://docs.siderolabs.com/talos/v1.9/networking/vip</a></p><p>I added this to the <code>controlplane.yaml</code>:</p><pre tabindex=0><code>machine:
   network:
     interfaces:
       - interface: eth0
         dhcp: true
         vip:
           ip: 192.168.1.70
-</code></pre>
-<p>This seems to be working.</p>
-<hr />
-<p>I can't get the Talos to boot properly.
-I think it has not yet to do with Talos but with booting the ISO in Proxmox correctly.</p>
-<p>The Talos docs on Proxmox says to use "ovmf" BIOS, this did not work for me.
-I selected SeaBIOS (default) which did work.</p>
-<p>Following the rest of the instructions got me to init a control plane node and kubectl to it!
-Success!</p>
-<hr />
-<p>macmini0 started spinning up it's fans every 30 seconds or so, I see CPU spike as well.
+</code></pre><p>This seems to be working.</p><hr><p>I can&rsquo;t get the Talos to boot properly.
+I think it has not yet to do with Talos but with booting the ISO in Proxmox correctly.</p><p>The Talos docs on Proxmox says to use &ldquo;ovmf&rdquo; BIOS, this did not work for me.
+I selected SeaBIOS (default) which did work.</p><p>Following the rest of the instructions got me to init a control plane node and kubectl to it!
+Success!</p><hr><p>macmini0 started spinning up it&rsquo;s fans every 30 seconds or so, I see CPU spike as well.
 Looks like Loki is using the most CPU in those times, restarted a statefulset but still happening.
-kubesystem coredns also spiking</p>
-<p>Removed all Loki and Fluentbit stuff, still spiking, am I getting that much traffic? Cloudflare is not really showing crazy traffic.</p>
-<p>At the end of the day turned off both Mac minis. This morning on startup no more fan spikes.
-I do see more traffic then usual on Cloudflare, perhaps bots visiting the URL.</p>
-<hr />
-<p>Switching gears. Installing Proxmox on top of Ubuntu is not recommended at all.
-Installing Proxmox VE OS from USB on the MacBook now.</p>
-<p>Also planning to get Kubernetes running via Talos Linux instead of K3s, which will hopefully help me with my CKA certification.
-I will start with a single control plane node VM with kube-vip to provide access to the API. Together with one worker node VM that will be a minimal cluster. When the Mac minis are Proxmox'd I will add a control plane node VM per machine to run a HA k8s cluster, including some worker nodes.</p>
-<p>Getting Proxmox OS running is really easy, it serves a web GUI which you can control the node.
+kubesystem coredns also spiking</p><p>Removed all Loki and Fluentbit stuff, still spiking, am I getting that much traffic? Cloudflare is not really showing crazy traffic.</p><p>At the end of the day turned off both Mac minis. This morning on startup no more fan spikes.
+I do see more traffic then usual on Cloudflare, perhaps bots visiting the URL.</p><hr><p>Switching gears. Installing Proxmox on top of Ubuntu is not recommended at all.
+Installing Proxmox VE OS from USB on the MacBook now.</p><p>Also planning to get Kubernetes running via Talos Linux instead of K3s, which will hopefully help me with my CKA certification.
+I will start with a single control plane node VM with kube-vip to provide access to the API. Together with one worker node VM that will be a minimal cluster. When the Mac minis are Proxmox&rsquo;d I will add a control plane node VM per machine to run a HA k8s cluster, including some worker nodes.</p><p>Getting Proxmox OS running is really easy, it serves a web GUI which you can control the node.
 Added my pub key manually, would be nice to do some auto install:
-https://pve.proxmox.com/wiki/Automated_Installation</p>
-<p>Downloading Talos ISO from: https://factory.talos.dev/
-- Add <code>siderolabs/qemu-guest-agent</code> as instructed!</p>
-<p>And following instructions for Proxmox: https://docs.siderolabs.com/talos/v1.11/platform-specific-installations/virtualized-platforms/proxmox</p>
-<p>I need to add a EFI Disk of 4MB, figuring out how to create one in Proxmox.</p>
-<hr />
-<p>Installing Tailscale on the MBP so I can setup the bridge and still connect to it.</p>
-<p>Added static IP for the MPB on the router (MAC address based).
-Renewed DHCP lease:</p>
-<pre><code>sudo systemctl restart systemd-networkd
-</code></pre>
-<hr />
-<p>Pausing in Jenkins setup, adding my MacBook Pro to the cluster.
+<a href=https://pve.proxmox.com/wiki/Automated_Installation>https://pve.proxmox.com/wiki/Automated_Installation</a></p><p>Downloading Talos ISO from: <a href=https://factory.talos.dev/>https://factory.talos.dev/</a></p><ul><li>Add <code>siderolabs/qemu-guest-agent</code> as instructed!</li></ul><p>And following instructions for Proxmox: <a href=https://docs.siderolabs.com/talos/v1.11/platform-specific-installations/virtualized-platforms/proxmox>https://docs.siderolabs.com/talos/v1.11/platform-specific-installations/virtualized-platforms/proxmox</a></p><p>I need to add a EFI Disk of 4MB, figuring out how to create one in Proxmox.</p><hr><p>Installing Tailscale on the MBP so I can setup the bridge and still connect to it.</p><p>Added static IP for the MPB on the router (MAC address based).
+Renewed DHCP lease:</p><pre tabindex=0><code>sudo systemctl restart systemd-networkd
+</code></pre><hr><p>Pausing in Jenkins setup, adding my MacBook Pro to the cluster.
 The plan is to setup a Proxmox cluster on all machines, which will provide me with a Hypervisor layer.
-From there I can setup VMs that will run Kubernetes nodes and a virtual router for MetalLB BGP mode.</p>
-<p>Not touching the Mac minis for now, first getting the MacBook setup.
-I want to learn more about cloud-init, so I'll be using that in combination with Ubuntu Server, since it supports cloud-init better than Debian I've read.</p>
-<p>With cloud-init I'll be setting up a virtual bridge as well, which I'll connect met NIC to.
-The MacBook doesn't have built-in ethernet, but I have an official Thunderbolt to ethernet adapter.
-- Mac: ac:87:a3:13:08:10 (Ethernet adapter)
-- Mac: 60:f8:1d:b1:a0:74 (WiFi)</p>
-<p>Documentation on using the autoinstall feature via cloud-init:
-- https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall
-- https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html</p>
-<p>I removed the networking part, since it was throwing an error on install on de MBP.
-The user password I created using <code>openssl passwd</code>.</p>
-<p>The default network behavior let's the ethernet NIC retrieve an IP address over DHCP dynamically.
+From there I can setup VMs that will run Kubernetes nodes and a virtual router for MetalLB BGP mode.</p><p>Not touching the Mac minis for now, first getting the MacBook setup.
+I want to learn more about cloud-init, so I&rsquo;ll be using that in combination with Ubuntu Server, since it supports cloud-init better than Debian I&rsquo;ve read.</p><p>With cloud-init I&rsquo;ll be setting up a virtual bridge as well, which I&rsquo;ll connect met NIC to.
+The MacBook doesn&rsquo;t have built-in ethernet, but I have an official Thunderbolt to ethernet adapter.</p><ul><li>Mac: ac:87:a3:13:08:10 (Ethernet adapter)</li><li>Mac: 60:f8:1d:b1:a0:74 (WiFi)</li></ul><p>Documentation on using the autoinstall feature via cloud-init:</p><ul><li><a href=https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall>https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall</a></li><li><a href=https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html>https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html</a></li></ul><p>I removed the networking part, since it was throwing an error on install on de MBP.
+The user password I created using <code>openssl passwd</code>.</p><p>The default network behavior let&rsquo;s the ethernet NIC retrieve an IP address over DHCP dynamically.
 That is enough for now, I will setup the virtual bridge using Ansible later.
 With the cloud-init+autoinstall I can SSH into the machine directly. I just need to check the IP address on the machine (or the router using the MAC address).
-This makes the cloud-init YAML also more generic, since I don't have to know the MAC address of the NIC or have to set a static IP.</p>
-<p>I have to disable the lid close behavior, on the MBP. I should integrate this into the cloud-init setup.
-Edited: <code>/etc/systemd/logind.conf</code></p>
-<pre><code>HandleLidSwitch=ignore
+This makes the cloud-init YAML also more generic, since I don&rsquo;t have to know the MAC address of the NIC or have to set a static IP.</p><p>I have to disable the lid close behavior, on the MBP. I should integrate this into the cloud-init setup.
+Edited: <code>/etc/systemd/logind.conf</code></p><pre tabindex=0><code>HandleLidSwitch=ignore
 HandleLidSwitchExternalPower=ignore
-</code></pre>
-<pre><code>systemctl restart systemd-logind
-</code></pre>
-<p>Seems to work fine.</p>
-<p>Change brightness:</p>
-<pre><code>sudo tee /sys/class/backlight/acpi_video0/brightness &lt;&lt;&lt; 50
-</code></pre>
-<hr />
-<p>Getting Jenkins pipeline working, starting of with manually adding it via the Web UI.
+</code></pre><pre tabindex=0><code>systemctl restart systemd-logind
+</code></pre><p>Seems to work fine.</p><p>Change brightness:</p><pre tabindex=0><code>sudo tee /sys/class/backlight/acpi_video0/brightness &lt;&lt;&lt; 50
+</code></pre><hr><p>Getting Jenkins pipeline working, starting of with manually adding it via the Web UI.
 Setting up a way to build and push Docker container from the pipeline.
-Trying out docker-workflow plugin: https://docs.cloudbees.com/docs/cloudbees-ci/latest/pipelines/docker-workflow
-Have to add credentials to pipeline, but admin has no rights.</p>
-<hr />
-<p>Installing Jenkins via Terraform.
+Trying out docker-workflow plugin: <a href=https://docs.cloudbees.com/docs/cloudbees-ci/latest/pipelines/docker-workflow>https://docs.cloudbees.com/docs/cloudbees-ci/latest/pipelines/docker-workflow</a>
+Have to add credentials to pipeline, but admin has no rights.</p><hr><p>Installing Jenkins via Terraform.
 Created a new provider for Kubernetes and Helm.
 Running <code>terraform init</code> and <code>terraform apply</code>.
 Jenkins is running, but the Tailscale domain is not working yet.
 Maybe something to do with the port.
-Should add an Ingress instead, I like that approach, because it shows the URL in from kubectl/k9s.</p>
-<hr />
-<p>Persisted the Tailscale install to a HelmChart manifest.
+Should add an Ingress instead, I like that approach, because it shows the URL in from kubectl/k9s.</p><hr><p>Persisted the Tailscale install to a HelmChart manifest.
 Finding out how I can see the logs I get from Helm usually.
-A pod was created and completed, in this case <code>helm-install-tailscale-operator-mhwzn</code>, which has the logs.</p>
-<hr />
-<p>Starting slow with setting up a Ansible playbook to configure a bridge between the two machines.
-I have a simple setup where I can png both machines via Ansible:</p>
-<pre><code>USE_TAILNET=true ansible -K -i inventory.ini all -m ping
-</code></pre>
-<p>I'm not at home so I have to be careful with changing the networking settings.
+A pod was created and completed, in this case <code>helm-install-tailscale-operator-mhwzn</code>, which has the logs.</p><hr><p>Starting slow with setting up a Ansible playbook to configure a bridge between the two machines.
+I have a simple setup where I can png both machines via Ansible:</p><pre tabindex=0><code>USE_TAILNET=true ansible -K -i inventory.ini all -m ping
+</code></pre><p>I&rsquo;m not at home so I have to be careful with changing the networking settings.
 I want to setup a bridge and connect both machines to it.
 The current IP on the NIC will be disabled and the NIC will be attached to the bridge.
-The bridge will provide the an IP address for the machines.</p>
-<pre><code>USE_TAILNET=true ansible-playbook -K -i inventory.ini playbooks/configure-bridge.yaml
-</code></pre>
-<p>For now Ansible cannot find the vars/interfaces.j2 file.
-Moving it to the playbooks folder.</p>
-<p>Everything works as expected, the bridge is setup and the machines are connected to it. I can ping both machines from the other.</p>
-<hr />
-<p>Side quest, installing Tailscale Kubernetes operator to expose some services to VPN with MagicDNS domain names.</p>
-<pre><code>helm upgrade \
+The bridge will provide the an IP address for the machines.</p><pre tabindex=0><code>USE_TAILNET=true ansible-playbook -K -i inventory.ini playbooks/configure-bridge.yaml
+</code></pre><p>For now Ansible cannot find the vars/interfaces.j2 file.
+Moving it to the playbooks folder.</p><p>Everything works as expected, the bridge is setup and the machines are connected to it. I can ping both machines from the other.</p><hr><p>Side quest, installing Tailscale Kubernetes operator to expose some services to VPN with MagicDNS domain names.</p><pre tabindex=0><code>helm upgrade \
   --install \
   tailscale-operator \
   tailscale/tailscale-operator \
   --namespace=tailscale \
   --create-namespace \
-  --set-string oauth.clientId=&quot;&lt;OAauth client ID&gt;&quot; \
-  --set-string oauth.clientSecret=&quot;&lt;OAuth client secret&gt;&quot; \
+  --set-string oauth.clientId=&#34;&lt;OAauth client ID&gt;&#34; \
+  --set-string oauth.clientSecret=&#34;&lt;OAuth client secret&gt;&#34; \
   --wait
-</code></pre>
-<p>Want to expose ArgoCD over Tailscale via Ingress to give it a MagicDNS domain name and TLS.</p>
-<p>Had to configure some stuff in Tailscale Web UI:
-- Create tags: <code>k8s-operator</code> and <code>k8s</code>
-- Create OAuth client to add to the operator with correct scopes: <code>auth_keys</code>, <code>devices:core</code>
-- Enable HTTPS</p>
-<p>Then I created a Ingress which assigns a domain name automatically, see <code>Address</code> of the Ingress.</p>
-<hr />
-<p>Bridging vs. Routing vs. NAT</p>
-<table>
-<thead>
-<tr>
-<th>Mode</th>
-<th>Layer</th>
-<th>What it does</th>
-<th>Typical use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bridge</td>
-<td>2 (Ethernet)</td>
-<td>Forwards frames between interfaces</td>
-<td>VMs in same LAN</td>
-</tr>
-<tr>
-<td>Router</td>
-<td>3 (IP)</td>
-<td>Moves packets between networks/subnets</td>
-<td>Connecting LANs</td>
-</tr>
-<tr>
-<td>NAT</td>
-<td>3+4</td>
-<td>Rewrites IPs to share one address</td>
-<td>Internet access sharing</td>
-</tr>
-</tbody>
-</table>
-<p>Subnet mask</p>
-<p>The subnet mask tells the system which portion of the IP address refers to the network and which portion refers to the host.</p>
-<p>/24 → 24 bits of the address (out of 32) are for the network</p>
-<p>The remaining 8 bits are for hosts</p>
-<table>
-<thead>
-<tr>
-<th>CIDR</th>
-<th>Mask</th>
-<th>Network Range</th>
-<th>Host Range</th>
-<th># Hosts</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>/24</td>
-<td>255.255.255.0</td>
-<td>192.168.1.0</td>
-<td>192.168.1.1–192.168.1.254</td>
-<td>254</td>
-</tr>
-<tr>
-<td>/25</td>
-<td>255.255.255.128</td>
-<td>192.168.1.0</td>
-<td>192.168.1.1–192.168.1.126</td>
-<td>126</td>
-</tr>
-<tr>
-<td>/16</td>
-<td>255.255.0.0</td>
-<td>192.168.0.0</td>
-<td>192.168.0.1–192.168.255.254</td>
-<td>65,534</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p>Starting with implementation of MetalLB.
+</code></pre><p>Want to expose ArgoCD over Tailscale via Ingress to give it a MagicDNS domain name and TLS.</p><p>Had to configure some stuff in Tailscale Web UI:</p><ul><li>Create tags: <code>k8s-operator</code> and <code>k8s</code></li><li>Create OAuth client to add to the operator with correct scopes: <code>auth_keys</code>, <code>devices:core</code></li><li>Enable HTTPS</li></ul><p>Then I created a Ingress which assigns a domain name automatically, see <code>Address</code> of the Ingress.</p><hr><p>Bridging vs. Routing vs. NAT</p><table><thead><tr><th>Mode</th><th>Layer</th><th>What it does</th><th>Typical use</th></tr></thead><tbody><tr><td>Bridge</td><td>2 (Ethernet)</td><td>Forwards frames between interfaces</td><td>VMs in same LAN</td></tr><tr><td>Router</td><td>3 (IP)</td><td>Moves packets between networks/subnets</td><td>Connecting LANs</td></tr><tr><td>NAT</td><td>3+4</td><td>Rewrites IPs to share one address</td><td>Internet access sharing</td></tr></tbody></table><p>Subnet mask</p><p>The subnet mask tells the system which portion of the IP address refers to the network and which portion refers to the host.</p><p>/24 → 24 bits of the address (out of 32) are for the network</p><p>The remaining 8 bits are for hosts</p><table><thead><tr><th>CIDR</th><th>Mask</th><th>Network Range</th><th>Host Range</th><th># Hosts</th></tr></thead><tbody><tr><td>/24</td><td>255.255.255.0</td><td>192.168.1.0</td><td>192.168.1.1–192.168.1.254</td><td>254</td></tr><tr><td>/25</td><td>255.255.255.128</td><td>192.168.1.0</td><td>192.168.1.1–192.168.1.126</td><td>126</td></tr><tr><td>/16</td><td>255.255.0.0</td><td>192.168.0.0</td><td>192.168.0.1–192.168.255.254</td><td>65,534</td></tr></tbody></table><hr><p>Starting with implementation of MetalLB.
 MetalLB requires a Network Add-on, researching options.
-K3s comes with Flannel as default, but I might have disabled it, not sure.</p>
-<p>Interesting setup now where I have a network interface from Tailscale, <code>tailscale0</code>.
-But my setup will require IPs from the router at home.</p>
-<p>Disabling ServiceLB on k3s. It says to disable on all nodes,
-but when adding:</p>
-<pre><code>disable:
+K3s comes with Flannel as default, but I might have disabled it, not sure.</p><p>Interesting setup now where I have a network interface from Tailscale, <code>tailscale0</code>.
+But my setup will require IPs from the router at home.</p><p>Disabling ServiceLB on k3s. It says to disable on all nodes,
+but when adding:</p><pre tabindex=0><code>disable:
   - servicelb
-</code></pre>
-<p>To the worker-node (macmini1) and running k3s-agent service restart it won't restart.</p>
-<p>Starting of with Layer 2 mode which used the ARP protocol.
-One node gets a IP address, and broadcasts its IP address to the network.</p>
-<p>Installing MetalLB:</p>
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
-</code></pre>
-<p>After setting ip <code>IPAddressPool</code> and <code>L2Advertisement</code> my load balancers immediately got a new IP address from the range.</p>
-<hr />
-<p>I setup Tailscale VPN, and got access to the cluster from outside.
-I updated the <code>k3s-config.yaml</code> to include the Tailscale IP addresses:</p>
-<pre><code>tls-san:
+</code></pre><p>To the worker-node (macmini1) and running k3s-agent service restart it won&rsquo;t restart.</p><p>Starting of with Layer 2 mode which used the ARP protocol.
+One node gets a IP address, and broadcasts its IP address to the network.</p><p>Installing MetalLB:</p><pre tabindex=0><code>kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+</code></pre><p>After setting ip <code>IPAddressPool</code> and <code>L2Advertisement</code> my load balancers immediately got a new IP address from the range.</p><hr><p>I setup Tailscale VPN, and got access to the cluster from outside.
+I updated the <code>k3s-config.yaml</code> to include the Tailscale IP addresses:</p><pre tabindex=0><code>tls-san:
   - 192.168.1.100
   - 100.66.64.12
-</code></pre>
-<p>And updated the <code>ingress.yaml</code> to include the Tailscale IP addresses:</p>
-<p>Would be nice to setup deployment via Ansible, but not a priority.
-Requires maintenance of the playbook, not yet needed at this stage.</p>
-<hr />
-<p>Also want to export Application definition to my repo.
-Done, see <code>projects/gitops/argocd-portal-app.yaml</code>.</p>
-<hr />
-<p>Setting up Ingress to reach ArgoCD from domain name:
-https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#traefik-v30</p>
-<p>Have to set argocd-server as <code>--insecure</code>.</p>
-<hr />
-<p>Installing ArgoCD:</p>
-<pre><code>kubectl create namespace argocd
+</code></pre><p>And updated the <code>ingress.yaml</code> to include the Tailscale IP addresses:</p><p>Would be nice to setup deployment via Ansible, but not a priority.
+Requires maintenance of the playbook, not yet needed at this stage.</p><hr><p>Also want to export Application definition to my repo.
+Done, see <code>projects/gitops/argocd-portal-app.yaml</code>.</p><hr><p>Setting up Ingress to reach ArgoCD from domain name:
+<a href=https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#traefik-v30>https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#traefik-v30</a></p><p>Have to set argocd-server as <code>--insecure</code>.</p><hr><p>Installing ArgoCD:</p><pre tabindex=0><code>kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-</code></pre>
-<p>ArgoCD is working!
+</code></pre><p>ArgoCD is working!
 Just not sure how ArgoCD knows about Kustomize.
 The Deployment image is not updated, only the kustomization.yaml is.
-And the correct image is deployed. Want to know how this works.</p>
-<p>Docs about Kustomize (https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/):</p>
-<blockquote>
-<p>If the kustomization.yaml file exists at the location pointed to by repoURL and path, Argo CD will render the manifests using Kustomize.</p>
-</blockquote>
-<hr />
-<p>Continuing the pipeline setup by adding the Kustomize override.
-Testing it locally:</p>
-<pre><code>kustomize edit set image sguldemond/my-portal=sguldemond/my-portal:dev
+And the correct image is deployed. Want to know how this works.</p><p>Docs about Kustomize (<a href=https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/)>https://argo-cd.readthedocs.io/en/stable/user-guide/kustomize/)</a>:</p><blockquote><p>If the kustomization.yaml file exists at the location pointed to by repoURL and path, Argo CD will render the manifests using Kustomize.</p></blockquote><hr><p>Continuing the pipeline setup by adding the Kustomize override.
+Testing it locally:</p><pre tabindex=0><code>kustomize edit set image sguldemond/my-portal=sguldemond/my-portal:dev
 kubectl kustomize base
-</code></pre>
-<p>Settings "Actions permissions" in my repo, with "Workflow permissions" to "Read and write permissions",
+</code></pre><p>Settings &ldquo;Actions permissions&rdquo; in my repo, with &ldquo;Workflow permissions&rdquo; to &ldquo;Read and write permissions&rdquo;,
 to allow pipeline to commit to the repo, and update image tag.
-Had to set for it to work:</p>
-<pre><code>    permissions:
+Had to set for it to work:</p><pre tabindex=0><code>    permissions:
       contents: write
-</code></pre>
-<hr />
-<p>Shifting to GH Actions and publishing my portal image in Docker Hub. Widely accepted stack and flow.
-GitHub Actions is getting stuck on building the image:</p>
-<pre><code> &gt; [build 8/8] RUN npm run build:
+</code></pre><hr><p>Shifting to GH Actions and publishing my portal image in Docker Hub. Widely accepted stack and flow.
+GitHub Actions is getting stuck on building the image:</p><pre tabindex=0><code> &gt; [build 8/8] RUN npm run build:
 0.142 
 0.142 &gt; my-portal@0.0.1 build
 0.142 &gt; vite build
 0.142 
 0.146 sh: 1: vite: not found
-</code></pre>
-<p>Trying to simulate what the pipeline does:</p>
-<pre><code>docker buildx build -f Dockerfile .
-</code></pre>
-<p>This works.
-Now running the pipeline using <code>act</code>, from repo root:</p>
-<pre><code>act --secret-file act.secrets workflow_dispatch
-</code></pre>
-<p>Act needs these secrets:</p>
-<pre><code>DOCKERHUB_USERNAME
+</code></pre><p>Trying to simulate what the pipeline does:</p><pre tabindex=0><code>docker buildx build -f Dockerfile .
+</code></pre><p>This works.
+Now running the pipeline using <code>act</code>, from repo root:</p><pre tabindex=0><code>act --secret-file act.secrets workflow_dispatch
+</code></pre><p>Act needs these secrets:</p><pre tabindex=0><code>DOCKERHUB_USERNAME
 DOCKERHUB_TOKEN
 GITHUB_TOKEN
-</code></pre>
-<p>I can run it using <code>act</code>, and get the same error. So no closer to a solution.
+</code></pre><p>I can run it using <code>act</code>, and get the same error. So no closer to a solution.
 Some odd behavior around building the portal on GH Actions.
 For now I added <code>RUN npm install -g @sveltejs/kit vite</code> so the Runner can access <code>svelte-kit</code> and <code>vite</code>.
-New error:</p>
-<pre><code>Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@tailwindcss/vite' imported from /app/node_modules/.vite-temp/vite.config.ts.timestamp-1759655627539-9542043a22014.mjs
-</code></pre>
-<p>Maybe since I install <code>vite</code> globally I need to install <code>@tailwindcss/vite</code> as well globally? Nope..
-Apparently I had to include dev specifically:</p>
-<pre><code>RUN npm ci --include=dev
-</code></pre>
-<hr />
-<p>Created a pipeline, got some errors in Woodpecker.
-Couldn't easily run linter on the pipeline, so have to push fixes until it works.
-Seems like I cannot run images in privileged mode until the project is set as trusted.</p>
-<pre><code>Insufficient trust level to use privileged mode
-</code></pre>
-<p>For this you need to be a admin, so I updated the WOODPECKER_ADMIN to "sguldemond" in the Helm values. 
-After setting this up, I don't see the option to make the project "trusted".
+New error:</p><pre tabindex=0><code>Error [ERR_MODULE_NOT_FOUND]: Cannot find package &#39;@tailwindcss/vite&#39; imported from /app/node_modules/.vite-temp/vite.config.ts.timestamp-1759655627539-9542043a22014.mjs
+</code></pre><p>Maybe since I install <code>vite</code> globally I need to install <code>@tailwindcss/vite</code> as well globally? Nope..
+Apparently I had to include dev specifically:</p><pre tabindex=0><code>RUN npm ci --include=dev
+</code></pre><hr><p>Created a pipeline, got some errors in Woodpecker.
+Couldn&rsquo;t easily run linter on the pipeline, so have to push fixes until it works.
+Seems like I cannot run images in privileged mode until the project is set as trusted.</p><pre tabindex=0><code>Insufficient trust level to use privileged mode
+</code></pre><p>For this you need to be a admin, so I updated the WOODPECKER_ADMIN to &ldquo;sguldemond&rdquo; in the Helm values.
+After setting this up, I don&rsquo;t see the option to make the project &ldquo;trusted&rdquo;.
 Works, I needed to login and logout! Refresh the access token.
-The CLI is available here: https://github.com/woodpecker-ci/woodpecker/releases
-From the UI you can grab a token and locally do:</p>
-<pre><code>export WOODPECKER_SERVER=&quot;http://woodpecker.macmini.home&quot;
-export WOODPECKER_TOKEN=&quot;xxx&quot;
-</code></pre>
-<p>Then you can run the cli locally, e.g.:</p>
-<pre><code>woodpecker-cli admin user ls
+The CLI is available here: <a href=https://github.com/woodpecker-ci/woodpecker/releases>https://github.com/woodpecker-ci/woodpecker/releases</a>
+From the UI you can grab a token and locally do:</p><pre tabindex=0><code>export WOODPECKER_SERVER=&#34;http://woodpecker.macmini.home&#34;
+export WOODPECKER_TOKEN=&#34;xxx&#34;
+</code></pre><p>Then you can run the cli locally, e.g.:</p><pre tabindex=0><code>woodpecker-cli admin user ls
 woodpecker-cli lint .woodpecker/build-push-portal.yaml
-</code></pre>
-<p>Getting stuck on this:</p>
-<pre><code>-&gt; % woodpecker-cli exec .woodpecker/build-push-portal.yaml
+</code></pre><p>Getting stuck on this:</p><pre tabindex=0><code>-&gt; % woodpecker-cli exec .woodpecker/build-push-portal.yaml
 🔥 .woodpecker/build-push-portal.yaml has 2 errors:
-   ❌ steps.build-and-push   Insufficient trust level to use `privileged` mode
-   ❌ services.buildkitd Insufficient trust level to use `privileged` mode
-6:22PM FTL error running cli error=&quot;config has errors&quot;
-</code></pre>
-<p>Even though I gave the project all the trusted checks.
-It could be that it's just not working very well...</p>
-<hr />
-<p>Trying Woodpecker.
-Nice command to get values file for a Helm chart, to see options and adjust if needed.</p>
-<pre><code>helm show values oci://ghcr.io/woodpecker-ci/helm/woodpecker &gt; values.yaml
-</code></pre>
-<p>If values are updated, you can do:</p>
-<pre><code>helm install woodpecker \
+   ❌ steps.build-and-push	Insufficient trust level to use `privileged` mode
+   ❌ services.buildkitd	Insufficient trust level to use `privileged` mode
+6:22PM FTL error running cli error=&#34;config has errors&#34;
+</code></pre><p>Even though I gave the project all the trusted checks.
+It could be that it&rsquo;s just not working very well&mldr;</p><hr><p>Trying Woodpecker.
+Nice command to get values file for a Helm chart, to see options and adjust if needed.</p><pre tabindex=0><code>helm show values oci://ghcr.io/woodpecker-ci/helm/woodpecker &gt; values.yaml
+</code></pre><p>If values are updated, you can do:</p><pre tabindex=0><code>helm install woodpecker \
   oci://ghcr.io/woodpecker-ci/helm/woodpecker \
   -f values.yaml
-</code></pre>
-<p>Woodpecker requires a forge to be setup, getting an error from the server pod:</p>
-<pre><code>can't setup globals: could not setup service manager: forge not configured
-</code></pre>
-<p>Setting up GitHub via OAuth client app.
-Added these env vars:</p>
-<pre><code>WOODPECKER_GITHUB: &quot;true&quot;
+</code></pre><p>Woodpecker requires a forge to be setup, getting an error from the server pod:</p><pre tabindex=0><code>can&#39;t setup globals: could not setup service manager: forge not configured
+</code></pre><p>Setting up GitHub via OAuth client app.
+Added these env vars:</p><pre tabindex=0><code>WOODPECKER_GITHUB: &#34;true&#34;
 WOODPECKER_GITHUB_CLIENT: &lt;github-oauth-client-id&gt;
 WOODPECKER_GITHUB_SECRET: xxx (in BitWarden)
-</code></pre>
-<p>Update Woodpecker via Helm:</p>
-<pre><code>helm upgrade --install woodpecker oci://ghcr.io/woodpecker-ci/helm/woodpecker -f values.yaml
-</code></pre>
-<p>By default there is no Ingress, so I'll add my own.
+</code></pre><p>Update Woodpecker via Helm:</p><pre tabindex=0><code>helm upgrade --install woodpecker oci://ghcr.io/woodpecker-ci/helm/woodpecker -f values.yaml
+</code></pre><p>By default there is no Ingress, so I&rsquo;ll add my own.
 Ingress works, navigating to URL shows Woodpecker UI.
-Login with github.com fails with error on server pod:</p>
-<pre><code>cannot register sguldemond. registration closed
-</code></pre>
-<p>Had to set WOODPECKER_OPEN to True. And remember to re-set the client token.
-Now I can login and add my homelab repo.</p>
-<hr />
-<p>Added the Gitea Helm chart to the cluster.
+Login with github.com fails with error on server pod:</p><pre tabindex=0><code>cannot register sguldemond. registration closed
+</code></pre><p>Had to set WOODPECKER_OPEN to True. And remember to re-set the client token.
+Now I can login and add my homelab repo.</p><hr><p>Added the Gitea Helm chart to the cluster.
 Pods fail to start, cannot pull images from docker.io.
 Bitnami has deprecated its Debian based images, and removed the tags.
-Gitea has not updated their Helm chart to reflect this change.</p>
-</section>
-
-            </main>
-        </div>
-        <hr><footer>
-    <div class="terminal-mkdocs-footer-grid">
-        <div id="terminal-mkdocs-footer-copyright-info">
-             Site built with <a href="http://www.mkdocs.org">MkDocs</a> and <a href="https://github.com/ntno/mkdocs-terminal">Terminal for MkDocs</a>.
-        </div>
-    </div>
-</footer>
-    </div>
-
-    
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="alertdialog" aria-modal="true" aria-labelledby="searchModalLabel">
-    <div class="modal-dialog modal-lg" role="search">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="searchModalLabel">Search</h5>
-                <button type="button" class="close btn btn-default btn-ghost" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-                <p id="searchInputLabel">Type to start searching</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" aria-labelledby="searchInputLabel" placeholder="" id="mkdocs-search-query" title="Please enter search terms here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No document matches found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</body>
-
-</html>
+Gitea has not updated their Helm chart to reflect this change.</p></div><footer class=post-footer></footer><div class=comments-separator></div></article></main><footer class=footer><span>&copy; 2026 <a href=https://readme.stansyfert.com/>stan syfert</a></span><span style=display:inline-block;margin-left:1em>
+<a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
+</span><span style=display:inline-block;margin-left:1em>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/reorx/hugo-PaperModX/ rel=noopener target=_blank>PaperModX</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>(function(){const t=""=="1";if(t)return;let e=document.getElementById("theme-toggle");e.removeEventListener("click",toggleThemeListener),e.addEventListener("click",toggleThemeListener)})()</script><script>(function(){let e=document.getElementById("menu");e&&(e.scrollLeft=localStorage.getItem("menu-scroll-position"),e.onscroll=function(){localStorage.setItem("menu-scroll-position",e.scrollLeft)});const t=""=="1",n="1"=="1";if(window.matchMedia("(prefers-reduced-motion: reduce)").matches||t||n)return;document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})})()</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>if(window.scrollListeners)for(const e of scrollListeners)window.removeEventListener("scroll",e);window.scrollListeners=[]</script><script src=/js/medium-zoom.min.js data-no-instant></script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerText="copy";function s(){t.innerText="copied!",setTimeout(()=>{t.innerText="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script><script>(function(){const a="1"=="1";if(!a)return;if(!document.querySelector(".toc")){console.log("no toc found, ignore toc scroll");return}const r=window.scrollListeners,t=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id]"),n="active";let e=t[0];o(e).classList.add(n);const c=()=>{const s=[];for(const e of t)if(l(e)<5)s.push(e);else break;s.length>0?newActiveHeading=s[s.length-1]:newActiveHeading=t[0],e!=newActiveHeading&&(o(e).classList.remove(n),e=newActiveHeading,o(e).classList.add(n))};let s=null;const i=()=>{s!==null&&clearTimeout(s),s=setTimeout(c,50)};window.addEventListener("scroll",i,!1),r.push(i);function o(e){const t=encodeURI(e.getAttribute("id")).toLowerCase();return document.querySelector(`.toc ul li a[href="#${t}"]`)}function l(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect();return t.top}})()</script><script>mediumZoom(".entry-cover img"),mediumZoom(".post-content img:not([no-zoom])")</script><script src=/js/instantclick.min.js data-no-instant></script><script data-no-instant>InstantClick.init()</script></body></html>
