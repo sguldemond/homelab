@@ -64,8 +64,10 @@ params:
 
   socialIcons:
     - name: github
+      label: github
       url: "https://github.com/sguldemond"
     - name: linkedin
+      label: linkedin
       url: "https://www.linkedin.com/in/stan-syfert-56291b120/"
 
 menu:

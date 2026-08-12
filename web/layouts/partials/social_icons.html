@@ -1,0 +1,20 @@
+{{/*
+  Override of PaperModX's social_icons: upstream renders the bare SVG with the
+  name only as a hover tooltip. This adds an optional visible label, set per
+  icon with `label:` in socialIcons (omit it to get icon-only behaviour back).
+*/}}
+<div class="social-icons">
+    {{- range .icons }}
+    {{- $icon_name := ( trim .name " " | lower )}}
+    {{- $href := trim .url " " }}
+    {{- $is_email := eq .url "email" }}
+    {{- if $is_email }}
+      {{- $href = printf "mailto:%s" ($.MaskedEmail | default $.Email) }}
+    {{- end }}
+    <a href="{{ $href }}" title="{{ .name | title }}"
+       {{- if not $is_email }} target="_blank" rel="noopener noreferrer me"{{ end }}>
+        {{ safeHTML (index $.svg $icon_name | default $.svg.default) }}
+        {{- with .label }}<span class="social-label">{{ . }}</span>{{ end }}
+    </a>
+    {{- end }}
+</div>

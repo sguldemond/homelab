@@ -3,10 +3,10 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{ "favicon-16x16.png" | absURL }}">
 
 <style>
-  /* goblin logo on the home page */
+  /* goblin logo on the home page, flush left with the title below it */
   .home-info .home-logo {
     display: block;
-    margin: 0 auto var(--gap, 24px);
+    margin: 0 0 var(--gap, 24px);
     border-radius: 12px;
     max-width: 180px;
     height: auto;
@@ -20,5 +20,18 @@
     border-radius: 6px;
     margin-inline-end: 8px;
     vertical-align: middle;
+  }
+
+  /* labelled social links: icon and word on one baseline */
+  .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .social-icons a:not(:last-of-type) {
+    margin-right: 18px;
+  }
+  .social-label {
+    font-size: 15px;
   }
 </style>
