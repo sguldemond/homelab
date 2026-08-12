@@ -12,6 +12,7 @@ so ended up going for hugo. still with the pre-ai thinking, "oh man, i have to r
 
 list of my claude code prompts since the rewrite untill now:
 
+- **go ahead and rebuild my blog into a hugo blog, i want to be able to test it locally thats the goal for now. use the PaperModX theme**
 - make titles like Posts, Tags and Search all lower case in the headers. also light theme by default, also drop the RSS feed, add LinkedIn
 - https://www.linkedin.com/in/stan-syfert-56291b120/ _(sent mid-turn, correcting the LinkedIn URL I'd guessed)_
 - when i click through it now it links to my live website

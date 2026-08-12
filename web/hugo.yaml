@@ -36,7 +36,9 @@ params:
   ShowCodeCopyButtons: true
   ShowToc: true
   TocOpen: false
-  TocSide: "right"
+  # no TocSide: the side TOC pins itself to the far right edge above 1350px,
+  # miles from the text. Without it the TOC stays inline above the content at
+  # every width.
   EnableInstantClick: true
   EnableImageZoom: true
   disableAnchoredHeadings: true
@@ -56,11 +58,10 @@ params:
   homeInfoParams:
     Title: "hello world!"
     Content: |
-      i write to think
-
       - [posts](/posts/) — the blog
       - [homelab](/homelab/) — what the lab actually is
       - [journal](/journal/) — chronological log of what broke
+      - [resume](/resume/) — where i've worked, as a pdf
 
   socialIcons:
     - name: github
@@ -81,12 +82,15 @@ menu:
     - name: journal
       url: /journal/
       weight: 3
+    - name: resume
+      url: /resume/
+      weight: 4
     - name: tags
       url: /tags/
-      weight: 4
+      weight: 5
     - name: search
       url: /search/
-      weight: 5
+      weight: 6
 
 outputs:
   home:
