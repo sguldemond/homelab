@@ -58,7 +58,10 @@ params:
   homeInfoParams:
     Title: "stan syfert"
     Content: |
-      i love building systems with people. software, platform, integration, the hats change and probably more to come. what doesn’t change is the chase: making the system tick, and making it stick.
+      i love building systems with people. wore different engineering hats over the years, software, platform, integration. what doesn't change: making a system tick, then making it stick.
+      
+      software i enjoy working with currently:
+      **kubernetes, go, python, argo-cd/workflow/events, ansible, fedora-kinoite/rpm-ostree, suse-linux-micro**
 
       - [posts](/posts/) — my blog
       - [homelab](/homelab/) — what my lab actually is
