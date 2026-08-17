@@ -1,7 +1,7 @@
 ---
 title: "rebuilding this blog with only claude code prompts"
 date: 2026-08-12
-tags: [meta, ai, claude code, blog]
+tags: [meta, ai, claude code]
 ---
 
 lets capture the moment we're in, in a few years this is going to feel ancient again.
