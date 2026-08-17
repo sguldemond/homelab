@@ -2,11 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://readme.stansyfert.com/tags/ai/</loc>
-    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+    <loc>https://readme.stansyfert.com/tags/agents/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://readme.stansyfert.com/tags/blog/</loc>
-    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
+    <loc>https://readme.stansyfert.com/tags/ai/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/posts/catching-my-ai-agent/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/hallucination/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/permissions/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/posts/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://readme.stansyfert.com/tags/</loc>
+    <lastmod>2026-08-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://readme.stansyfert.com/tags/claude-code/</loc>
     <lastmod>2026-08-12T00:00:00+00:00</lastmod>
@@ -14,16 +32,7 @@
     <loc>https://readme.stansyfert.com/tags/meta/</loc>
     <lastmod>2026-08-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://readme.stansyfert.com/posts/</loc>
-    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://readme.stansyfert.com/posts/rebuilding-the-blog/</loc>
-    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://readme.stansyfert.com/</loc>
-    <lastmod>2026-08-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://readme.stansyfert.com/tags/</loc>
     <lastmod>2026-08-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://readme.stansyfert.com/posts/goblin-operator/</loc>
